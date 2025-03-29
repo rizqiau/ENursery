@@ -1,0 +1,11 @@
+[
+  {
+    "id": "P001",
+    "nama": "Uhuy",
+    "roleId": "Petugas",
+    "wilayahId": "Jambi",
+    "foto": "https://www.infosawit.com/wp-content/uploads/2022/12/benih-sawit.jpeg",
+    "email": "uhuy@gmail.com",
+    "password": "123456789"
+  }
+]

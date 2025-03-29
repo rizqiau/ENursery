@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+
+    <color name="main">#0E5CBE</color>
+    <color name="bg_light">#D1D1D1</color>
+    <color name="my_bottom_nav_bg">#FFFFFFFF</color>
+    <color name="my_bottom_nav_icon">#82A0C6</color>
+    <color name="my_bottom_nav_text">#82A0C6</color>
+    <color name="selected_color">#0E5CBE</color> <!-- Warna item yang dipilih -->
+    <color name="unselected_color">#82A0C6</color> <!-- Warna item yang tidak dipilih -->
+
+    <color name="main_dark">#2196F3</color>
+    <color name="bg_dark">#121212</color>
+    <color name="my_bottom_nav_bg_dark">#1E1E1E</color>
+    <color name="my_bottom_nav_icon_dark">#90CAF9</color>
+    <color name="my_bottom_nav_text_dark">#90CAF9</color>
+    <color name="selected_color_dark">#64B5F6</color>
+    <color name="unselected_color_dark">#757575</color>
+
+    <color name="colorLabel">#FFAB01</color>
+</resources>

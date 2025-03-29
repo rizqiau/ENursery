@@ -1,0 +1,14 @@
+{
+  "vgm_history": [
+    {
+      "idHistory": "H001",
+      "idBibit": "A001",
+      "idPekerja": "P001",
+      "tanggalInput": "2025-03-20T09:00:00",
+      "tinggiTanaman": 30.0,
+      "diameterBatang": 5.2,
+      "jumlahDaun": 12,
+      "foto": "https://..."
+    }
+  ]
+}
