@@ -20,4 +20,8 @@ interface UserDao {
 
     @Query("SELECT * FROM user ORDER BY id DESC LIMIT 1")
     suspend fun getLastUser(): UserEntity?
+
+    @Query("SELECT * FROM user WHERE id = :userId")
+    fun getUserById(userId: String): LiveData<UserEntity>
+
 }

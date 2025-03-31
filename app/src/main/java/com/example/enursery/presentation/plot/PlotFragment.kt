@@ -39,7 +39,7 @@ class PlotFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val mapFragment = childFragmentManager.findFragmentById(R.id.navigation_plot) as SupportMapFragment?
+        val mapFragment = childFragmentManager.findFragmentById(R.id.plotFragment) as SupportMapFragment?
         mapFragment?.getMapAsync(callback)
     }
 }

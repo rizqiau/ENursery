@@ -11,5 +11,6 @@ interface IUserRepository {
     suspend fun generateNextUserId(): String
     fun getAllRoles(): LiveData<List<RoleEntity>>
     fun getAllWilayah(): LiveData<List<WilayahKerjaEntity>>
+    fun getUserById(userId: String): LiveData<User>
 }
 

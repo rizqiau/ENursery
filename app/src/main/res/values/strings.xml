@@ -38,4 +38,13 @@
     <string name="vgm_input">VGM Input</string>
     <string name="jumlah_bibit">Jumlah Bibit</string>
     <string name="helai">Helai</string>
+    <string name="wilayah_kerja">Wilayah Kerja</string>
+    <string name="nama_pekerja">Nama Pekerja</string>
+    <string name="edit">Edit</string>
+    <string name="hapus">Hapus</string>
+    <string name="jumlah_vgm">Jumlah VGM</string>
+    <string name="ha">ha</string>
+    <string name="unit">Unit</string>
+    <string name="sampel">Sampel</string>
+    <string name="luas">Luas</string>
 </resources>

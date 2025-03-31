@@ -9,9 +9,10 @@ import com.example.enursery.core.data.source.remote.RemoteDataSource
 import com.example.enursery.core.data.source.remote.network.ApiResponse
 import com.example.enursery.core.data.source.remote.response.VgmResponse
 import com.example.enursery.core.domain.model.Vgm
+import com.example.enursery.core.domain.model.VgmWithUserModel
 import com.example.enursery.core.domain.repository.IVgmRepository
 import com.example.enursery.core.utils.AppExecutors
-import com.example.enursery.core.utils.DataMapper
+import com.example.enursery.core.utils.mapper.VgmMapper
 
 class VgmRepository(
     private val remoteDataSource: RemoteDataSource,
@@ -24,7 +25,7 @@ class VgmRepository(
 
             override fun loadFromDB(): LiveData<List<Vgm>> {
                 return localDataSource.getAllVgm().map {
-                    DataMapper.mapVgmEntitiesToDomain(it)
+                    VgmMapper.mapVgmEntitiesToDomain(it)
                 }
             }
 
@@ -37,10 +38,30 @@ class VgmRepository(
             }
 
             override suspend fun saveCallResult(data: List<VgmResponse>) {
-                val vgmEntities = DataMapper.mapVgmResponseToEntities(data)
+                val vgmEntities = VgmMapper.mapVgmResponseToEntities(data)
                 localDataSource.insertVgm(vgmEntities)
             }
         }.asLiveData()
+    }
+
+    override suspend fun insertVgm(vgm: Vgm): Result<Unit> {
+        return try {
+            val entity = VgmMapper.mapVgmDomainToEntity(vgm)
+            localDataSource.insertVgmItem(entity)
+            Result.success(Unit)
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
+    override fun getAllVgmWithUser(): LiveData<List<VgmWithUserModel>> {
+        return localDataSource.getAllVgmWithUser()
+    }
+
+    override fun getAllVgmWithUserRel(): LiveData<List<VgmWithUserModel>> {
+        return localDataSource.getAllVgmWithUserRel().map {
+            VgmMapper.mapVgmWithUserToModel(it)
+        }
     }
 
     companion object {

@@ -3,14 +3,23 @@ package com.example.enursery.core.di
 import android.content.Context
 import com.example.enursery.core.data.source.MasterDataSeeder
 import com.example.enursery.core.data.source.local.LocalDataSource
+import com.example.enursery.core.data.source.local.SharedPreferencesHelper
 import com.example.enursery.core.data.source.local.room.AppDatabase
 import com.example.enursery.core.data.source.remote.RemoteDataSource
 import com.example.enursery.core.data.source.repository.PlotRepository
+import com.example.enursery.core.data.source.repository.SessionRepository
 import com.example.enursery.core.data.source.repository.UserRepository
 import com.example.enursery.core.data.source.repository.VgmRepository
+import com.example.enursery.core.domain.repository.IPlotRepository
+import com.example.enursery.core.domain.repository.ISessionRepository
 import com.example.enursery.core.domain.repository.IUserRepository
+import com.example.enursery.core.domain.repository.IVgmRepository
+import com.example.enursery.core.domain.usecase.LoginInteractor
+import com.example.enursery.core.domain.usecase.LoginUseCase
 import com.example.enursery.core.domain.usecase.PlotInteractor
 import com.example.enursery.core.domain.usecase.PlotUseCase
+import com.example.enursery.core.domain.usecase.SessionInteractor
+import com.example.enursery.core.domain.usecase.SessionUseCase
 import com.example.enursery.core.domain.usecase.UserInteractor
 import com.example.enursery.core.domain.usecase.UserUseCase
 import com.example.enursery.core.domain.usecase.VgmInteractor
@@ -20,67 +29,93 @@ import com.example.enursery.core.utils.JsonHelper
 
 object Injection {
 
-    fun provideSeeder(context: Context): MasterDataSeeder {
-        val database = AppDatabase.getInstance(context)
-        val jsonHelper = JsonHelper(context)
-        val remoteDataSource = RemoteDataSource.getInstance(jsonHelper)
-
-        return MasterDataSeeder(
-            remoteDataSource = remoteDataSource,
-            roleDao = database.roleDao(),
-            wilayahDao = database.wilayahDao()
-        )
+    // SharedPreferences Helper
+    private fun provideSharedPreferencesHelper(context: Context): SharedPreferencesHelper {
+        return SharedPreferencesHelper(context)
     }
 
-    fun provideRepository(context: Context): IUserRepository {
+    // JsonHelper
+    private fun provideJsonHelper(context: Context): JsonHelper {
+        return JsonHelper(context)
+    }
+
+    // RemoteDataSource
+    private fun provideRemoteDataSource(context: Context): RemoteDataSource {
+        return RemoteDataSource.getInstance(provideJsonHelper(context))
+    }
+
+    // LocalDataSource
+    private fun provideLocalDataSource(context: Context): LocalDataSource {
         val database = AppDatabase.getInstance(context)
-        val remoteDataSource = RemoteDataSource.getInstance(JsonHelper(context))
-        val localDataSource = LocalDataSource.getInstance(
-            plotDao = database.plotDao(),
+        return LocalDataSource.getInstance(
             userDao = database.userDao(),
             roleDao = database.roleDao(),
             wilayahKerjaDao = database.wilayahDao(),
+            plotDao = database.plotDao(),
             vgmDao = database.vgmDao()
         )
-        val appExecutors = AppExecutors()
-
-        return UserRepository.getInstance(remoteDataSource, localDataSource, appExecutors)
     }
 
+    // AppExecutors
+    private fun provideAppExecutors(): AppExecutors = AppExecutors()
+
+    // Seeder
+    fun provideSeeder(context: Context): MasterDataSeeder {
+        return MasterDataSeeder(
+            remoteDataSource = provideRemoteDataSource(context),
+            roleDao = AppDatabase.getInstance(context).roleDao(),
+            wilayahDao = AppDatabase.getInstance(context).wilayahDao()
+        )
+    }
+
+    // Repositories
+    fun provideUserRepository(context: Context): IUserRepository {
+        return UserRepository.getInstance(
+            provideRemoteDataSource(context),
+            provideLocalDataSource(context),
+            provideAppExecutors()
+        )
+    }
+
+    fun providePlotRepository(context: Context): IPlotRepository {
+        return PlotRepository.getInstance(
+            provideRemoteDataSource(context),
+            provideLocalDataSource(context),
+            provideAppExecutors()
+        )
+    }
+
+    fun provideVgmRepository(context: Context): IVgmRepository {
+        return VgmRepository.getInstance(
+            provideRemoteDataSource(context),
+            provideLocalDataSource(context),
+            provideAppExecutors()
+        )
+    }
+
+    fun provideSessionRepository(context: Context): ISessionRepository {
+        return SessionRepository(provideSharedPreferencesHelper(context))
+    }
+
+    // UseCases
     fun provideUserUseCase(context: Context): UserUseCase {
-        val repository = provideRepository(context)
-        return UserInteractor(repository)
+        return UserInteractor(provideUserRepository(context))
     }
 
     fun providePlotUseCase(context: Context): PlotUseCase {
-        val database = AppDatabase.getInstance(context)
-        val remoteDataSource = RemoteDataSource.getInstance(JsonHelper(context))
-        val localDataSource = LocalDataSource.getInstance(
-            plotDao = database.plotDao(),
-            userDao = database.userDao(),
-            roleDao = database.roleDao(),
-            wilayahKerjaDao = database.wilayahDao(),
-            vgmDao = database.vgmDao()
-        )
-        val appExecutors = AppExecutors()
-
-        val repository = PlotRepository.getInstance(remoteDataSource, localDataSource, appExecutors)
-        return PlotInteractor(repository)
+        return PlotInteractor(providePlotRepository(context))
     }
 
     fun provideVgmUseCase(context: Context): VgmUseCase {
-        val database = AppDatabase.getInstance(context)
-        val remoteDataSource = RemoteDataSource.getInstance(JsonHelper(context))
-        val localDataSource = LocalDataSource.getInstance(
-            plotDao = database.plotDao(),
-            userDao = database.userDao(),
-            roleDao = database.roleDao(),
-            wilayahKerjaDao = database.wilayahDao(),
-            vgmDao = database.vgmDao()
-        )
-        val appExecutors = AppExecutors()
+        return VgmInteractor(provideVgmRepository(context))
+    }
 
-        val repository = VgmRepository.getInstance(remoteDataSource, localDataSource, appExecutors)
-        return VgmInteractor(repository)
+    fun provideSessionUseCase(context: Context): SessionUseCase {
+        return SessionInteractor(provideSessionRepository(context))
+    }
+
+    fun provideLoginUseCase(context: Context): LoginUseCase {
+        return LoginInteractor(provideUserRepository(context))
     }
 }
+

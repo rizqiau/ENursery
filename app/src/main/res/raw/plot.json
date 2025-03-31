@@ -4,7 +4,7 @@
   "count": 3,
   "plot": [
     {
-      "idPlot": "A",
+      "idPlot": "plot_a",
       "namaPlot": "Plot A",
       "luasArea": 2.5,
       "tanggalTanam": "2024-01-15",
@@ -15,7 +15,7 @@
       "jumlahBibit": 1000
     },
     {
-      "idPlot": "B",
+      "idPlot": "plot_B",
       "namaPlot": "Plot B",
       "luasArea": 3.0,
       "tanggalTanam": "2024-01-20",
@@ -26,7 +26,7 @@
       "jumlahBibit": 1500
     },
     {
-      "idPlot": "C",
+      "idPlot": "plot_c",
       "namaPlot": "Plot C",
       "luasArea": 3.5,
       "tanggalTanam": "2024-01-20",

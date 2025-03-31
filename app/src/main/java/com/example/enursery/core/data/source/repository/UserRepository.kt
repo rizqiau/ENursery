@@ -13,7 +13,7 @@ import com.example.enursery.core.data.source.remote.response.UserResponse
 import com.example.enursery.core.domain.model.User
 import com.example.enursery.core.domain.repository.IUserRepository
 import com.example.enursery.core.utils.AppExecutors
-import com.example.enursery.core.utils.DataMapper
+import com.example.enursery.core.utils.mapper.UserMapper
 
 class UserRepository private constructor(
     private val remoteDataSource: RemoteDataSource,
@@ -36,14 +36,20 @@ class UserRepository private constructor(
     }
 
     override suspend fun saveUser(user: User) {
-        val userEntity = DataMapper.mapUserDomainToUserEntity(user)
+        val userEntity = UserMapper.mapUserDomainToUserEntity(user)
         localDataSource.saveUser(userEntity)
     }
 
     override suspend fun getUserByEmail(email: String): User? {
         val userEntity = localDataSource.getUserByEmail(email)
         return userEntity?.let {
-            DataMapper.mapUserEntityToDomain(it)
+            UserMapper.mapUserEntityToDomain(it)
+        }
+    }
+
+    override fun getUserById(userId: String): LiveData<User> {
+        return localDataSource.getUserById(userId).map {
+            UserMapper.mapUserEntityToDomain(it)
         }
     }
 
@@ -51,7 +57,7 @@ class UserRepository private constructor(
         return object : NetworkBoundResource<List<User>, List<UserResponse>>(appExecutors) {
             override fun loadFromDB(): LiveData<List<User>> {
                 return localDataSource.getAllUsers().map {
-                    DataMapper.mapUserEntitiesToUserDomain(it)
+                    UserMapper.mapUserEntitiesToUserDomain(it)
                 }
             }
 
@@ -64,7 +70,7 @@ class UserRepository private constructor(
             }
 
             override suspend fun saveCallResult(data: List<UserResponse>) {
-                val userList = DataMapper.mapUserResponseToUserEntities(data)
+                val userList = UserMapper.mapUserResponseToUserEntities(data)
                 localDataSource.insertUserList(userList)
             }
 
