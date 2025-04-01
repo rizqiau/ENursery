@@ -41,7 +41,7 @@ class AuthViewModel(
 
             if (result.isSuccess) {
                 result.getOrNull()?.let { user ->
-                    sessionUseCase.saveSession(user.id, user.nama, user.role)
+                    sessionUseCase.saveSession(user.idUser, user.namaUser, user.role)
                 }
             }
 
@@ -60,8 +60,8 @@ class AuthViewModel(
         viewModelScope.launch {
             val id = userUseCase.generateUserId()
             val user = User(
-                id = id,
-                nama = name,
+                idUser = id,
+                namaUser = name,
                 role = role,
                 wilayahKerja = wilayah,
                 foto = fotoUri.toString(),

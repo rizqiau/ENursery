@@ -12,9 +12,6 @@
         tools:layout="@layout/fragment_home">
 
         <action
-            android:id="@+id/action_homeFragment_to_addPlotFragment"
-            app:destination="@id/addPlotFragment" />
-        <action
             android:id="@+id/action_homeFragment_to_addEditPlotFragment"
             app:destination="@id/addEditPlotFragment" />
     </fragment>
@@ -35,22 +32,6 @@
             app:nullable="true" />
     </fragment>
 
-
-    <fragment
-        android:id="@+id/addPlotFragment"
-        android:name="com.example.enursery.presentation.plot.AddPlotFragment"
-        tools:layout="@layout/fragment_add_plot" />
-
-    <fragment
-        android:id="@+id/editPlotFragment"
-        android:name="com.example.enursery.presentation.plot.EditPlotFragment"
-        tools:layout="@layout/fragment_edit_plot">
-        <argument
-            android:name="plotId"
-            app:argType="string"
-            android:defaultValue="" />
-    </fragment>
-
     <fragment
         android:id="@+id/mapPickerFragment"
         android:name="com.example.enursery.presentation.map.MapPickerFragment"
@@ -59,10 +40,10 @@
 
 
     <fragment
-        android:id="@+id/addVgmFragment"
-        android:name="com.example.enursery.presentation.vgm.AddVgmFragment"
+        android:id="@+id/addEditVgmFragment"
+        android:name="com.example.enursery.presentation.vgm.AddEditVgmFragment"
         android:label="Tambah VGM"
-        tools:layout="@layout/fragment_add_vgm">
+        tools:layout="@layout/fragment_add_edit_vgm">
         <argument
             android:name="idBibit"
             app:argType="string"

@@ -4,10 +4,12 @@ import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.enursery.core.di.Injection
+import com.example.enursery.core.domain.usecase.BatchUseCase
 import com.example.enursery.core.domain.usecase.LoginUseCase
 import com.example.enursery.core.domain.usecase.PlotUseCase
 import com.example.enursery.core.domain.usecase.SessionUseCase
 import com.example.enursery.core.domain.usecase.UserUseCase
+import com.example.enursery.core.domain.usecase.VgmHistoryUseCase
 import com.example.enursery.core.domain.usecase.VgmUseCase
 import com.example.enursery.presentation.auth.AuthViewModel
 import com.example.enursery.presentation.home.HomeViewModel
@@ -20,7 +22,9 @@ class ViewModelFactory private constructor(
     private val plotUseCase: PlotUseCase,
     private val vgmUseCase: VgmUseCase,
     private val loginUseCase: LoginUseCase,
-    private val sessionUseCase: SessionUseCase
+    private val sessionUseCase: SessionUseCase,
+    private val batchUseCase: BatchUseCase,
+    private val vgmHistoryUseCase: VgmHistoryUseCase
 ) : ViewModelProvider.NewInstanceFactory() {
 
     @Suppress("UNCHECKED_CAST")
@@ -33,7 +37,7 @@ class ViewModelFactory private constructor(
                 HomeViewModel(plotUseCase) as T
             }
             modelClass.isAssignableFrom(VgmViewModel::class.java) -> {
-                VgmViewModel(vgmUseCase) as T
+                VgmViewModel(vgmUseCase, batchUseCase, plotUseCase, vgmHistoryUseCase, sessionUseCase) as T
             }
             modelClass.isAssignableFrom(StartupViewModel::class.java) -> {
                 StartupViewModel(sessionUseCase) as T
@@ -56,12 +60,16 @@ class ViewModelFactory private constructor(
                 val vgmUseCase = Injection.provideVgmUseCase(context)
                 val loginUseCase = Injection.provideLoginUseCase(context)
                 val sessionUseCase = Injection.provideSessionUseCase(context)
+                val batchUseCase = Injection.provideBatchUseCase(context)
+                val vgmHistoryUseCase = Injection.provideVgmHistoryUseCase(context)
                 instance ?: ViewModelFactory(
                     userUseCase,
                     plotUseCase,
                     vgmUseCase,
                     loginUseCase,
-                    sessionUseCase).also { instance = it }
+                    sessionUseCase,
+                    batchUseCase,
+                    vgmHistoryUseCase).also { instance = it }
             }
     }
 }

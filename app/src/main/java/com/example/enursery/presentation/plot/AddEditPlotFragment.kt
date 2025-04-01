@@ -17,7 +17,7 @@ import com.example.enursery.R
 import com.example.enursery.core.data.source.Resource
 import com.example.enursery.core.domain.model.Plot
 import com.example.enursery.core.ui.ViewModelFactory
-import com.example.enursery.databinding.FragmentAddPlotBinding
+import com.example.enursery.databinding.FragmentAddEditPlotBinding
 import com.example.enursery.presentation.home.HomeViewModel
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
@@ -32,7 +32,7 @@ import java.util.Locale
 
 class AddEditPlotFragment : Fragment() {
 
-    private var _binding: FragmentAddPlotBinding? = null
+    private var _binding: FragmentAddEditPlotBinding? = null
     private val binding get() = _binding!!
 
     private val viewModel: HomeViewModel by viewModels {
@@ -50,7 +50,7 @@ class AddEditPlotFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentAddPlotBinding.inflate(inflater, container, false)
+        _binding = FragmentAddEditPlotBinding.inflate(inflater, container, false)
         return binding.root
     }
 

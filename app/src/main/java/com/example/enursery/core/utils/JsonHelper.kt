@@ -4,6 +4,7 @@ import android.content.Context
 import com.example.enursery.R
 import com.example.enursery.core.data.source.local.entity.RoleEntity
 import com.example.enursery.core.data.source.local.entity.WilayahKerjaEntity
+import com.example.enursery.core.data.source.remote.response.BatchResponse
 import com.example.enursery.core.data.source.remote.response.PlotResponse
 import com.example.enursery.core.data.source.remote.response.UserResponse
 import com.example.enursery.core.data.source.remote.response.VgmResponse
@@ -29,8 +30,8 @@ class JsonHelper(private val context: Context) {
             val obj = listArray.getJSONObject(i)
             list.add(
                 UserResponse(
-                    id = obj.getString("id"),
-                    nama = obj.getString("nama"),
+                    idUser = obj.getString("id"),
+                    namaUser = obj.getString("nama"),
                     roleId = obj.getString("roleId"),
                     wilayahId = obj.getString("wilayahId"),
                     foto = obj.getString("foto"),
@@ -111,7 +112,7 @@ class JsonHelper(private val context: Context) {
             val vgm = VgmResponse(
                 idBibit = obj.getString("idBibit"),
                 idPlot = obj.getString("idPlot"),
-                idPekerja = obj.getString("idPekerja"),
+                idUser = obj.getString("idPekerja"),
                 status = obj.getString("status"),           // masih String di sini
                 latestTinggiTanaman = obj.getDouble("latestTinggiTanaman"),
                 latestDiameterBatang = obj.getDouble("latestDiameterBatang"),
@@ -123,6 +124,24 @@ class JsonHelper(private val context: Context) {
             list.add(vgm)
         }
 
+        return list
+    }
+
+    fun loadBatchData(): List<BatchResponse> {
+        val list = ArrayList<BatchResponse>()
+        val responseObject = JSONObject(parsingFileToString(R.raw.batch).toString())
+        val listArray = responseObject.getJSONArray("batch")
+        for (i in 0 until listArray.length()) {
+            val obj = listArray.getJSONObject(i)
+            list.add(
+                BatchResponse(
+                    idBatch = obj.getString("idBatch"),
+                    namaBatch = obj.getString("namaBatch"),
+                    tanggalMulai = obj.getString("tanggalMulai"),
+                    tanggalSelesai = obj.getString("tanggalSelesai")
+                )
+            )
+        }
         return list
     }
 }

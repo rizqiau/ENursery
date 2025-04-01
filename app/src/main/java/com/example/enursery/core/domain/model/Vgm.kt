@@ -5,7 +5,7 @@ import java.util.Date
 data class Vgm(
     val idBibit: String,
     val idPlot: String,
-    val idPekerja: String,
+    val idUser: String,
     val status: String,
     val latestTinggiTanaman: Double,
     val latestDiameterBatang: Double,

@@ -9,8 +9,8 @@ object UserMapper {
         val userList = ArrayList<UserEntity>()
         input.map {
             val user = UserEntity(
-                id = it.id,
-                nama = it.nama,
+                idUser = it.idUser,
+                namaUser = it.namaUser,
                 roleId = it.roleId,
                 wilayahId = it.wilayahId,
                 foto = it.foto,
@@ -25,8 +25,8 @@ object UserMapper {
     fun mapUserEntitiesToUserDomain(input: List<UserEntity>): List<User> =
         input.map {
             User(
-                id = it.id,
-                nama = it.nama,
+                idUser = it.idUser,
+                namaUser = it.namaUser,
                 role = it.roleId,
                 wilayahKerja = it.wilayahId,
                 foto = it.foto,
@@ -37,8 +37,8 @@ object UserMapper {
 
 
     fun mapUserDomainToUserEntity(input: User) = UserEntity(
-        id = input.id,
-        nama = input.nama,
+        idUser = input.idUser,
+        namaUser = input.namaUser,
         roleId = input.role,
         wilayahId = input.wilayahKerja,
         foto = input.foto,
@@ -47,8 +47,8 @@ object UserMapper {
     )
 
     fun mapUserEntityToDomain(input: UserEntity): User = User(
-        id = input.id,
-        nama = input.nama,
+        idUser = input.idUser,
+        namaUser = input.namaUser,
         role = input.roleId,
         wilayahKerja = input.wilayahId,
         foto = input.foto,

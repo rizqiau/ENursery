@@ -11,7 +11,7 @@ import java.util.Date
 import java.util.Locale
 
 object PlotMapper {
-    val formatter = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+    private val formatter = SimpleDateFormat("yyyy-MM-dd", Locale("id", "ID"))
 
     fun mapPlotResponseToEntities(input: List<PlotResponse>): List<PlotEntity> {
         return input.map {

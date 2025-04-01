@@ -15,6 +15,7 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.enursery.R
+import com.example.enursery.core.di.Injection
 import com.example.enursery.databinding.ActivityMainBinding
 import com.google.android.gms.common.moduleinstall.ModuleInstall
 import com.google.android.gms.common.moduleinstall.ModuleInstallRequest
@@ -34,6 +35,11 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        lifecycleScope.launch {
+            val seeder = Injection.provideSeeder(this@MainActivity)
+            seeder.seedIfNeeded()
+        }
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -111,8 +117,8 @@ class MainActivity : AppCompatActivity() {
                 R.id.vgmFragment,
                 R.id.plotFragment,
                 R.id.profileFragment,
-                R.id.addVgmFragment,
-                R.id.addPlotFragment
+                R.id.addEditVgmFragment,
+                R.id.addEditPlotFragment
             )
         )
 
@@ -139,7 +145,7 @@ class MainActivity : AppCompatActivity() {
                     delay(100) // delay sedikit (optional)
                     val navController = findNavController(R.id.nav_host_fragment_activity_main)
                     val bundle = bundleOf("idBibit" to it)
-                    navController.navigate(R.id.addVgmFragment, bundle)
+                    navController.navigate(R.id.addEditVgmFragment, bundle)
                 }
             }
         }.addOnCanceledListener {

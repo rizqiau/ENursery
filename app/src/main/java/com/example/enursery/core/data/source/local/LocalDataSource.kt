@@ -2,17 +2,21 @@ package com.example.enursery.core.data.source.local
 
 import android.util.Log
 import androidx.lifecycle.LiveData
+import com.example.enursery.core.data.source.local.entity.BatchEntity
 import com.example.enursery.core.data.source.local.entity.PlotEntity
 import com.example.enursery.core.data.source.local.entity.PlotWithVgmCount
 import com.example.enursery.core.data.source.local.entity.RoleEntity
 import com.example.enursery.core.data.source.local.entity.UserEntity
 import com.example.enursery.core.data.source.local.entity.VgmEntity
+import com.example.enursery.core.data.source.local.entity.VgmHistoryEntity
 import com.example.enursery.core.data.source.local.entity.VgmWithUser
 import com.example.enursery.core.data.source.local.entity.WilayahKerjaEntity
+import com.example.enursery.core.data.source.local.room.BatchDao
 import com.example.enursery.core.data.source.local.room.PlotDao
 import com.example.enursery.core.data.source.local.room.RoleDao
 import com.example.enursery.core.data.source.local.room.UserDao
 import com.example.enursery.core.data.source.local.room.VgmDao
+import com.example.enursery.core.data.source.local.room.VgmHistoryDao
 import com.example.enursery.core.data.source.local.room.WilayahKerjaDao
 import com.example.enursery.core.domain.model.VgmWithUserModel
 
@@ -22,6 +26,8 @@ class LocalDataSource private constructor(
     private val wilayahKerjaDao: WilayahKerjaDao,
     private val plotDao: PlotDao,
     private val vgmDao: VgmDao,
+    private val batchDao: BatchDao,
+    private val vgmHistoryDao: VgmHistoryDao
 ) {
 
     companion object {
@@ -31,7 +37,9 @@ class LocalDataSource private constructor(
                         roleDao: RoleDao,
                         wilayahKerjaDao: WilayahKerjaDao,
                         plotDao: PlotDao,
-                        vgmDao: VgmDao
+                        vgmDao: VgmDao,
+                        batchDao: BatchDao,
+                        vgmHistoryDao: VgmHistoryDao
                         ): LocalDataSource =
             instance ?: synchronized(this) {
                 instance ?: LocalDataSource(
@@ -39,7 +47,9 @@ class LocalDataSource private constructor(
                     roleDao,
                     wilayahKerjaDao,
                     plotDao,
-                    vgmDao
+                    vgmDao,
+                    batchDao,
+                    vgmHistoryDao
                 )
             }
     }
@@ -87,5 +97,23 @@ class LocalDataSource private constructor(
 
     fun getAllVgmWithUserRel(): LiveData<List<VgmWithUser>> {
         return vgmDao.getAllVgmWithUserRel()
+    }
+
+//    VGM HISTORY
+    fun getHistoryByBibit(idBibit: String): LiveData<List<VgmHistoryEntity>> {
+        return vgmHistoryDao.getHistoryByBibit(idBibit)
+    }
+
+    suspend fun insertVgmHistory(history: VgmHistoryEntity) {
+        vgmHistoryDao.insertVgmHistory(history)
+    }
+
+    fun getLatestVgmFromHistory(): LiveData<List<VgmHistoryEntity>> {
+        return vgmHistoryDao.getLatestVgmFromHistory()
+    }
+
+    //    BATCH
+    fun getAllBatch(): LiveData<List<BatchEntity>> {
+        return batchDao.getAllBatch()
     }
 }

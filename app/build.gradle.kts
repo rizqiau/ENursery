@@ -41,6 +41,11 @@ android {
         viewBinding = true
         buildConfig = true
     }
+    packaging {
+        resources {
+            excludes += "/META-INF/versions/9/OSGI-INF/MANIFEST.MF"
+        }
+    }
 }
 
 dependencies {
@@ -70,6 +75,7 @@ dependencies {
 
     implementation(libs.room.runtime)
     implementation(libs.androidx.room.ktx)
+    implementation(libs.identity.jvm)
     ksp(libs.room.compiler)
     androidTestImplementation(libs.room.testing)
 
@@ -88,4 +94,5 @@ dependencies {
     androidTestImplementation(libs.androidx.espresso.core)
 
     implementation(libs.androidx.core.splashscreen)
+    implementation (libs.androidx.exifinterface)
 }

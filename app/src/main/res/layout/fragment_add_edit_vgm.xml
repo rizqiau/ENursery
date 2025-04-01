@@ -8,6 +8,13 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:layout_gravity="center"
+            android:visibility="gone" />
+
         <!-- TextView untuk hasil scan barcode (idBibit) -->
         <TextView
             android:id="@+id/tvIdBibit"
@@ -21,6 +28,12 @@
         <!-- Spinner untuk pilih Plot -->
         <Spinner
             android:id="@+id/spinnerPlot"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <!-- Spinner untuk pilih Batch -->
+        <Spinner
+            android:id="@+id/spinnerBatch"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
@@ -72,4 +85,5 @@
             android:layout_marginTop="16dp" />
 
     </LinearLayout>
+
 </ScrollView>

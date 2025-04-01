@@ -79,7 +79,7 @@ class UserRepository private constructor(
 
     override suspend fun generateNextUserId(): String {
         val lastUser = localDataSource.getLastUser()
-        val lastNumber = lastUser?.id?.substring(1)?.toIntOrNull() ?: 0
+        val lastNumber = lastUser?.idUser?.substring(1)?.toIntOrNull() ?: 0
         return "P%04d".format(lastNumber + 1)
     }
 

@@ -5,10 +5,12 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
+import com.example.enursery.core.data.source.local.entity.BatchEntity
 import com.example.enursery.core.data.source.local.entity.PlotEntity
 import com.example.enursery.core.data.source.local.entity.RoleEntity
 import com.example.enursery.core.data.source.local.entity.UserEntity
 import com.example.enursery.core.data.source.local.entity.VgmEntity
+import com.example.enursery.core.data.source.local.entity.VgmHistoryEntity
 import com.example.enursery.core.data.source.local.entity.WilayahKerjaEntity
 
 @Database(
@@ -17,8 +19,10 @@ import com.example.enursery.core.data.source.local.entity.WilayahKerjaEntity
         RoleEntity::class,
         WilayahKerjaEntity::class,
         PlotEntity::class,
-        VgmEntity::class],
-    version = 4,
+        VgmEntity::class,
+        BatchEntity::class,
+        VgmHistoryEntity::class],
+    version = 6,
     exportSchema = false
 )
 @TypeConverters(DateConverter::class)
@@ -29,6 +33,8 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun wilayahDao(): WilayahKerjaDao
     abstract fun plotDao(): PlotDao
     abstract fun vgmDao(): VgmDao
+    abstract fun batchDao(): BatchDao
+    abstract fun vgmHistoryDao(): VgmHistoryDao
 
 
     companion object {

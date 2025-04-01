@@ -1,9 +1,11 @@
 package com.example.enursery.core.ui
 
+import android.net.Uri
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.example.enursery.R
 import com.example.enursery.core.domain.model.Vgm
 import com.example.enursery.databinding.ItemVgmBinding
 
@@ -24,7 +26,8 @@ class VgmAdapter : RecyclerView.Adapter<VgmAdapter.ViewHolder>() {
             binding.tvDiameterBatang.text = vgm.latestDiameterBatang.toString()
             binding.tvJumlahDaun.text = vgm.latestJumlahDaun.toString()
             Glide.with(binding.ivVgmImage.context)
-                .load(vgm.latestFoto) // URL gambar
+                .load(Uri.parse(vgm.latestFoto))
+                .placeholder(R.drawable.ic_placeholder)
                 .into(binding.ivVgmImage)
         }
     }

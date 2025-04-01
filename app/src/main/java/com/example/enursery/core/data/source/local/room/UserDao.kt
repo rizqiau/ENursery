@@ -18,10 +18,10 @@ interface UserDao {
     @Query("SELECT * FROM user")
     fun getAllUsers(): LiveData<List<UserEntity>>
 
-    @Query("SELECT * FROM user ORDER BY id DESC LIMIT 1")
+    @Query("SELECT * FROM user ORDER BY idUser DESC LIMIT 1")
     suspend fun getLastUser(): UserEntity?
 
-    @Query("SELECT * FROM user WHERE id = :userId")
+    @Query("SELECT * FROM user WHERE idUser = :userId")
     fun getUserById(userId: String): LiveData<UserEntity>
 
 }

@@ -7,8 +7,8 @@ data class VgmWithUser(
     @Embedded val vgm: VgmEntity,
 
     @Relation(
-        parentColumn = "idPekerja",
-        entityColumn = "id"
+        parentColumn = "idUser",
+        entityColumn = "idUser"
     )
     val user: UserEntity
 )

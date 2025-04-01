@@ -54,7 +54,7 @@ class ProfileFragment : Fragment() {
     private fun observeUser() {
         viewModel.currentUser?.observe(viewLifecycleOwner) { user ->
             user?.let {
-                binding.tvNama.text = it.nama
+                binding.tvNama.text = it.namaUser
                 binding.tvId.text = it.email
                 binding.tvRole.text = it.role
                 binding.tvWilayah.text = it.wilayahKerja

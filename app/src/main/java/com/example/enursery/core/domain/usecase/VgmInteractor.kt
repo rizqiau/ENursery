@@ -10,8 +10,9 @@ class VgmInteractor(private val repository: IVgmRepository): VgmUseCase {
     override fun getAllVgm(): LiveData<Resource<List<Vgm>>> {
         return repository.getAllVgm()
     }
-    override suspend fun insertVgm(vgm: Vgm) {
-        repository.insertVgm(vgm)
+
+    override suspend fun insertVgm(vgm: Vgm): Result<Unit> {
+        return repository.insertVgm(vgm)
     }
 
     override fun getAllVgmWithUser(): LiveData<List<VgmWithUserModel>> {

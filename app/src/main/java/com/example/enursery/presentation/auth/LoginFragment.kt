@@ -62,7 +62,7 @@ class LoginFragment : Fragment() {
     private fun observeViewModel() {
         viewModel.loginResult.observe(viewLifecycleOwner) { result ->
             result.onSuccess { user ->
-                Toast.makeText(requireContext(), "Selamat datang, ${user.nama}", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), "Selamat datang, ${user.namaUser}", Toast.LENGTH_SHORT).show()
                 startActivity(Intent(requireContext(), MainActivity::class.java))
                 requireActivity().finish()
             }

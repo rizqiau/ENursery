@@ -24,8 +24,8 @@ class VgmRepository(
         return object : NetworkBoundResource<List<Vgm>, List<VgmResponse>>(appExecutors) {
 
             override fun loadFromDB(): LiveData<List<Vgm>> {
-                return localDataSource.getAllVgm().map {
-                    VgmMapper.mapVgmEntitiesToDomain(it)
+                return localDataSource.getLatestVgmFromHistory().map {
+                    VgmMapper.mapVgmHistoryToVgm(it)
                 }
             }
 

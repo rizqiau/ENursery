@@ -1,9 +1,9 @@
 [
   {
-    "id": "P001",
-    "nama": "Uhuy",
-    "roleId": "Petugas",
-    "wilayahId": "Jambi",
+    "idUser": "P001",
+    "namaUser": "Uhuy",
+    "roleId": "Petugas Lapangan",
+    "wilayahId": "Brahma Binabakti-Mill",
     "foto": "https://www.infosawit.com/wp-content/uploads/2022/12/benih-sawit.jpeg",
     "email": "uhuy@gmail.com",
     "password": "uhuy123"

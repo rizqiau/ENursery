@@ -7,7 +7,7 @@ import com.example.enursery.core.domain.model.VgmWithUserModel
 
 interface VgmUseCase {
     fun getAllVgm(): LiveData<Resource<List<Vgm>>>
-    suspend fun insertVgm(vgm: Vgm)
+    suspend fun insertVgm(vgm: Vgm): Result<Unit>
     fun getAllVgmWithUser(): LiveData<List<VgmWithUserModel>>
     fun getAllVgmWithUserRel(): LiveData<List<VgmWithUserModel>>
 }

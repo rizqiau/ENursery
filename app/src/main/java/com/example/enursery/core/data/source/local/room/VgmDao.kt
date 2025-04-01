@@ -22,9 +22,9 @@ interface VgmDao {
     fun insertSingleVgm(vgm: VgmEntity)
 
     @Query("""
-    SELECT vgm.*, user.nama AS namaUser
+    SELECT vgm.*, user.namaUser AS namaUser
     FROM vgm
-    INNER JOIN user ON vgm.idPekerja = user.id
+    INNER JOIN user ON vgm.idUser = user.idUser
 """)
     fun getAllVgmWithUser(): LiveData<List<VgmWithUserModel>>
 
