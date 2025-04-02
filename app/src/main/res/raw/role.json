@@ -1,8 +1,8 @@
 {
   "roles": [
-    { "id": "R01", "name": "Petugas Lapangan" },
-    { "id": "R02", "name": "Supervisor" },
-    { "id": "R03", "name": "Asisten Kebun" },
-    { "id": "R04", "name": "Adel" }
+    { "id": "Petugas Lapangan", "name": "Petugas Lapangan" },
+    { "id": "Supervisor", "name": "Supervisor" },
+    { "id": "Asisten Kebun", "name": "Asisten Kebun" },
+    { "id": "Adel", "name": "Adel" }
   ]
 }

@@ -7,8 +7,8 @@ import com.example.enursery.core.domain.model.User
 
 interface UserUseCase {
     suspend fun registerUser(user: User): Result<Unit>
-    suspend fun loginUser(email: String, password: String): Result<User>
     suspend fun generateUserId(): String
     fun getAllRoles(): LiveData<List<RoleEntity>>
     fun getAllWilayah(): LiveData<List<WilayahKerjaEntity>>
+    fun getUserById(userId: String): LiveData<User>
 }

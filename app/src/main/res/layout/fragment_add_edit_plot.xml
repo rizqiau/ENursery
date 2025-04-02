@@ -1,0 +1,107 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:descendantFocusability="beforeDescendants"
+    android:focusableInTouchMode="true"
+    android:isScrollContainer="true"
+    android:fillViewport="true"
+    android:padding="16dp"
+    android:background="@android:color/white">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <EditText
+            android:id="@+id/etNamaPlot"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Nama Plot"
+            android:inputType="textCapWords" />
+
+        <EditText
+            android:id="@+id/etLuasArea"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Luas Area (ha)"
+            android:inputType="numberDecimal"
+            android:layout_marginTop="12dp" />
+
+        <EditText
+            android:id="@+id/etTanggalTanam"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Tanggal Tanam"
+            android:focusable="false"
+            android:clickable="true"
+            android:inputType="none"
+            android:layout_marginTop="12dp" />
+
+        <EditText
+            android:id="@+id/etTanggalTransplantasi"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Tanggal Transplantasi"
+            android:focusable="false"
+            android:clickable="true"
+            android:inputType="none"
+            android:layout_marginTop="12dp" />
+
+        <EditText
+            android:id="@+id/etVarietas"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Varietas"
+            android:inputType="text"
+            android:layout_marginTop="12dp" />
+
+        <EditText
+            android:id="@+id/etJumlahBibit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Jumlah Bibit"
+            android:inputType="number"
+            android:layout_marginTop="12dp" />
+
+        <androidx.fragment.app.FragmentContainerView
+            android:id="@+id/mapContainer"
+            android:name="com.google.android.gms.maps.SupportMapFragment"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_marginTop="12dp" />
+
+        <EditText
+            android:id="@+id/etLatitude"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Latitude"
+            android:enabled="false"
+            android:visibility="gone"
+            android:layout_marginTop="12dp" />
+
+        <EditText
+            android:id="@+id/etLongitude"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Longitude"
+            android:enabled="false"
+            android:visibility="gone"
+            android:layout_marginTop="12dp" />
+
+        <Button
+            android:id="@+id/btnAturLokasi"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Atur Lokasi di Map"
+            android:layout_marginTop="12dp" />
+
+        <Button
+            android:id="@+id/btnSimpanPlot"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Simpan Plot"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="24dp" />
+    </LinearLayout>
+</ScrollView>

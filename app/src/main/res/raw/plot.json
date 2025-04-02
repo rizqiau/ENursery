@@ -2,39 +2,5 @@
   "error": false,
   "message": "success",
   "count": 3,
-  "plot": [
-    {
-      "idPlot": "A",
-      "namaPlot": "Plot A",
-      "luasArea": 2.5,
-      "tanggalTanam": "2024-01-15",
-      "tanggalTransplantasi": "2024-02-01",
-      "varietas": "Sawit Murni",
-      "latitude": -1.23456,
-      "longitude": 102.34567,
-      "jumlahBibit": 1000
-    },
-    {
-      "idPlot": "B",
-      "namaPlot": "Plot B",
-      "luasArea": 3.0,
-      "tanggalTanam": "2024-01-20",
-      "tanggalTransplantasi": "2024-02-05",
-      "varietas": "Sawit Super",
-      "latitude": -1.45678,
-      "longitude": 102.78901,
-      "jumlahBibit": 1500
-    },
-    {
-      "idPlot": "C",
-      "namaPlot": "Plot C",
-      "luasArea": 3.5,
-      "tanggalTanam": "2024-01-20",
-      "tanggalTransplantasi": "2024-02-05",
-      "varietas": "Sawit Premium",
-      "latitude": -1.45678,
-      "longitude": 102.78901,
-      "jumlahBibit": 1500
-    }
-  ]
+  "plot": []
 }

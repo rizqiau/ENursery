@@ -17,23 +17,13 @@ class UserInteractor(private val userRepository: IUserRepository) : UserUseCase 
         }
     }
 
-    override suspend fun loginUser(email: String, password: String): Result<User> {
-        return try {
-            val user = userRepository.getUserByEmail(email)  // Mengambil user berdasarkan email
-            if (user != null && user.password == password) {
-                Result.success(user)
-            } else {
-                Result.failure(Exception("Invalid credentials"))
-            }
-        } catch (e: Exception) {
-            Result.failure(e)
-        }
-    }
-
     override suspend fun generateUserId(): String {
         return userRepository.generateNextUserId()
     }
 
     override fun getAllRoles(): LiveData<List<RoleEntity>> = userRepository.getAllRoles()
     override fun getAllWilayah(): LiveData<List<WilayahKerjaEntity>> = userRepository.getAllWilayah()
+    override fun getUserById(userId: String): LiveData<User> {
+        return userRepository.getUserById(userId)
+    }
 }

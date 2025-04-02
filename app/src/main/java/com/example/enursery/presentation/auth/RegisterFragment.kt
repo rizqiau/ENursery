@@ -15,6 +15,8 @@ import androidx.navigation.fragment.findNavController
 import com.example.enursery.R
 import com.example.enursery.core.ui.ViewModelFactory
 import com.example.enursery.databinding.FragmentRegisterBinding
+import java.io.File
+import java.io.FileOutputStream
 
 class RegisterFragment : Fragment() {
 
@@ -59,14 +61,18 @@ class RegisterFragment : Fragment() {
             val roleId = viewModel.currentRoles[roleIndex].id
             val wilayahIndex = binding.spinnerWilayah.selectedItemPosition
             val wilayahId = viewModel.currentWilayah[wilayahIndex].id
-
+            val savedImagePath = selectedImageUri?.let { saveImageToInternalStorage(it) }
+            if (savedImagePath == null) {
+                Toast.makeText(requireContext(), "Gagal menyimpan gambar", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
             viewModel.onRegisterClicked(
                 name = name,
                 email = email,
                 password = password,
                 role = roleId,
                 wilayah = wilayahId,
-                fotoUri = selectedImageUri
+                fotoUri = savedImagePath
             )
         }
     }
@@ -95,6 +101,25 @@ class RegisterFragment : Fragment() {
         }
     }
 
+    private fun saveImageToInternalStorage(uri: Uri): String? {
+        return try {
+            val inputStream = requireContext().contentResolver.openInputStream(uri)
+            val fileName = "IMG_${System.currentTimeMillis()}.jpg"
+            val file = File(requireContext().filesDir, fileName)
+            val outputStream = FileOutputStream(file)
+
+            inputStream?.copyTo(outputStream)
+
+            inputStream?.close()
+            outputStream.close()
+
+            file.absolutePath
+        } catch (e: Exception) {
+            e.printStackTrace()
+            null
+        }
+    }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == REQUEST_CODE_PICK_IMAGE && resultCode == AppCompatActivity.RESULT_OK) {
@@ -114,7 +139,7 @@ class RegisterFragment : Fragment() {
         viewModel.registerResult.observe(viewLifecycleOwner) { result ->
             result.onSuccess {
                 Toast.makeText(requireContext(), "Berhasil daftar!", Toast.LENGTH_SHORT).show()
-                findNavController().navigate(R.id.navigation_login)
+                findNavController().navigate(R.id.loginFragment)
             }
             result.onFailure {
                 Toast.makeText(requireContext(), it.message ?: "Gagal daftar", Toast.LENGTH_SHORT).show()

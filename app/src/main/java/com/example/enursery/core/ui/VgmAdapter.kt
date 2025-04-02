@@ -1,30 +1,34 @@
 package com.example.enursery.core.ui
 
+import android.net.Uri
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.example.enursery.core.domain.model.Vgm
+import com.example.enursery.R
+import com.example.enursery.core.domain.model.VgmWithUserModel
 import com.example.enursery.databinding.ItemVgmBinding
 
-class VgmAdapter : RecyclerView.Adapter<VgmAdapter.ViewHolder>() {
-    private val list = ArrayList<Vgm>()
-
-    fun submitList(data: List<Vgm>) {
-        list.clear()
-        list.addAll(data)
-        notifyDataSetChanged()
-    }
+class VgmAdapter : ListAdapter<VgmWithUserModel, VgmAdapter.ViewHolder>(DIFF_CALLBACK) {
 
     inner class ViewHolder(private val binding: ItemVgmBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(vgm: Vgm) {
-            binding.tvBibitId.text = vgm.idBibit
-            binding.tvTinggiTanaman.text = vgm.latestTinggiTanaman.toString()
-            binding.tvDiameterBatang.text = vgm.latestDiameterBatang.toString()
-            binding.tvJumlahDaun.text = vgm.latestJumlahDaun.toString()
+
+        fun bind(vgmWithUserModel: VgmWithUserModel) {
+            Log.d("VgmAdapter", "Bind ${vgmWithUserModel.idBibit}")
+            binding.tvBibitId.text = vgmWithUserModel.idBibit
+            binding.tvTinggiTanaman.text = vgmWithUserModel.latestTinggiTanaman.toString()
+            binding.tvDiameterBatang.text = vgmWithUserModel.latestDiameterBatang.toString()
+            binding.tvJumlahDaun.text = vgmWithUserModel.latestJumlahDaun.toString()
+            binding.tvNamaUser.text = vgmWithUserModel.namaUser
+            binding.tvTimestamp.text = vgmWithUserModel.latestTimestamp.toString()
+
             Glide.with(binding.ivVgmImage.context)
-                .load(vgm.latestFoto) // URL gambar
+                .load(Uri.parse(vgmWithUserModel.latestFoto))
+                .placeholder(R.drawable.ic_placeholder)
                 .into(binding.ivVgmImage)
         }
     }
@@ -34,9 +38,25 @@ class VgmAdapter : RecyclerView.Adapter<VgmAdapter.ViewHolder>() {
         return ViewHolder(binding)
     }
 
-    override fun getItemCount(): Int = list.size
-
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(list[position])
+        holder.bind(getItem(position))
+    }
+
+    companion object {
+        val DIFF_CALLBACK = object : DiffUtil.ItemCallback<VgmWithUserModel>() {
+            override fun areItemsTheSame(
+                oldItem: VgmWithUserModel,
+                newItem: VgmWithUserModel
+            ): Boolean {
+                return oldItem.idBibit == newItem.idBibit
+            }
+
+            override fun areContentsTheSame(
+                oldItem: VgmWithUserModel,
+                newItem: VgmWithUserModel
+            ): Boolean {
+                return oldItem == newItem
+            }
+        }
     }
 }

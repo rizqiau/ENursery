@@ -5,7 +5,9 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import androidx.room.Transaction
 import com.example.enursery.core.data.source.local.entity.VgmEntity
+import com.example.enursery.core.data.source.local.entity.VgmWithUser
 
 @Dao
 interface VgmDao {
@@ -14,4 +16,11 @@ interface VgmDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertVgm(vgm: List<VgmEntity>)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insertSingleVgm(vgm: VgmEntity)
+
+    @Transaction
+    @Query("SELECT * FROM vgm")
+    fun getAllVgmWithUser(): LiveData<List<VgmWithUser>>
 }

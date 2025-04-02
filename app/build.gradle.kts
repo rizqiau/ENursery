@@ -4,6 +4,7 @@ plugins {
     alias(libs.plugins.google.android.libraries.mapsplatform.secrets.gradle.plugin)
     id("com.google.devtools.ksp")
     id("kotlin-parcelize")
+    alias(libs.plugins.navigation.safe.args)
 }
 
 android {
@@ -12,7 +13,7 @@ android {
 
     defaultConfig {
         applicationId = "com.example.enursery"
-        minSdk = 24
+        minSdk = 26
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
@@ -40,6 +41,11 @@ android {
         viewBinding = true
         buildConfig = true
     }
+    packaging {
+        resources {
+            excludes += "/META-INF/versions/9/OSGI-INF/MANIFEST.MF"
+        }
+    }
 }
 
 dependencies {
@@ -55,6 +61,7 @@ dependencies {
     implementation(libs.androidx.lifecycle.livedata.ktx)
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
     implementation(libs.play.services.maps)
+    implementation (libs.play.services.location)
     implementation(libs.androidx.annotation)
     implementation(libs.recyclerview)
 
@@ -68,6 +75,7 @@ dependencies {
 
     implementation(libs.room.runtime)
     implementation(libs.androidx.room.ktx)
+    implementation(libs.identity.jvm)
     ksp(libs.room.compiler)
     androidTestImplementation(libs.room.testing)
 
@@ -84,4 +92,7 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+
+    implementation(libs.androidx.core.splashscreen)
+    implementation (libs.androidx.exifinterface)
 }

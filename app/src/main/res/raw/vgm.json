@@ -6,68 +6,80 @@
     {
       "idBibit": "A001",
       "idPlot": "A",
-      "idPekerja": "P0001",
+      "idUser": "P0001",
+      "idBatch": "B001",
       "status": "Aktif",
       "latestTinggiTanaman": 30.0,
       "latestDiameterBatang": 5.2,
       "latestJumlahDaun": 12,
-      "latestTanggalInput": "2025-03-20T09:00:00",
-      "latestFoto": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/83/Kelimutu_2008-08-08.jpg/800px-Kelimutu_2008-08-08.jpg"
+      "latestTanggalInput": "20-03-2025",
+      "latestFoto": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/83/Kelimutu_2008-08-08.jpg/800px-Kelimutu_2008-08-08.jpg",
+      "latestTimestamp": 1711993325000
     },
     {
       "idBibit": "A002",
       "idPlot": "A",
-      "idPekerja": "P0001",
+      "idUser": "P0001",
+      "idBatch": "B001",
       "status": "Aktif",
       "latestTinggiTanaman": 30.0,
       "latestDiameterBatang": 5.2,
       "latestJumlahDaun": 12,
-      "latestTanggalInput": "2025-03-20T09:00:00",
-      "latestFoto": "https://www.infosawit.com/wp-content/uploads/2022/12/benih-sawit.jpeg"
+      "latestTanggalInput": "20-03-2025",
+      "latestFoto": "https://www.infosawit.com/wp-content/uploads/2022/12/benih-sawit.jpeg",
+      "latestTimestamp": 1711993325000
     },
     {
       "idBibit": "A003",
       "idPlot": "A",
-      "idPekerja": "P0001",
+      "idUser": "P0001",
+      "idBatch": "B001",
       "status": "Aktif",
       "latestTinggiTanaman": 30.0,
       "latestDiameterBatang": 5.2,
       "latestJumlahDaun": 12,
-      "latestTanggalInput": "2025-03-20T09:00:00",
-      "latestFoto": "https://www.infosawit.com/wp-content/uploads/2022/12/benih-sawit.jpeg"
+      "latestTanggalInput": "20-03-2025",
+      "latestFoto": "https://www.infosawit.com/wp-content/uploads/2022/12/benih-sawit.jpeg",
+      "latestTimestamp": 1711993325000
     },
     {
       "idBibit": "B001",
       "idPlot": "B",
-      "idPekerja": "P0001",
+      "idUser": "P0001",
+      "idBatch": "B001",
       "status": "Aktif",
       "latestTinggiTanaman": 30.0,
       "latestDiameterBatang": 5.2,
       "latestJumlahDaun": 12,
-      "latestTanggalInput": "2025-03-20T09:00:00",
-      "latestFoto": "https://www.infosawit.com/wp-content/uploads/2022/12/benih-sawit.jpeg"
+      "latestTanggalInput": "20-03-2025",
+      "latestFoto": "https://www.infosawit.com/wp-content/uploads/2022/12/benih-sawit.jpeg",
+      "latestTimestamp": 1711993325000
     },
     {
       "idBibit": "B002",
       "idPlot": "B",
-      "idPekerja": "P0001",
+      "idUser": "P0001",
+      "idBatch": "B001",
       "status": "Aktif",
       "latestTinggiTanaman": 30.0,
       "latestDiameterBatang": 5.2,
       "latestJumlahDaun": 12,
-      "latestTanggalInput": "2025-03-20T09:00:00",
-      "latestFoto": "https://www.infosawit.com/wp-content/uploads/2022/12/benih-sawit.jpeg"
+      "latestTanggalInput": "20-03-2025",
+      "latestFoto": "https://www.infosawit.com/wp-content/uploads/2022/12/benih-sawit.jpeg",
+      "latestTimestamp": 1711993325000
     },
     {
       "idBibit": "C001",
       "idPlot": "C",
-      "idPekerja": "P0001",
+      "idUser": "P0001",
+      "idBatch": "B001",
       "status": "Aktif",
       "latestTinggiTanaman": 30.0,
       "latestDiameterBatang": 5.2,
       "latestJumlahDaun": 12,
-      "latestTanggalInput": "2025-04-20T09:00:00",
-      "latestFoto": "https://www.infosawit.com/wp-content/uploads/2022/12/benih-sawit.jpeg"
+      "latestTanggalInput": "20-03-2025",
+      "latestFoto": "https://www.infosawit.com/wp-content/uploads/2022/12/benih-sawit.jpeg",
+      "latestTimestamp": 1711993325000
     }
   ]
 }

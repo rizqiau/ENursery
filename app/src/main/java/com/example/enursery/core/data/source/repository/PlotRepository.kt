@@ -13,7 +13,7 @@ import com.example.enursery.core.domain.model.Plot
 import com.example.enursery.core.domain.model.PlotWithVgmCountModel
 import com.example.enursery.core.domain.repository.IPlotRepository
 import com.example.enursery.core.utils.AppExecutors
-import com.example.enursery.core.utils.DataMapper
+import com.example.enursery.core.utils.mapper.PlotMapper
 
 class PlotRepository(
     private val remoteDataSource: RemoteDataSource,
@@ -26,7 +26,7 @@ class PlotRepository(
 
             override fun loadFromDB(): LiveData<List<Plot>> {
                return localDataSource.getAllPlots().map {
-                   DataMapper.mapPlotEntitiesToDomain(it)
+                   PlotMapper.mapPlotEntitiesToDomain(it)
                }
             }
 
@@ -39,7 +39,7 @@ class PlotRepository(
             }
 
             override suspend fun saveCallResult(data: List<PlotResponse>) {
-                val plotEntities = DataMapper.mapPlotResponseToEntities(data)
+                val plotEntities = PlotMapper.mapPlotResponseToEntities(data)
                 localDataSource.insertPlots(plotEntities)
             }
         }.asLiveData()
@@ -47,9 +47,33 @@ class PlotRepository(
 
     override fun getPlotsWithVgmCount(): LiveData<Resource<List<PlotWithVgmCountModel>>> {
         return localDataSource.getPlotsWithVgmCount().map { list ->
-            Log.d("PlotRepository", "VGMs from Room: ${list.map { it.jumlahVgm }}")
-            Resource.Success(DataMapper.mapPlotWithVgmEntityToDomain(list))
+            try {
+                val mappedData = PlotMapper.mapPlotWithVgmEntityToDomain(list)
+                Resource.Success(mappedData)
+            } catch (e: Exception) {
+                Log.e("PlotRepository", "Gagal mapping PlotWithVgm: ${e.message}")
+                Resource.Error("Gagal memuat data plot", null)
+            }
         }
+    }
+
+    override suspend fun insertSinglePlot(plot: Plot) {
+        val entity = PlotMapper.mapPlotDomainToEntity(plot)
+        try {
+            localDataSource.insertSinglePlot(entity) // make sure ini suspend
+        } catch (e: Exception) {
+            Log.e("PlotRepository", "Insert failed: ${e.message}")
+            throw e
+        }
+    }
+
+    override suspend fun updatePlot(plot: Plot) {
+        val entity = PlotMapper.mapPlotDomainToEntity(plot)
+        localDataSource.updatePlot(entity)
+    }
+
+    override suspend fun deletePlotById(idPlot: String) {
+        localDataSource.deletePlotById(idPlot)
     }
 
     companion object {

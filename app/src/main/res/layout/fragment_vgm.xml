@@ -1,20 +1,98 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".presentation.vgm.VgmFragment">
+    android:id="@+id/rootLayout"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    tools:context=".presentation.vgm.VgmFragment"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/container1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:background="@color/main"
+        android:paddingTop="12dp"
+        android:paddingHorizontal="10dp">
+
+        <Spinner
+            android:id="@+id/spinnerBatch"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="48dp"
+            android:background="@drawable/spinner_background"
+            android:elevation="4dp"/>
+
+        <Spinner
+            android:id="@+id/spinnerPlot"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="48dp"
+            android:background="@drawable/spinner_background"
+            android:elevation="4dp"/>
+
+        <TextView
+            android:id="@+id/spinnerDate"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="48dp"
+            android:text="@string/tanggal"
+            android:gravity="center_vertical|start"
+            android:textColor="@color/black"
+            android:background="@drawable/spinner_background"
+            android:elevation="4dp"
+            android:drawablePadding="4dp"
+            app:drawableStartCompat="@drawable/ic_filter"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/container2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_margin="12dp">
+
+        <Spinner
+            android:id="@+id/spinnerVgm"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_weight="1"
+            android:background="@drawable/spinner_rounded"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:gravity="center_vertical" />
+
+        <EditText
+            android:id="@+id/etSearch"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_weight="1"
+            android:hint="Cari"
+            android:drawableEnd="@drawable/ic_search"
+            android:background="@drawable/spinner_rounded"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:inputType="text"
+            android:singleLine="true"
+            android:imeOptions="actionSearch"
+            android:cursorVisible="false" />
+    </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_vgm"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        tools:listitem="@layout/item_vgm"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        />
+        android:layout_weight="1"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="80dp"
+        tools:listitem="@layout/item_vgm" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

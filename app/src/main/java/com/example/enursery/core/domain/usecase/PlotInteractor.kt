@@ -14,4 +14,16 @@ class PlotInteractor(private val repository: IPlotRepository) : PlotUseCase {
     override fun getPlotsWithVgmCount(): LiveData<Resource<List<PlotWithVgmCountModel>>> {
         return repository.getPlotsWithVgmCount()
     }
+
+    override suspend fun insertSinglePlot(plot: Plot) {
+        repository.insertSinglePlot(plot)
+    }
+
+    override suspend fun updatePlot(plot: Plot) {
+        repository.updatePlot(plot)
+    }
+
+    override suspend fun deletePlotById(idPlot: String) {
+        repository.deletePlotById(idPlot)
+    }
 }

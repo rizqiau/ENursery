@@ -8,6 +8,7 @@ import androidx.lifecycle.MutableLiveData
 import com.example.enursery.core.data.source.local.entity.RoleEntity
 import com.example.enursery.core.data.source.local.entity.WilayahKerjaEntity
 import com.example.enursery.core.data.source.remote.network.ApiResponse
+import com.example.enursery.core.data.source.remote.response.BatchResponse
 import com.example.enursery.core.data.source.remote.response.PlotResponse
 import com.example.enursery.core.data.source.remote.response.UserResponse
 import com.example.enursery.core.data.source.remote.response.VgmResponse
@@ -74,6 +75,10 @@ class RemoteDataSource private constructor(private val jsonHelper: JsonHelper) {
         return result
     }
 
+    fun getPlotDataRaw(): List<PlotResponse> {
+        return jsonHelper.loadPlotData()
+    }
+
     fun getVgmData(): LiveData<ApiResponse<List<VgmResponse>>> {
         val result = MutableLiveData<ApiResponse<List<VgmResponse>>>()
 
@@ -92,5 +97,9 @@ class RemoteDataSource private constructor(private val jsonHelper: JsonHelper) {
         }, 1000)
 
         return result
+    }
+
+    fun getBatchData(): List<BatchResponse> {
+        return jsonHelper.loadBatchData()
     }
 }
