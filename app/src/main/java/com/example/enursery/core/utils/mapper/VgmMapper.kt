@@ -1,8 +1,6 @@
 package com.example.enursery.core.utils.mapper
 
-import android.os.Build
 import android.util.Log
-import androidx.annotation.RequiresApi
 import com.example.enursery.core.data.source.local.entity.VgmEntity
 import com.example.enursery.core.data.source.local.entity.VgmHistoryEntity
 import com.example.enursery.core.data.source.local.entity.VgmWithUser
@@ -18,7 +16,6 @@ object VgmMapper {
     // ------------------------------
     // Seeder / API → Room
     // ------------------------------
-    @RequiresApi(Build.VERSION_CODES.O)
     fun mapVgmResponseToEntities(input: List<VgmResponse>): List<VgmEntity> {
         return input.map {
             val tanggal = DateUtils.parseLocalDate(it.latestTanggalInput) ?: LocalDate.now()
@@ -106,7 +103,6 @@ object VgmMapper {
     // ------------------------------
     // Convert 1 VgmHistoryEntity → VgmEntity (snapshot update)
     // ------------------------------
-    @RequiresApi(Build.VERSION_CODES.O)
     fun mapHistoryToVgmEntity(history: VgmHistoryEntity): VgmEntity {
         val timestamp = history.tanggalInput.atStartOfDay(ZoneId.systemDefault())
             .toInstant().toEpochMilli()
@@ -126,12 +122,10 @@ object VgmMapper {
         )
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     fun mapHistoryToDomain(history: VgmHistoryEntity): Vgm {
         return mapEntityToDomain(mapHistoryToVgmEntity(history))
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     fun mapHistoriesToDomain(histories: List<VgmHistoryEntity>): List<Vgm> {
         return histories.map { mapHistoryToDomain(it) }
     }

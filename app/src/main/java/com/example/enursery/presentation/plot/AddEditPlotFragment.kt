@@ -22,8 +22,10 @@ import com.example.enursery.presentation.home.HomeViewModel
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
@@ -46,9 +48,11 @@ class AddEditPlotFragment : Fragment() {
     private var plotId: String? = null
     private var currentPlot: Plot? = null
 
+    private var currentMap: GoogleMap? = null
+    private var currentMarker: Marker? = null
+
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         _binding = FragmentAddEditPlotBinding.inflate(inflater, container, false)
         return binding.root
@@ -59,19 +63,17 @@ class AddEditPlotFragment : Fragment() {
 
         mode = arguments?.getString("mode") ?: "ADD"
         plotId = arguments?.getString("plotId")
-
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireContext())
 
         setupDatePickers()
-        setupLocationAccess()
+        setupMap()
         setupMapPickerResult()
 
         if (mode == "EDIT" && plotId != null) {
-            observePlotData()
-            binding.btnSimpanPlot.text = "Update Plot"
-        } else {
-            binding.btnSimpanPlot.text = "Simpan Plot"
+            observePlot()
         }
+
+        binding.btnSimpanPlot.text = if (mode == "EDIT") "Update Plot" else "Simpan Plot"
 
         binding.btnSimpanPlot.setOnClickListener {
             if (mode == "EDIT") onUpdatePlotClicked() else onInsertPlotClicked()
@@ -82,14 +84,15 @@ class AddEditPlotFragment : Fragment() {
         }
     }
 
-    private fun observePlotData() {
+    private fun observePlot() {
         viewModel.getAllPlots().observe(viewLifecycleOwner) { resource ->
             if (resource is Resource.Success) {
                 val found = resource.data?.find { it.idPlot == plotId }
-                if (found != null) {
-                    currentPlot = found
-                    bindPlotToForm(found)
-                } else {
+                found?.let {
+                    currentPlot = it
+                    bindPlotToForm(it)
+                    updateMarkerLocation(LatLng(it.latitude, it.longitude), "Lokasi Terdaftar")
+                } ?: run {
                     Toast.makeText(context, "Plot tidak ditemukan", Toast.LENGTH_SHORT).show()
                     findNavController().navigateUp()
                 }
@@ -116,9 +119,8 @@ class AddEditPlotFragment : Fragment() {
     }
 
     private fun onUpdatePlotClicked() {
-        val original = currentPlot ?: return
-        val updated = buildPlotFromForm(idOverride = original.idPlot) ?: return
-        viewModel.updatePlot(updated)
+        val plot = buildPlotFromForm(currentPlot?.idPlot) ?: return
+        viewModel.updatePlot(plot)
         Toast.makeText(requireContext(), "Plot berhasil diperbarui", Toast.LENGTH_SHORT).show()
         findNavController().navigateUp()
     }
@@ -133,9 +135,8 @@ class AddEditPlotFragment : Fragment() {
         val lat = binding.etLatitude.text.toString().toDoubleOrNull()
         val lng = binding.etLongitude.text.toString().toDoubleOrNull()
 
-        if (nama.isBlank() || luas == null || tanam.isBlank() || trans.isBlank() ||
-            varietas.isBlank() || bibit == null || lat == null || lng == null
-        ) {
+        if (listOf(nama, tanam, trans, varietas).any { it.isBlank() } ||
+            listOf(luas, bibit, lat, lng).any { it == null }) {
             Toast.makeText(requireContext(), "Lengkapi semua data", Toast.LENGTH_SHORT).show()
             return null
         }
@@ -146,13 +147,13 @@ class AddEditPlotFragment : Fragment() {
         return Plot(
             idPlot = id,
             namaPlot = finalNama,
-            luasArea = luas,
+            luasArea = luas!!,
             tanggalTanam = LocalDate.parse(tanam, formatter),
             tanggalTransplantasi = LocalDate.parse(trans, formatter),
             varietas = varietas,
-            latitude = lat,
-            longitude = lng,
-            jumlahBibit = bibit
+            latitude = lat!!,
+            longitude = lng!!,
+            jumlahBibit = bibit!!
         )
     }
 
@@ -179,34 +180,46 @@ class AddEditPlotFragment : Fragment() {
         ).show()
     }
 
-    @SuppressLint("MissingPermission")
-    private fun getCurrentLocation() {
-        val mapFragment = childFragmentManager.findFragmentById(R.id.mapContainer) as? SupportMapFragment
-            ?: return
+    private fun setupMap() {
+        val mapFragment = childFragmentManager.findFragmentById(R.id.mapContainer) as? SupportMapFragment ?: return
         mapFragment.getMapAsync { map ->
+            currentMap = map
             map.uiSettings.isZoomControlsEnabled = true
             map.uiSettings.isMyLocationButtonEnabled = true
-            map.isMyLocationEnabled = true
 
-            fusedLocationClient.lastLocation.addOnSuccessListener { location ->
-                location?.let {
-                    val latLng = LatLng(it.latitude, it.longitude)
-                    map.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 17f))
-                    map.addMarker(MarkerOptions().position(latLng).title("Lokasi Anda"))
-                    binding.etLatitude.setText(it.latitude.toString())
-                    binding.etLongitude.setText(it.longitude.toString())
-                }
+            val lat = binding.etLatitude.text.toString().toDoubleOrNull()
+            val lng = binding.etLongitude.text.toString().toDoubleOrNull()
+
+            if (lat != null && lng != null) {
+                updateMarkerLocation(LatLng(lat, lng), "Lokasi Terdaftar")
+            } else {
+                fetchGpsAndMoveMarker()
             }
         }
     }
 
-    private fun setupLocationAccess() {
+    @SuppressLint("MissingPermission")
+    private fun fetchGpsAndMoveMarker() {
         if (ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION)
             == PackageManager.PERMISSION_GRANTED) {
-            getCurrentLocation()
+            currentMap?.isMyLocationEnabled = true
+            fusedLocationClient.lastLocation.addOnSuccessListener { location ->
+                location?.let {
+                    val latLng = LatLng(it.latitude, it.longitude)
+                    updateMarkerLocation(latLng, "Lokasi Anda")
+                    if (binding.etLatitude.text.isNullOrEmpty()) binding.etLatitude.setText(it.latitude.toString())
+                    if (binding.etLongitude.text.isNullOrEmpty()) binding.etLongitude.setText(it.longitude.toString())
+                }
+            }
         } else {
             requestPermissions(arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), 100)
         }
+    }
+
+    private fun updateMarkerLocation(latLng: LatLng, title: String = "Lokasi Terpilih") {
+        currentMarker?.remove()
+        currentMarker = currentMap?.addMarker(MarkerOptions().position(latLng).title(title))
+        currentMap?.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 17f))
     }
 
     private fun setupMapPickerResult() {
@@ -215,12 +228,13 @@ class AddEditPlotFragment : Fragment() {
             val lng = bundle.getDouble("longitude")
             binding.etLatitude.setText(lat.toString())
             binding.etLongitude.setText(lng.toString())
+            updateMarkerLocation(LatLng(lat, lng))
         }
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         if (requestCode == 100 && grantResults.firstOrNull() == PackageManager.PERMISSION_GRANTED) {
-            getCurrentLocation()
+            fetchGpsAndMoveMarker()
         } else {
             Toast.makeText(requireContext(), "Izin lokasi ditolak", Toast.LENGTH_SHORT).show()
         }

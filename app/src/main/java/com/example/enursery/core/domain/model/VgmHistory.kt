@@ -8,6 +8,7 @@ data class VgmHistory(
     val idPlot: String,
     val idUser: String,
     val idBatch: String,
+    val status: String,
     val tinggi: Double,
     val diameter: Double,
     val jumlahDaun: Int,

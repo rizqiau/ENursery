@@ -6,7 +6,6 @@ import android.content.Context
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.net.Uri
-import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
 import android.view.LayoutInflater
@@ -15,7 +14,6 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
@@ -66,7 +64,6 @@ class AddEditVgmFragment : Fragment() {
         return binding.root
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel = ViewModelProvider(
@@ -152,13 +149,13 @@ class AddEditVgmFragment : Fragment() {
         return null
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     private fun handleSubmit() {
         val tinggi = binding.etTinggi.text.toString().toDoubleOrNull() ?: 0.0
         val diameter = binding.etDiameter.text.toString().toDoubleOrNull() ?: 0.0
         val jumlahDaun = binding.etJumlahDaun.text.toString().toIntOrNull() ?: 0
         val foto = selectedFotoUri?.toString() ?: ""
         val idBibit = scannedIdBibit ?: return
+        val status = "Aktif"
 
         val selectedPlot = viewModel.currentPlot.getOrNull(binding.spinnerPlot.selectedItemPosition)
         val selectedBatch = viewModel.currentBatch.getOrNull(binding.spinnerBatch.selectedItemPosition)
@@ -174,6 +171,7 @@ class AddEditVgmFragment : Fragment() {
             idPlot = selectedPlot.idPlot,
             idUser = idUser,
             idBatch = selectedBatch.idBatch,
+            status = status,
             tinggi = tinggi,
             diameter = diameter,
             jumlahDaun = jumlahDaun,

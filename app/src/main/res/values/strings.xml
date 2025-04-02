@@ -48,4 +48,7 @@
     <string name="sampel">Sampel</string>
     <string name="luas">Luas</string>
     <string name="tanggal">Tanggal</string>
+    <string name="tanggal_tanam">Tanggal Tanam</string>
+    <string name="tanggal_transplanting">Tanggal Transplanting</string>
+    <string name="varietas">Varietas</string>
 </resources>

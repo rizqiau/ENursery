@@ -19,4 +19,5 @@ class VgmInteractor(private val repository: IVgmRepository): VgmUseCase {
     override fun getSortedVgm(sortOption: SortOption): LiveData<List<VgmWithUserModel>> {
         return repository.getSortedVgm(sortOption)
     }
+
 }

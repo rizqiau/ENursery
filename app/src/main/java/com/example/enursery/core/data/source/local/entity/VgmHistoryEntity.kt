@@ -10,22 +10,13 @@ import java.time.LocalDate
     tableName = "vgm_history",
     foreignKeys = [
         ForeignKey(
-            entity = VgmEntity::class,
-            parentColumns = ["idBibit"],
-            childColumns = ["idBibit"],
-            onDelete = ForeignKey.CASCADE
-        ),
-        ForeignKey(
             entity = PlotEntity::class,
             parentColumns = ["idPlot"],
             childColumns = ["idPlot"],
             onDelete = ForeignKey.CASCADE
         )
     ],
-    indices = [
-        Index("idBibit"),
-        Index("idPlot")
-    ]
+    indices = [Index("idPlot")]
 )
 data class VgmHistoryEntity(
     @PrimaryKey val id: String,
@@ -33,6 +24,7 @@ data class VgmHistoryEntity(
     val idPlot: String,
     val idUser: String,
     val idBatch: String,
+    val status: String,
     val tinggi: Double,
     val diameter: Double,
     val jumlahDaun: Int,

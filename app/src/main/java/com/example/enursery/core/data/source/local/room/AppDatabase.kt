@@ -22,7 +22,7 @@ import com.example.enursery.core.data.source.local.entity.WilayahKerjaEntity
         VgmEntity::class,
         BatchEntity::class,
         VgmHistoryEntity::class],
-    version = 12,
+    version = 14,
     exportSchema = false
 )
 @TypeConverters(DateConverter::class, LocalDateConverter::class)
