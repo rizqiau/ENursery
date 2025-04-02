@@ -1,5 +1,7 @@
 package com.example.enursery.core.data.source.repository
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.map
 import com.example.enursery.core.data.source.NetworkBoundResource
@@ -8,6 +10,7 @@ import com.example.enursery.core.data.source.local.LocalDataSource
 import com.example.enursery.core.data.source.remote.RemoteDataSource
 import com.example.enursery.core.data.source.remote.network.ApiResponse
 import com.example.enursery.core.data.source.remote.response.VgmResponse
+import com.example.enursery.core.domain.model.SortOption
 import com.example.enursery.core.domain.model.Vgm
 import com.example.enursery.core.domain.model.VgmWithUserModel
 import com.example.enursery.core.domain.repository.IVgmRepository
@@ -18,48 +21,38 @@ class VgmRepository(
     private val remoteDataSource: RemoteDataSource,
     private val localDataSource: LocalDataSource,
     private val appExecutors: AppExecutors
-): IVgmRepository {
+) : IVgmRepository {
 
     override fun getAllVgm(): LiveData<Resource<List<Vgm>>> {
         return object : NetworkBoundResource<List<Vgm>, List<VgmResponse>>(appExecutors) {
 
             override fun loadFromDB(): LiveData<List<Vgm>> {
-                return localDataSource.getLatestVgmFromHistory().map {
-                    VgmMapper.mapVgmHistoryToVgm(it)
+                return localDataSource.getLatestVgmFromHistory().map { historyList ->
+                    VgmMapper.mapHistoriesToDomain(historyList)
                 }
             }
 
-            override fun shouldFetch(data: List<Vgm>?): Boolean {
-                return data.isNullOrEmpty() // fetch jika kosong
-            }
+            override fun shouldFetch(data: List<Vgm>?): Boolean = data.isNullOrEmpty()
 
             override fun createCall(): LiveData<ApiResponse<List<VgmResponse>>> {
                 return remoteDataSource.getVgmData()
             }
 
             override suspend fun saveCallResult(data: List<VgmResponse>) {
-                val vgmEntities = VgmMapper.mapVgmResponseToEntities(data)
-                localDataSource.insertVgm(vgmEntities)
+                val entities = VgmMapper.mapVgmResponseToEntities(data)
+                localDataSource.insertVgmList(entities)
             }
         }.asLiveData()
     }
 
-    override suspend fun insertVgm(vgm: Vgm): Result<Unit> {
-        return try {
-            val entity = VgmMapper.mapVgmDomainToEntity(vgm)
-            localDataSource.insertVgmItem(entity)
-            Result.success(Unit)
-        } catch (e: Exception) {
-            Result.failure(e)
+    override fun getAllVgmWithUser(): LiveData<List<VgmWithUserModel>> {
+        return localDataSource.getAllVgmWithUser().map {
+            VgmMapper.mapVgmWithUserToModel(it)
         }
     }
 
-    override fun getAllVgmWithUser(): LiveData<List<VgmWithUserModel>> {
-        return localDataSource.getAllVgmWithUser()
-    }
-
-    override fun getAllVgmWithUserRel(): LiveData<List<VgmWithUserModel>> {
-        return localDataSource.getAllVgmWithUserRel().map {
+    override fun getSortedVgm(sortOption: SortOption): LiveData<List<VgmWithUserModel>> {
+        return localDataSource.getSortedVgm(sortOption).map {
             VgmMapper.mapVgmWithUserToModel(it)
         }
     }

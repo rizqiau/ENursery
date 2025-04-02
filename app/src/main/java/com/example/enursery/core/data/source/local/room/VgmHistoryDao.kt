@@ -18,11 +18,11 @@ interface VgmHistoryDao {
 
     @Query("""
     SELECT * FROM vgm_history
-    WHERE tanggalInput IN (
-        SELECT MAX(tanggalInput)
-        FROM vgm_history
-        GROUP BY idBibit
+    WHERE (idBibit, tanggalInput) IN (
+    SELECT idBibit, MAX(tanggalInput)
+    FROM vgm_history
+    GROUP BY idBibit
     )
-""")
+    """)
     fun getLatestVgmFromHistory(): LiveData<List<VgmHistoryEntity>>
 }

@@ -1,26 +1,29 @@
 package com.example.enursery.core.utils.mapper
 
-import android.util.Log
+import android.os.Build
+import androidx.annotation.RequiresApi
 import com.example.enursery.core.data.source.local.entity.PlotEntity
 import com.example.enursery.core.data.source.local.entity.PlotWithVgmCount
 import com.example.enursery.core.data.source.remote.response.PlotResponse
 import com.example.enursery.core.domain.model.Plot
 import com.example.enursery.core.domain.model.PlotWithVgmCountModel
-import java.text.SimpleDateFormat
-import java.util.Date
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 import java.util.Locale
 
 object PlotMapper {
-    private val formatter = SimpleDateFormat("yyyy-MM-dd", Locale("id", "ID"))
+    @RequiresApi(Build.VERSION_CODES.O)
+    private val formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy", Locale("id", "ID"))
 
+    @RequiresApi(Build.VERSION_CODES.O)
     fun mapPlotResponseToEntities(input: List<PlotResponse>): List<PlotEntity> {
         return input.map {
             PlotEntity(
                 idPlot = it.idPlot,
                 namaPlot = it.namaPlot,
                 luasArea = it.luasArea,
-                tanggalTanam = formatter.parse(it.tanggalTanam) ?: Date(),
-                tanggalTransplantasi = formatter.parse(it.tanggalTransplantasi) ?: Date(),
+                tanggalTanam = LocalDate.parse(it.tanggalTanam, formatter),
+                tanggalTransplantasi = LocalDate.parse(it.tanggalTransplantasi, formatter),
                 varietas = it.varietas,
                 latitude = it.latitude,
                 longitude = it.longitude,
@@ -45,9 +48,7 @@ object PlotMapper {
         }
 
     fun mapPlotWithVgmEntityToDomain(input: List<PlotWithVgmCount>): List<PlotWithVgmCountModel> {
-        Log.d("DataMapper", "Mapping ${input.size} plot with vgm")
         return input.map {
-            Log.d("DataMapper", "Plot ${it.plot.idPlot} -> ${it.jumlahVgm}")
             PlotWithVgmCountModel(
                 idPlot = it.plot.idPlot,
                 namaPlot = it.plot.namaPlot,

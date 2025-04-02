@@ -1,6 +1,6 @@
 package com.example.enursery.core.domain.model
 
-import java.util.Date
+import java.time.LocalDate
 
 data class VgmHistory(
     val id: String,
@@ -11,6 +11,6 @@ data class VgmHistory(
     val tinggi: Double,
     val diameter: Double,
     val jumlahDaun: Int,
-    val tanggalInput: Date,
+    val tanggalInput: LocalDate,
     val foto: String
 )

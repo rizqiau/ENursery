@@ -22,4 +22,8 @@
         <item name="postSplashScreenTheme">@style/Base.Theme.ENursery</item>
         <item name="windowSplashScreenIconBackgroundColor">@android:color/transparent</item>
     </style>
+    
+    <style name="ThemeMaterialCalendar" parent="ThemeOverlay.MaterialComponents.MaterialCalendar">
+        <item name="android:windowFullscreen">false</item>
+    </style>
 </resources>

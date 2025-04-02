@@ -32,5 +32,4 @@
         <item name="cornerSizeBottomLeft">75dp</item>
         <item name="cornerFamilyBottomLeft">rounded</item>
     </style>
-
 </resources>

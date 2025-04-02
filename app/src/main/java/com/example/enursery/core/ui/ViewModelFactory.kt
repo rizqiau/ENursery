@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.enursery.core.di.Injection
 import com.example.enursery.core.domain.usecase.BatchUseCase
+import com.example.enursery.core.domain.usecase.InsertVgmWithUpdateUseCase
 import com.example.enursery.core.domain.usecase.LoginUseCase
 import com.example.enursery.core.domain.usecase.PlotUseCase
 import com.example.enursery.core.domain.usecase.SessionUseCase
@@ -13,6 +14,7 @@ import com.example.enursery.core.domain.usecase.VgmHistoryUseCase
 import com.example.enursery.core.domain.usecase.VgmUseCase
 import com.example.enursery.presentation.auth.AuthViewModel
 import com.example.enursery.presentation.home.HomeViewModel
+import com.example.enursery.presentation.plot.PlotViewModel
 import com.example.enursery.presentation.profile.ProfileViewModel
 import com.example.enursery.presentation.startup.StartupViewModel
 import com.example.enursery.presentation.vgm.VgmViewModel
@@ -24,7 +26,8 @@ class ViewModelFactory private constructor(
     private val loginUseCase: LoginUseCase,
     private val sessionUseCase: SessionUseCase,
     private val batchUseCase: BatchUseCase,
-    private val vgmHistoryUseCase: VgmHistoryUseCase
+    private val vgmHistoryUseCase: VgmHistoryUseCase,
+    private val insertVgmWithUpdateUseCase: InsertVgmWithUpdateUseCase
 ) : ViewModelProvider.NewInstanceFactory() {
 
     @Suppress("UNCHECKED_CAST")
@@ -37,13 +40,17 @@ class ViewModelFactory private constructor(
                 HomeViewModel(plotUseCase) as T
             }
             modelClass.isAssignableFrom(VgmViewModel::class.java) -> {
-                VgmViewModel(vgmUseCase, batchUseCase, plotUseCase, vgmHistoryUseCase, sessionUseCase) as T
+                VgmViewModel(vgmUseCase, batchUseCase, plotUseCase,
+                    vgmHistoryUseCase, sessionUseCase, insertVgmWithUpdateUseCase) as T
             }
             modelClass.isAssignableFrom(StartupViewModel::class.java) -> {
                 StartupViewModel(sessionUseCase) as T
             }
             modelClass.isAssignableFrom(ProfileViewModel::class.java) -> {
                 ProfileViewModel(sessionUseCase, userUseCase) as T
+            }
+            modelClass.isAssignableFrom(PlotViewModel::class.java) -> {
+                PlotViewModel(plotUseCase) as T
             }
             else -> throw IllegalArgumentException("Unknown ViewModel class: ${modelClass.name}")
         }
@@ -62,6 +69,7 @@ class ViewModelFactory private constructor(
                 val sessionUseCase = Injection.provideSessionUseCase(context)
                 val batchUseCase = Injection.provideBatchUseCase(context)
                 val vgmHistoryUseCase = Injection.provideVgmHistoryUseCase(context)
+                val insertVgmWithUpdateUseCase = Injection.provideInsertVgmWithUpdateUseCase(context)
                 instance ?: ViewModelFactory(
                     userUseCase,
                     plotUseCase,
@@ -69,7 +77,8 @@ class ViewModelFactory private constructor(
                     loginUseCase,
                     sessionUseCase,
                     batchUseCase,
-                    vgmHistoryUseCase).also { instance = it }
+                    vgmHistoryUseCase,
+                    insertVgmWithUpdateUseCase).also { instance = it }
             }
     }
 }

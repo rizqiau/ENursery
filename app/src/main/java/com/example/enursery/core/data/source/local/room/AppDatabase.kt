@@ -22,10 +22,10 @@ import com.example.enursery.core.data.source.local.entity.WilayahKerjaEntity
         VgmEntity::class,
         BatchEntity::class,
         VgmHistoryEntity::class],
-    version = 6,
+    version = 12,
     exportSchema = false
 )
-@TypeConverters(DateConverter::class)
+@TypeConverters(DateConverter::class, LocalDateConverter::class)
 abstract class AppDatabase : RoomDatabase() {
 
     abstract fun userDao(): UserDao

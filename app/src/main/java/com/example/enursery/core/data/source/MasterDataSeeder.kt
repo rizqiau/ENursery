@@ -1,5 +1,7 @@
 package com.example.enursery.core.data.source
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import com.example.enursery.core.data.source.local.room.BatchDao
 import com.example.enursery.core.data.source.local.room.PlotDao
 import com.example.enursery.core.data.source.local.room.RoleDao
@@ -15,6 +17,7 @@ class MasterDataSeeder(
     private val batchDao: BatchDao,
     private val plotDao: PlotDao
 ) {
+    @RequiresApi(Build.VERSION_CODES.O)
     suspend fun seedIfNeeded() {
         if (roleDao.getCount() == 0) {
             val roles = remoteDataSource.getRoleData()

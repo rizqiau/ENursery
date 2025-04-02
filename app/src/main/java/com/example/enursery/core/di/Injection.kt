@@ -7,19 +7,23 @@ import com.example.enursery.core.data.source.local.SharedPreferencesHelper
 import com.example.enursery.core.data.source.local.room.AppDatabase
 import com.example.enursery.core.data.source.remote.RemoteDataSource
 import com.example.enursery.core.data.source.repository.BatchRepository
+import com.example.enursery.core.data.source.repository.InsertVgmWithUpdateRepository
 import com.example.enursery.core.data.source.repository.PlotRepository
 import com.example.enursery.core.data.source.repository.SessionRepository
 import com.example.enursery.core.data.source.repository.UserRepository
 import com.example.enursery.core.data.source.repository.VgmHistoryRepository
 import com.example.enursery.core.data.source.repository.VgmRepository
-import com.example.enursery.core.domain.repository.BatchInteractor
 import com.example.enursery.core.domain.repository.IBatchRepository
+import com.example.enursery.core.domain.repository.IInsertVgmWithUpdateRepository
 import com.example.enursery.core.domain.repository.IPlotRepository
 import com.example.enursery.core.domain.repository.ISessionRepository
 import com.example.enursery.core.domain.repository.IUserRepository
 import com.example.enursery.core.domain.repository.IVgmHistoryRepository
 import com.example.enursery.core.domain.repository.IVgmRepository
+import com.example.enursery.core.domain.usecase.BatchInteractor
 import com.example.enursery.core.domain.usecase.BatchUseCase
+import com.example.enursery.core.domain.usecase.InsertVgmWithUpdateInteractor
+import com.example.enursery.core.domain.usecase.InsertVgmWithUpdateUseCase
 import com.example.enursery.core.domain.usecase.LoginInteractor
 import com.example.enursery.core.domain.usecase.LoginUseCase
 import com.example.enursery.core.domain.usecase.PlotInteractor
@@ -117,6 +121,12 @@ object Injection {
         return VgmHistoryRepository.getInstance(provideLocalDataSource(context))
     }
 
+    fun provideInsertVgmWithUpdateRepository(context: Context): IInsertVgmWithUpdateRepository {
+        return InsertVgmWithUpdateRepository(
+            provideLocalDataSource(context)
+        )
+    }
+
     // UseCases
     fun provideUserUseCase(context: Context): UserUseCase {
         return UserInteractor(provideUserRepository(context))
@@ -144,6 +154,10 @@ object Injection {
 
     fun provideVgmHistoryUseCase(context: Context): VgmHistoryUseCase {
         return VgmHistoryInteractor(provideVgmHistoryRepository(context))
+    }
+
+    fun provideInsertVgmWithUpdateUseCase(context: Context): InsertVgmWithUpdateUseCase {
+        return InsertVgmWithUpdateInteractor(provideInsertVgmWithUpdateRepository(context))
     }
 }
 

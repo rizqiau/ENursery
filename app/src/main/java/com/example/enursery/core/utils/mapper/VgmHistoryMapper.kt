@@ -5,6 +5,9 @@ import com.example.enursery.core.domain.model.VgmHistory
 
 object VgmHistoryMapper {
 
+    // ------------------------------
+    // Entity → Domain
+    // ------------------------------
     fun mapEntityToDomain(entity: VgmHistoryEntity): VgmHistory {
         return VgmHistory(
             id = entity.id,
@@ -20,6 +23,12 @@ object VgmHistoryMapper {
         )
     }
 
+    fun mapEntitiesToDomain(entities: List<VgmHistoryEntity>): List<VgmHistory> =
+        entities.map { mapEntityToDomain(it) }
+
+    // ------------------------------
+    // Domain → Entity
+    // ------------------------------
     fun mapDomainToEntity(domain: VgmHistory): VgmHistoryEntity {
         return VgmHistoryEntity(
             id = domain.id,
@@ -34,4 +43,8 @@ object VgmHistoryMapper {
             foto = domain.foto
         )
     }
+
+    fun mapDomainsToEntity(domains: List<VgmHistory>): List<VgmHistoryEntity> =
+        domains.map { mapDomainToEntity(it) }
 }
+

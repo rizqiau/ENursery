@@ -25,9 +25,9 @@ import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
-import java.text.SimpleDateFormat
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 import java.util.Calendar
-import java.util.Date
 import java.util.Locale
 
 class AddEditPlotFragment : Fragment() {
@@ -40,7 +40,7 @@ class AddEditPlotFragment : Fragment() {
     }
 
     private lateinit var fusedLocationClient: FusedLocationProviderClient
-    private val formatter = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+    private val formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy", Locale("id", "ID"))
 
     private var mode: String = "ADD"
     private var plotId: String? = null
@@ -100,8 +100,8 @@ class AddEditPlotFragment : Fragment() {
     private fun bindPlotToForm(plot: Plot) = binding.apply {
         etNamaPlot.setText(plot.namaPlot)
         etLuasArea.setText(plot.luasArea.toString())
-        etTanggalTanam.setText(formatter.format(plot.tanggalTanam))
-        etTanggalTransplantasi.setText(formatter.format(plot.tanggalTransplantasi))
+        etTanggalTanam.setText(plot.tanggalTanam.format(formatter))
+        etTanggalTransplantasi.setText(plot.tanggalTransplantasi.format(formatter))
         etVarietas.setText(plot.varietas)
         etLatitude.setText(plot.latitude.toString())
         etLongitude.setText(plot.longitude.toString())
@@ -147,8 +147,8 @@ class AddEditPlotFragment : Fragment() {
             idPlot = id,
             namaPlot = finalNama,
             luasArea = luas,
-            tanggalTanam = formatter.parse(tanam) ?: Date(),
-            tanggalTransplantasi = formatter.parse(trans) ?: Date(),
+            tanggalTanam = LocalDate.parse(tanam, formatter),
+            tanggalTransplantasi = LocalDate.parse(trans, formatter),
             varietas = varietas,
             latitude = lat,
             longitude = lng,
@@ -170,7 +170,7 @@ class AddEditPlotFragment : Fragment() {
         DatePickerDialog(
             requireContext(),
             { _, year, month, day ->
-                val date = String.format("%04d-%02d-%02d", year, month + 1, day)
+                val date = LocalDate.of(year, month + 1, day).format(formatter)
                 onDateSelected(date)
             },
             calendar.get(Calendar.YEAR),

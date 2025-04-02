@@ -97,7 +97,9 @@ class MainActivity : AppCompatActivity() {
 
         navController.addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {
-                R.id.mapPickerFragment -> {
+                R.id.mapPickerFragment,
+                R.id.addEditPlotFragment,
+                R.id.addEditVgmFragment-> {
                     binding.bottomNavigationView.visibility = View.GONE
                     binding.bottomAppBar.visibility = View.GONE
                     binding.fab.visibility = View.GONE
@@ -117,8 +119,6 @@ class MainActivity : AppCompatActivity() {
                 R.id.vgmFragment,
                 R.id.plotFragment,
                 R.id.profileFragment,
-                R.id.addEditVgmFragment,
-                R.id.addEditPlotFragment
             )
         )
 

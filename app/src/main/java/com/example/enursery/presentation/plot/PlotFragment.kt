@@ -5,41 +5,72 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import com.example.enursery.R
+import com.example.enursery.core.data.source.Resource
+import com.example.enursery.core.ui.ViewModelFactory
 import com.google.android.gms.maps.CameraUpdateFactory
-import com.google.android.gms.maps.OnMapReadyCallback
+import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 
 class PlotFragment : Fragment() {
 
-    private val callback = OnMapReadyCallback { googleMap ->
-        /**
-         * Manipulates the map once available.
-         * This callback is triggered when the map is ready to be used.
-         * This is where we can add markers or lines, add listeners or move the camera.
-         * In this case, we just add a marker near Sydney, Australia.
-         * If Google Play services is not installed on the device, the user will be prompted to
-         * install it inside the SupportMapFragment. This method will only be triggered once the
-         * user has installed Google Play services and returned to the app.
-         */
-        val sydney = LatLng(-34.0, 151.0)
-        googleMap.addMarker(MarkerOptions().position(sydney).title("Marker in Sydney"))
-        googleMap.moveCamera(CameraUpdateFactory.newLatLng(sydney))
+    private val viewModel: PlotViewModel by viewModels {
+        ViewModelFactory.getInstance(requireContext())
     }
+
+    private var googleMap: GoogleMap? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         return inflater.inflate(R.layout.fragment_plot, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         val mapFragment = childFragmentManager.findFragmentById(R.id.plotFragment) as SupportMapFragment?
-        mapFragment?.getMapAsync(callback)
+        mapFragment?.getMapAsync { map ->
+            googleMap = map
+            observePlotData()
+        }
+    }
+
+    private fun observePlotData() {
+        viewModel.plotList.observe(viewLifecycleOwner) { resource ->
+            if (resource is Resource.Success) {
+                val plotList = resource.data ?: return@observe
+
+                plotList.forEach { plot ->
+                    val lat = plot.latitude
+                    val lng = plot.longitude
+                    val title = plot.namaPlot
+
+                    if (lat != null && lng != null) {
+                        val position = LatLng(lat, lng)
+                        googleMap?.addMarker(
+                            MarkerOptions()
+                                .position(position)
+                                .title(title)
+                        )
+                    }
+                }
+
+                // Optional: focus kamera ke salah satu marker pertama
+                plotList.firstOrNull()?.let { firstPlot ->
+                    firstPlot.latitude?.let { lat ->
+                        firstPlot.longitude?.let { lng ->
+                            val firstLatLng = LatLng(lat, lng)
+                            googleMap?.moveCamera(CameraUpdateFactory.newLatLngZoom(firstLatLng, 15f))
+                        }
+                    }
+                }
+            }
+        }
     }
 }

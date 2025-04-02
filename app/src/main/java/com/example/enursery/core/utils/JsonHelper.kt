@@ -77,25 +77,32 @@ class JsonHelper(private val context: Context) {
 
     fun loadPlotData(): List<PlotResponse> {
         val list = ArrayList<PlotResponse>()
-        val responseObject = JSONObject(parsingFileToString(R.raw.plot).toString())
-        val listArray = responseObject.getJSONArray("plot")
+        val rawString = parsingFileToString(R.raw.plot)?.toString() ?: return list
 
-        for (i in 0 until listArray.length()) {
-            val obj = listArray.getJSONObject(i)
+        try {
+            val responseObject = JSONObject(rawString)
+            if (!responseObject.has("plot")) return list
 
-            val plot = PlotResponse(
-                idPlot = obj.getString("idPlot"),
-                namaPlot = obj.getString("namaPlot"),
-                luasArea = obj.getDouble("luasArea"),
-                tanggalTanam = obj.getString("tanggalTanam"),           // masih String di sini
-                tanggalTransplantasi = obj.getString("tanggalTransplantasi"), // masih String juga
-                varietas = obj.getString("varietas"),
-                latitude = obj.getDouble("latitude"),
-                longitude = obj.getDouble("longitude"),
-                jumlahBibit = obj.getInt("jumlahBibit")
-            )
+            val listArray = responseObject.getJSONArray("plot")
+            for (i in 0 until listArray.length()) {
+                val obj = listArray.getJSONObject(i)
 
-            list.add(plot)
+                val plot = PlotResponse(
+                    idPlot = obj.getString("idPlot"),
+                    namaPlot = obj.getString("namaPlot"),
+                    luasArea = obj.getDouble("luasArea"),
+                    tanggalTanam = obj.getString("tanggalTanam"),
+                    tanggalTransplantasi = obj.getString("tanggalTransplantasi"),
+                    varietas = obj.getString("varietas"),
+                    latitude = obj.getDouble("latitude"),
+                    longitude = obj.getDouble("longitude"),
+                    jumlahBibit = obj.getInt("jumlahBibit")
+                )
+
+                list.add(plot)
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
         }
 
         return list
@@ -113,12 +120,14 @@ class JsonHelper(private val context: Context) {
                 idBibit = obj.getString("idBibit"),
                 idPlot = obj.getString("idPlot"),
                 idUser = obj.getString("idPekerja"),
+                idBatch = obj.getString("idBatch"),
                 status = obj.getString("status"),           // masih String di sini
                 latestTinggiTanaman = obj.getDouble("latestTinggiTanaman"),
                 latestDiameterBatang = obj.getDouble("latestDiameterBatang"),
                 latestJumlahDaun = obj.getInt("latestJumlahDaun"),
                 latestTanggalInput = obj.getString("latestTanggalInput"), // masih String juga
-                latestFoto = obj.getString("latestFoto")
+                latestFoto = obj.getString("latestFoto"),
+                latestTimestamp = obj.getString("latestTimestamp")
             )
 
             list.add(vgm)

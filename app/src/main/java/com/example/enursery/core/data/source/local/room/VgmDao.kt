@@ -8,7 +8,6 @@ import androidx.room.Query
 import androidx.room.Transaction
 import com.example.enursery.core.data.source.local.entity.VgmEntity
 import com.example.enursery.core.data.source.local.entity.VgmWithUser
-import com.example.enursery.core.domain.model.VgmWithUserModel
 
 @Dao
 interface VgmDao {
@@ -21,14 +20,7 @@ interface VgmDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertSingleVgm(vgm: VgmEntity)
 
-    @Query("""
-    SELECT vgm.*, user.namaUser AS namaUser
-    FROM vgm
-    INNER JOIN user ON vgm.idUser = user.idUser
-""")
-    fun getAllVgmWithUser(): LiveData<List<VgmWithUserModel>>
-
     @Transaction
     @Query("SELECT * FROM vgm")
-    fun getAllVgmWithUserRel(): LiveData<List<VgmWithUser>>
+    fun getAllVgmWithUser(): LiveData<List<VgmWithUser>>
 }

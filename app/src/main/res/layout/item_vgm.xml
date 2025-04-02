@@ -101,7 +101,7 @@
                         android:textColor="@color/black"/>
 
                     <TextView
-                        android:id="@+id/tvNamaPekerja"
+                        android:id="@+id/tvNamaUser"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Adel"
@@ -130,6 +130,13 @@
                         android:layout_height="wrap_content"
                         android:text="@string/helai"
                         android:textColor="@color/black"/>
+
+                    <TextView
+                        android:id="@+id/tvTimestamp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Timestamp"
+                        android:textSize="12sp" />
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>
