@@ -32,4 +32,21 @@
         <item name="cornerSizeBottomLeft">75dp</item>
         <item name="cornerFamilyBottomLeft">rounded</item>
     </style>
+
+    <style name="PlotInfoLabel">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">#000</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:layout_marginTop">6dp</item>
+    </style>
+
+    <style name="PlotInfoValue" parent="PlotInfoLabel">
+        <item name="android:text">-</item>
+    </style>
+
+    <style name="GpsOverlayText">
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textSize">12sp</item>
+    </style>
 </resources>

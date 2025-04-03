@@ -23,9 +23,10 @@ class PlotWithVgmAdapter : ListAdapter<PlotWithVgmCountModel, PlotWithVgmAdapter
         fun bind(item: PlotWithVgmCountModel) {
             Log.d("PlotWithVgmAdapter", "Binding plot: ${item.namaPlot} - ${item.jumlahVgm}")
             binding.tvNamaPlot.text = item.namaPlot
-            binding.tvLuasArea.text = item.luasArea.toFormatted()
-            binding.tvJumlahBibit.text = item.jumlahBibit.toFormatted()
-            binding.tvJumlahVgm.text = item.jumlahVgm.toFormatted()
+            binding.tvLuasArea.text = "${item.luasArea.toFormatted()} ha"
+            binding.tvVarietas.text = item.varietas
+            binding.tvJumlahBibit.text = "${item.jumlahBibit.toFormatted()} Unit"
+            binding.tvJumlahVgm.text = "${item.jumlahVgm.toFormatted()} Sampel"
 
             binding.root.setOnLongClickListener {
                 onLongClick?.invoke(item)

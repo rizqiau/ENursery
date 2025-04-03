@@ -1,7 +1,5 @@
 package com.example.enursery.core.utils.mapper
 
-import android.os.Build
-import androidx.annotation.RequiresApi
 import com.example.enursery.core.data.source.local.entity.BatchEntity
 import com.example.enursery.core.data.source.remote.response.BatchResponse
 import com.example.enursery.core.domain.model.Batch
@@ -10,10 +8,8 @@ import java.time.format.DateTimeFormatter
 import java.util.Locale
 
 object BatchMapper {
-    @RequiresApi(Build.VERSION_CODES.O)
     private val formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy", Locale("id", "ID"))
 
-    @RequiresApi(Build.VERSION_CODES.O)
     fun mapResponsesToEntities(input: List<BatchResponse>): List<BatchEntity> {
         return input.map {
             BatchEntity(
@@ -25,7 +21,15 @@ object BatchMapper {
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
+    fun mapDomainToEntities(batch: Batch): BatchEntity{
+        return BatchEntity(
+            idBatch = batch.idBatch,
+            namaBatch = batch.namaBatch,
+            tanggalMulai = batch.tanggalMulai,
+            tanggalSelesai = batch.tanggalSelesai
+        )
+    }
+
     fun mapEntitiesToDomain(input: List<BatchEntity>): List<Batch> {
         return input.map {
             Batch(

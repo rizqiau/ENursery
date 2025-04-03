@@ -13,6 +13,7 @@ import com.example.enursery.core.domain.usecase.UserUseCase
 import com.example.enursery.core.domain.usecase.VgmHistoryUseCase
 import com.example.enursery.core.domain.usecase.VgmUseCase
 import com.example.enursery.presentation.auth.AuthViewModel
+import com.example.enursery.presentation.batch.BatchViewModel
 import com.example.enursery.presentation.home.HomeViewModel
 import com.example.enursery.presentation.plot.PlotViewModel
 import com.example.enursery.presentation.profile.ProfileViewModel
@@ -51,6 +52,10 @@ class ViewModelFactory private constructor(
             }
             modelClass.isAssignableFrom(PlotViewModel::class.java) -> {
                 PlotViewModel(plotUseCase) as T
+            }
+
+            modelClass.isAssignableFrom(BatchViewModel::class.java) -> {
+                BatchViewModel(batchUseCase) as T
             }
             else -> throw IllegalArgumentException("Unknown ViewModel class: ${modelClass.name}")
         }

@@ -1,0 +1,14 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/action_map_style"
+        android:title="Pilih Style Peta"
+        android:icon="@drawable/ic_map_style"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/action_tilt_mode"
+        android:title="Tilt Mode"
+        android:icon="@drawable/ic_3d_rotation"
+        app:showAsAction="always" />
+</menu>

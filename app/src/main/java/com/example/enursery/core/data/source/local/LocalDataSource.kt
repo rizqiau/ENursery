@@ -122,4 +122,8 @@ class LocalDataSource private constructor(
     // ----------------------------------------
 
     fun getAllBatch(): LiveData<List<BatchEntity>> = batchDao.getAllBatch()
+
+    suspend fun insertSingleBatch(batch: BatchEntity) = batchDao.insertSingleBatch(batch)
+
+    suspend fun updateBatch(batch: BatchEntity) = batchDao.updateBatch(batch)
 }

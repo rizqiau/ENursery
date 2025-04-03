@@ -40,11 +40,8 @@ class AddEditVgmFragment : Fragment() {
     private val requestCameraPermissionLauncher = registerForActivityResult(
         ActivityResultContracts.RequestPermission()
     ) { isGranted ->
-        if (isGranted) {
-            openCamera()
-        } else {
-            Toast.makeText(requireContext(), "Izin kamera ditolak", Toast.LENGTH_SHORT).show()
-        }
+        if (isGranted) openCamera()
+        else Toast.makeText(requireContext(), "Izin kamera ditolak", Toast.LENGTH_SHORT).show()
     }
 
     private val cameraLauncher = registerForActivityResult(
@@ -67,8 +64,7 @@ class AddEditVgmFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel = ViewModelProvider(
-            this,
-            ViewModelFactory.getInstance(requireContext())
+            this, ViewModelFactory.getInstance(requireContext())
         )[VgmViewModel::class.java]
 
         scannedIdBibit = arguments?.getString("idBibit")
@@ -83,18 +79,24 @@ class AddEditVgmFragment : Fragment() {
         binding.btnUploadFoto.setOnClickListener {
             if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.CAMERA)
                 == PackageManager.PERMISSION_GRANTED
-            ) {
-                openCamera()
-            } else {
-                requestCameraPermissionLauncher.launch(Manifest.permission.CAMERA)
-            }
+            ) openCamera()
+            else requestCameraPermissionLauncher.launch(Manifest.permission.CAMERA)
         }
-
 
         binding.btnSubmit.setOnClickListener { handleSubmit() }
 
-        observeSpinnerData()
+        setupStatusDropdown()
+        observeDropdownData()
         observeLoadingState()
+    }
+
+    private fun setupStatusDropdown() {
+        val adapter = ArrayAdapter(
+            requireContext(),
+            android.R.layout.simple_dropdown_item_1line,
+            VgmStatus.values().map { it.label }
+        )
+        binding.etStatus.setAdapter(adapter)
     }
 
     private fun openCamera() {
@@ -155,10 +157,17 @@ class AddEditVgmFragment : Fragment() {
         val jumlahDaun = binding.etJumlahDaun.text.toString().toIntOrNull() ?: 0
         val foto = selectedFotoUri?.toString() ?: ""
         val idBibit = scannedIdBibit ?: return
-        val status = "Aktif"
 
-        val selectedPlot = viewModel.currentPlot.getOrNull(binding.spinnerPlot.selectedItemPosition)
-        val selectedBatch = viewModel.currentBatch.getOrNull(binding.spinnerBatch.selectedItemPosition)
+        val selectedStatusIndex = VgmStatus.values().indexOfFirst { it.label == binding.etStatus.text.toString() }
+        val statusEnum = if (selectedStatusIndex >= 0) VgmStatus.values()[selectedStatusIndex] else VgmStatus.AKTIF
+        val status = statusEnum.name
+
+        val selectedPlot = viewModel.currentPlot.getOrNull(viewModel.currentPlot.indexOfFirst {
+            it.namaPlot == binding.etPlot.text.toString()
+        })
+        val selectedBatch = viewModel.currentBatch.getOrNull(viewModel.currentBatch.indexOfFirst {
+            it.namaBatch == binding.etBatch.text.toString()
+        })
         val idUser = viewModel.getCurrentUserId()
 
         if (selectedPlot == null || selectedBatch == null || idUser == null || idBibit.isBlank()) {
@@ -186,15 +195,15 @@ class AddEditVgmFragment : Fragment() {
         }
     }
 
-    private fun observeSpinnerData() {
+    private fun observeDropdownData() {
         viewModel.batchList.observe(viewLifecycleOwner) {
             viewModel.currentBatch = it
             val adapter = ArrayAdapter(
                 requireContext(),
-                android.R.layout.simple_spinner_dropdown_item,
+                android.R.layout.simple_dropdown_item_1line,
                 it.map { batch -> batch.namaBatch }
             )
-            binding.spinnerBatch.adapter = adapter
+            binding.etBatch.setAdapter(adapter)
         }
 
         viewModel.plotList.observe(viewLifecycleOwner) { resource ->
@@ -204,10 +213,10 @@ class AddEditVgmFragment : Fragment() {
                     viewModel.currentPlot = list
                     val adapter = ArrayAdapter(
                         requireContext(),
-                        android.R.layout.simple_spinner_dropdown_item,
+                        android.R.layout.simple_dropdown_item_1line,
                         list.map { plot -> plot.namaPlot }
                     )
-                    binding.spinnerPlot.adapter = adapter
+                    binding.etPlot.setAdapter(adapter)
                 }
                 is Resource.Error -> {
                     Toast.makeText(requireContext(), "Gagal memuat plot", Toast.LENGTH_SHORT).show()
@@ -229,5 +238,11 @@ class AddEditVgmFragment : Fragment() {
         super.onDestroyView()
         _binding = null
     }
-}
 
+    enum class VgmStatus(val label: String) {
+        AKTIF("Aktif"),
+        MATI("Mati");
+
+        override fun toString(): String = label
+    }
+}

@@ -3,6 +3,7 @@ package com.example.enursery.presentation.auth
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.text.Editable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -43,8 +44,8 @@ class RegisterFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        observeRoleSpinner()
-        observeWilayahSpinner()
+        observeRoleDropdown()
+        observeWilayahDropdown()
         setupUploadImage()
         observeRegisterResult()
 
@@ -57,15 +58,23 @@ class RegisterFragment : Fragment() {
             val name = binding.etName.text.toString().trim()
             val email = binding.etEmail.text.toString().trim()
             val password = binding.etPassword.text.toString().trim()
-            val roleIndex = binding.spinnerRole.selectedItemPosition
-            val roleId = viewModel.currentRoles[roleIndex].id
-            val wilayahIndex = binding.spinnerWilayah.selectedItemPosition
-            val wilayahId = viewModel.currentWilayah[wilayahIndex].id
+            val roleName = binding.etRole.text.toString()
+            val wilayahName = binding.etWilayahKerja.text.toString()
+
+            val roleId = viewModel.currentRoles.find { it.name == roleName }?.id
+            val wilayahId = viewModel.currentWilayah.find { it.name == wilayahName }?.id
+
+            if (roleId == null || wilayahId == null) {
+                Toast.makeText(requireContext(), "Data role atau wilayah tidak valid", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
             val savedImagePath = selectedImageUri?.let { saveImageToInternalStorage(it) }
             if (savedImagePath == null) {
                 Toast.makeText(requireContext(), "Gagal menyimpan gambar", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
+
             viewModel.onRegisterClicked(
                 name = name,
                 email = email,
@@ -77,19 +86,27 @@ class RegisterFragment : Fragment() {
         }
     }
 
-    private fun observeRoleSpinner() {
+    private fun observeRoleDropdown() {
         viewModel.roleList.observe(viewLifecycleOwner) {
             viewModel.currentRoles = it
-            val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_dropdown_item, it.map { r -> r.name })
-            binding.spinnerRole.adapter = adapter
+            val adapter = ArrayAdapter(
+                requireContext(),
+                android.R.layout.simple_dropdown_item_1line,
+                it.map { role -> role.name }
+            )
+            binding.etRole.setAdapter(adapter)
         }
     }
 
-    private fun observeWilayahSpinner() {
+    private fun observeWilayahDropdown() {
         viewModel.wilayahList.observe(viewLifecycleOwner) {
             viewModel.currentWilayah = it
-            val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_dropdown_item, it.map { w -> w.name })
-            binding.spinnerWilayah.adapter = adapter
+            val adapter = ArrayAdapter(
+                requireContext(),
+                android.R.layout.simple_dropdown_item_1line,
+                it.map { wilayah -> wilayah.name }
+            )
+            binding.etWilayahKerja.setAdapter(adapter)
         }
     }
 
@@ -128,10 +145,14 @@ class RegisterFragment : Fragment() {
         }
     }
 
+    fun Editable?.isNotNullOrBlank(): Boolean = this?.toString()?.isNotBlank() == true
+
     private fun isInputValid(): Boolean {
-        return binding.etName.text.isNotBlank() &&
-                binding.etEmail.text.isNotBlank() &&
-                binding.etPassword.text.isNotBlank() &&
+        return binding.etName.text.isNotNullOrBlank() &&
+                binding.etEmail.text.isNotNullOrBlank() &&
+                binding.etPassword.text.isNotNullOrBlank() &&
+                binding.etRole.text?.isNotBlank() == true &&
+                binding.etWilayahKerja.text?.isNotBlank() == true &&
                 selectedImageUri != null
     }
 

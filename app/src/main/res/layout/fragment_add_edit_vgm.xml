@@ -1,13 +1,19 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp">
+    android:padding="16dp"
+    android:background="@android:color/white">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        android:layout_gravity="center"
+        android:paddingBottom="24dp">
 
+        <!-- Loading -->
         <ProgressBar
             android:id="@+id/progressBar"
             android:layout_width="64dp"
@@ -15,75 +21,132 @@
             android:layout_gravity="center"
             android:visibility="gone" />
 
-        <!-- TextView untuk hasil scan barcode (idBibit) -->
+        <!-- ID Bibit -->
         <TextView
             android:id="@+id/tvIdBibit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="A001"
-            android:padding="8dp"
-            android:textColor="@android:color/black"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:textSize="16sp"
+            android:paddingVertical="8dp"
+            android:textColor="@color/black" />
 
-        <!-- Spinner untuk pilih Plot -->
-        <Spinner
-            android:id="@+id/spinnerPlot"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-        <!-- Spinner untuk pilih Batch -->
-        <Spinner
-            android:id="@+id/spinnerBatch"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-        <!-- Input Tinggi Tanaman -->
-        <EditText
-            android:id="@+id/etTinggi"
+        <!-- Dropdown Plot -->
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:hint="Plot"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
+
+            <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                android:id="@+id/etPlot"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="none" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Dropdown Batch -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:hint="Batch"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
+
+            <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                android:id="@+id/etBatch"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="none" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Dropdown Status -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:hint="Status"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
+
+            <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                android:id="@+id/etStatus"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="none" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Tinggi Tanaman -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
             android:hint="Tinggi Tanaman (cm)"
-            android:inputType="numberDecimal" />
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
-        <!-- Input Diameter Batang -->
-        <EditText
-            android:id="@+id/etDiameter"
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etTinggi"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="numberDecimal" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Diameter Batang -->
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
             android:hint="Diameter Batang (cm)"
-            android:inputType="numberDecimal" />
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
-        <!-- Input Jumlah Daun -->
-        <EditText
-            android:id="@+id/etJumlahDaun"
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etDiameter"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="numberDecimal" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Jumlah Daun -->
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
             android:hint="Jumlah Daun"
-            android:inputType="number" />
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etJumlahDaun"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number" />
+        </com.google.android.material.textfield.TextInputLayout>
 
         <!-- Upload Foto -->
-        <ImageView
+        <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/imgBibit"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_marginTop="12dp"
-            android:background="@color/black"
-            android:scaleType="centerCrop" />
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:layout_marginTop="16dp"
+            android:scaleType="centerCrop"
+            android:backgroundTint="@color/black"
+            app:shapeAppearanceOverlay="@style/RoundedSquare" />
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/btnUploadFoto"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Upload Foto" />
+            android:text="Upload Foto"
+            android:layout_marginTop="12dp"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton" />
 
-        <!-- Tombol Submit -->
-        <Button
+        <!-- Submit -->
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/btnSubmit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Simpan Data VGM"
-            android:layout_marginTop="16dp" />
-
+            android:layout_marginTop="24dp"
+            style="@style/Widget.MaterialComponents.Button" />
     </LinearLayout>
-
 </ScrollView>

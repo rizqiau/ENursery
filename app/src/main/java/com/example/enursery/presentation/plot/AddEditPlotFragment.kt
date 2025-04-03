@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
@@ -19,6 +20,8 @@ import com.example.enursery.core.domain.model.Plot
 import com.example.enursery.core.ui.ViewModelFactory
 import com.example.enursery.databinding.FragmentAddEditPlotBinding
 import com.example.enursery.presentation.home.HomeViewModel
+import com.example.enursery.presentation.utils.PlotNameFormatter
+import com.example.enursery.presentation.utils.VarietasList
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -68,6 +71,7 @@ class AddEditPlotFragment : Fragment() {
         setupDatePickers()
         setupMap()
         setupMapPickerResult()
+        setupVarietasDropdown()
 
         if (mode == "EDIT" && plotId != null) {
             observePlot()
@@ -105,7 +109,7 @@ class AddEditPlotFragment : Fragment() {
         etLuasArea.setText(plot.luasArea.toString())
         etTanggalTanam.setText(plot.tanggalTanam.format(formatter))
         etTanggalTransplantasi.setText(plot.tanggalTransplantasi.format(formatter))
-        etVarietas.setText(plot.varietas)
+        binding.etVarietas.setText(plot.varietas, false)
         etLatitude.setText(plot.latitude.toString())
         etLongitude.setText(plot.longitude.toString())
         etJumlahBibit.setText(plot.jumlahBibit.toString())
@@ -125,24 +129,33 @@ class AddEditPlotFragment : Fragment() {
         findNavController().navigateUp()
     }
 
+    private fun setupVarietasDropdown() {
+        val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_dropdown_item_1line, VarietasList.data)
+        binding.etVarietas.setAdapter(adapter)
+    }
+
     private fun buildPlotFromForm(idOverride: String? = null): Plot? {
-        val nama = binding.etNamaPlot.text.toString().trim()
+        val namaInput = binding.etNamaPlot.text.toString().trim()
         val luas = binding.etLuasArea.text.toString().toDoubleOrNull()
         val tanam = binding.etTanggalTanam.text.toString()
         val trans = binding.etTanggalTransplantasi.text.toString()
         val varietas = binding.etVarietas.text.toString().trim()
+        if (varietas !in VarietasList.data) {
+            Toast.makeText(requireContext(), "Pilih varietas dari daftar", Toast.LENGTH_SHORT).show()
+            return null
+        }
         val bibit = binding.etJumlahBibit.text.toString().toIntOrNull()
         val lat = binding.etLatitude.text.toString().toDoubleOrNull()
         val lng = binding.etLongitude.text.toString().toDoubleOrNull()
 
-        if (listOf(nama, tanam, trans, varietas).any { it.isBlank() } ||
+        if (listOf(namaInput, tanam, trans, varietas).any { it.isBlank() } ||
             listOf(luas, bibit, lat, lng).any { it == null }) {
             Toast.makeText(requireContext(), "Lengkapi semua data", Toast.LENGTH_SHORT).show()
             return null
         }
 
-        val finalNama = if (nama.startsWith("Plot", true)) nama else "Plot $nama"
-        val id = idOverride ?: finalNama.replace(" ", "_")
+        val finalNama = PlotNameFormatter.formatName(namaInput)
+        val id = idOverride ?: PlotNameFormatter.formatId(namaInput)
 
         return Plot(
             idPlot = id,

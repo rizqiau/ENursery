@@ -1,7 +1,5 @@
 package com.example.enursery.core.utils.mapper
 
-import android.os.Build
-import androidx.annotation.RequiresApi
 import com.example.enursery.core.data.source.local.entity.PlotEntity
 import com.example.enursery.core.data.source.local.entity.PlotWithVgmCount
 import com.example.enursery.core.data.source.remote.response.PlotResponse
@@ -12,10 +10,8 @@ import java.time.format.DateTimeFormatter
 import java.util.Locale
 
 object PlotMapper {
-    @RequiresApi(Build.VERSION_CODES.O)
     private val formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy", Locale("id", "ID"))
 
-    @RequiresApi(Build.VERSION_CODES.O)
     fun mapPlotResponseToEntities(input: List<PlotResponse>): List<PlotEntity> {
         return input.map {
             PlotEntity(

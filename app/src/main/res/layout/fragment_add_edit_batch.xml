@@ -1,0 +1,33 @@
+<LinearLayout android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <EditText
+        android:id="@+id/etNamaBatch"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Nama Batch" />
+
+    <EditText
+        android:id="@+id/etTanggalMulai"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Tanggal Mulai"
+        android:focusable="false" />
+
+    <EditText
+        android:id="@+id/etTanggalSelesai"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Tanggal Selesai"
+        android:focusable="false" />
+
+    <Button
+        android:id="@+id/btnSimpanBatch"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Simpan"
+        android:layout_marginTop="16dp"/>
+</LinearLayout>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="16dp"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/tvPlotTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Nama Plot"
+        android:textStyle="bold"
+        android:textSize="18sp"
+        android:textColor="@color/black" />
+
+    <TextView
+        android:id="@+id/tvPlotInfo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Luas: 3.2 ha\nVGM: 20 bibit"
+        android:textColor="@color/black"
+        android:layout_marginTop="8dp" />
+
+    <Button
+        android:id="@+id/btnNavigate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Navigasi ke Lokasi"
+        android:layout_marginTop="12dp"/>
+</LinearLayout>

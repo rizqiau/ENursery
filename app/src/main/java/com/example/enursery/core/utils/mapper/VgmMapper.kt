@@ -112,7 +112,7 @@ object VgmMapper {
             idPlot = history.idPlot,
             idUser = history.idUser,
             idBatch = history.idBatch,
-            status = "Aktif", // default, bisa dikembangkan sesuai status real
+            status = history.status, // default, bisa dikembangkan sesuai status real
             latestTinggiTanaman = history.tinggi,
             latestDiameterBatang = history.diameter,
             latestJumlahDaun = history.jumlahDaun,

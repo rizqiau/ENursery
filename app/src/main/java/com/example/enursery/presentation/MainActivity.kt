@@ -44,6 +44,13 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        supportActionBar?.apply {
+            setDisplayShowHomeEnabled(true)
+            setLogo(R.drawable.logooo)
+            setDisplayUseLogoEnabled(true)
+            setDisplayShowTitleEnabled(false)
+        }
+
         window.statusBarColor = ContextCompat.getColor(this, R.color.main)
 
         Log.d("MainActivity", "onCreate dijalankan")

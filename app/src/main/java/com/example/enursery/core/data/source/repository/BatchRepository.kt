@@ -17,6 +17,16 @@ class BatchRepository(
         }
     }
 
+    override suspend fun insertBatch(batch: Batch) {
+        val entity = BatchMapper.mapDomainToEntities(batch)
+        localDataSource.insertSingleBatch(entity)
+    }
+
+    override suspend fun updateBatch(batch: Batch) {
+        val entity = BatchMapper.mapDomainToEntities(batch)
+        localDataSource.updateBatch(entity)
+    }
+
     companion object {
         @Volatile
         private var instance: BatchRepository? = null
