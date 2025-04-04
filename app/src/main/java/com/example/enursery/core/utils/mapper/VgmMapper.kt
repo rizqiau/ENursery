@@ -7,9 +7,6 @@ import com.example.enursery.core.data.source.local.entity.VgmWithUser
 import com.example.enursery.core.data.source.remote.response.VgmResponse
 import com.example.enursery.core.domain.model.Vgm
 import com.example.enursery.core.domain.model.VgmWithUserModel
-import com.example.enursery.core.utils.DateUtils
-import java.time.LocalDate
-import java.time.ZoneId
 
 object VgmMapper {
 
@@ -18,20 +15,19 @@ object VgmMapper {
     // ------------------------------
     fun mapVgmResponseToEntities(input: List<VgmResponse>): List<VgmEntity> {
         return input.map {
-            val tanggal = DateUtils.parseLocalDate(it.latestTanggalInput) ?: LocalDate.now()
-            val timestamp = tanggal.atStartOfDay(ZoneId.systemDefault()).toInstant().toEpochMilli()
             VgmEntity(
                 idBibit = it.idBibit,
                 idPlot = it.idPlot,
+                idBaris = it.idBaris,
                 idUser = it.idUser,
                 idBatch = it.idBatch,
                 status = it.status,
                 latestTinggiTanaman = it.latestTinggiTanaman,
                 latestDiameterBatang = it.latestDiameterBatang,
                 latestJumlahDaun = it.latestJumlahDaun,
-                latestTanggalInput = tanggal, // fallback jika parsing gagal
+                latestTanggalInput = it.latestTanggalInput, // fallback jika parsing gagal
                 latestFoto = it.latestFoto,
-                latestTimestamp = timestamp
+                latestTimestamp = it.latestTimestamp
             )
         }
     }
@@ -43,6 +39,7 @@ object VgmMapper {
         return Vgm(
             idBibit = entity.idBibit,
             idPlot = entity.idPlot,
+            idBaris = entity.idBaris,
             idUser = entity.idUser,
             idBatch = entity.idBatch,
             status = entity.status,
@@ -65,6 +62,7 @@ object VgmMapper {
         return VgmEntity(
             idBibit = domain.idBibit,
             idPlot = domain.idPlot,
+            idBaris = domain.idBaris,
             idUser = domain.idUser,
             idBatch = domain.idBatch,
             status = domain.status,
@@ -75,6 +73,10 @@ object VgmMapper {
             latestFoto = domain.latestFoto,
             latestTimestamp = domain.latestTimestamp
         )
+    }
+
+    fun mapDomainToEntities(domains: List<Vgm>): List<VgmEntity> {
+        return domains.map { mapDomainToEntity(it) }
     }
 
     // ------------------------------
@@ -94,7 +96,7 @@ object VgmMapper {
                 latestJumlahDaun = it.vgm.latestJumlahDaun,
                 latestTanggalInput = it.vgm.latestTanggalInput,
                 latestFoto = it.vgm.latestFoto,
-                namaUser = it.user.namaUser,
+                namaUser = it.user?.namaUser ?: "_",
                 latestTimestamp = it.vgm.latestTimestamp
             )
         }
@@ -103,13 +105,10 @@ object VgmMapper {
     // ------------------------------
     // Convert 1 VgmHistoryEntity → VgmEntity (snapshot update)
     // ------------------------------
-    fun mapHistoryToVgmEntity(history: VgmHistoryEntity): VgmEntity {
-        val timestamp = history.tanggalInput.atStartOfDay(ZoneId.systemDefault())
-            .toInstant().toEpochMilli()
-
-        return VgmEntity(
+    fun mapHistoryToVgmEntity(history: VgmHistoryEntity): VgmEntity {return VgmEntity(
             idBibit = history.idBibit,
             idPlot = history.idPlot,
+            idBaris = history.idBaris,
             idUser = history.idUser,
             idBatch = history.idBatch,
             status = history.status, // default, bisa dikembangkan sesuai status real

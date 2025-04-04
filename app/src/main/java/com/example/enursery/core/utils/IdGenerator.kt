@@ -18,4 +18,11 @@ object IdGenerator {
     fun generateBarisId(idPlot: String, namaBaris: String): String {
         return "${idPlot}-$namaBaris"
     }
+
+    fun generateIdBibitPerBaris(idPlot: String, namaBaris: String, jumlahTargetVgm: Int): List<String> {
+        return (1..jumlahTargetVgm).map { nomor ->
+            val nomorFormatted = nomor.toString().padStart(2, '0')
+            "$idPlot-$namaBaris-$nomorFormatted"
+        }
+    }
 }

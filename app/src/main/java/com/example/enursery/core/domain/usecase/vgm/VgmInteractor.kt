@@ -20,4 +20,12 @@ class VgmInteractor(private val repository: IVgmRepository): VgmUseCase {
         return repository.getSortedVgm(sortOption)
     }
 
+    override suspend fun insertVgmList(vgmList: List<Vgm>) {
+        repository.insertVgmList(vgmList)
+    }
+
+    override suspend fun isBibitExist(idBibit: String): Boolean {
+        return repository.isBibitExist(idBibit)
+    }
+
 }

@@ -10,5 +10,5 @@ data class VgmWithUser(
         parentColumn = "idUser",
         entityColumn = "idUser"
     )
-    val user: UserEntity
+    val user: UserEntity?
 )

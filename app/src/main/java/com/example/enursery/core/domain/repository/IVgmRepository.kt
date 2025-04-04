@@ -10,4 +10,6 @@ interface IVgmRepository {
     fun getAllVgm(): LiveData<Resource<List<Vgm>>>
     fun getAllVgmWithUser(): LiveData<List<VgmWithUserModel>>
     fun getSortedVgm(sortOption: SortOption): LiveData<List<VgmWithUserModel>>
+    suspend fun insertVgmList(vgmList: List<Vgm>)
+    suspend fun isBibitExist(idBibit: String): Boolean
 }

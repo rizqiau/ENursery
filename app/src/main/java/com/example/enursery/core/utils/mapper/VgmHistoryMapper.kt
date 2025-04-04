@@ -14,6 +14,7 @@ object VgmHistoryMapper {
             id = entity.id,
             idBibit = entity.idBibit,
             idPlot = entity.idPlot,
+            idBaris = entity.idBaris,
             idUser = entity.idUser,
             idBatch = entity.idBatch,
             status = entity.status,
@@ -36,6 +37,7 @@ object VgmHistoryMapper {
             id = domain.id,
             idBibit = domain.idBibit,
             idPlot = domain.idPlot,
+            idBaris = domain.idBaris,
             idUser = domain.idUser,
             idBatch = domain.idBatch,
             status = domain.status,
@@ -57,6 +59,7 @@ object VgmHistoryMapper {
         return VgmEntity(
             idBibit = history.idBibit,
             idPlot = history.idPlot,
+            idBaris = history.idBaris,
             idUser = history.idUser,
             status = history.status,
             idBatch = history.idBatch,

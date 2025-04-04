@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginVertical="8dp"
+    android:layout_marginHorizontal="4dp"
+    android:elevation="4dp"
+    android:padding="12dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <!-- Nama Baris -->
+        <TextView
+            android:id="@+id/tvNamaBaris"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Baris 1"
+            android:textStyle="bold"
+            android:textSize="16sp"
+            android:textColor="@color/black" />
+
+        <!-- ID Bibit -->
+        <TextView
+            android:id="@+id/tvListIdBibit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="PLOT-A-1-01, PLOT-A-1-02"
+            android:textSize="14sp"
+            android:textColor="@color/black"
+            android:layout_marginTop="4dp" />
+
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

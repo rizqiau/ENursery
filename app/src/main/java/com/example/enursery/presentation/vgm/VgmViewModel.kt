@@ -20,6 +20,7 @@ import com.example.enursery.core.domain.usecase.user.SessionUseCase
 import com.example.enursery.core.domain.usecase.vgm.InsertVgmWithUpdateUseCase
 import com.example.enursery.core.domain.usecase.vgm.VgmHistoryUseCase
 import com.example.enursery.core.domain.usecase.vgm.VgmUseCase
+import com.example.enursery.core.utils.DateFormatter
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -94,6 +95,7 @@ class VgmViewModel(
     fun insertVgmHistory(
         idBibit: String,
         idPlot: String,
+        idBaris: String,
         idUser: String,
         idBatch: String,
         status: String,
@@ -110,13 +112,14 @@ class VgmViewModel(
                 id = UUID.randomUUID().toString(),
                 idBibit = idBibit,
                 idPlot = idPlot,
+                idBaris = idBaris,
                 idUser = idUser,
                 idBatch = idBatch,
                 status = status,
                 tinggi = tinggi,
                 diameter = diameter,
                 jumlahDaun = jumlahDaun,
-                tanggalInput = LocalDate.now(),
+                tanggalInput = System.currentTimeMillis(),
                 foto = fotoPath
             )
 
@@ -157,24 +160,37 @@ class VgmViewModel(
                     batchFiltered.filter { it.idPlot == currentPlotId }
                 } else batchFiltered
 
+                val todayEpoch = LocalDate.now().toEpochDay()
+
                 val dateFiltered = localDateFilter?.let { filter ->
                     when (filter.first) {
                         DateFilterType.HARI_INI -> {
-                            plotFiltered.filter { it.latestTanggalInput == LocalDate.now() }
+                            val today = LocalDate.now().toEpochDay()
+                            plotFiltered.filter { it.latestTanggalInput == today }
                         }
+
                         DateFilterType.TUJUH_HARI_TERAKHIR -> {
-                            val limit = LocalDate.now().minusDays(6)
+                            val limit = LocalDate.now().minusDays(6).toEpochDay()
                             plotFiltered.filter { it.latestTanggalInput >= limit }
                         }
+
                         DateFilterType.PILIH_RENTANG_TANGGAL -> {
                             localDateRange?.let { (start, end) ->
-                                plotFiltered.filter { it.latestTanggalInput in start..end }
+                                val startEpoch = start.toEpochDay()
+                                val endEpoch = end.toEpochDay()
+                                plotFiltered.filter {
+                                    it.latestTanggalInput in startEpoch..endEpoch
+                                }
                             } ?: plotFiltered
                         }
+
                         DateFilterType.PILIH_BULAN -> {
+                            val selectedDate = filter.second
                             plotFiltered.filter {
-                                it.latestTanggalInput.month == filter.second?.month &&
-                                        it.latestTanggalInput.year == filter.second?.year
+                                selectedDate != null &&
+                                        DateFormatter.toLocalDate(it.latestTanggalInput).let { date ->
+                                            date.month == selectedDate.month && date.year == selectedDate.year
+                                        }
                             }
                         }
                     }
@@ -184,12 +200,19 @@ class VgmViewModel(
                     it.idBibit.contains(currentQuery, ignoreCase = true)
                 }
 
-                val sorted = when (currentSort) {
-                    SortOption.TERBARU -> searched.sortedByDescending { it.latestTimestamp }
-                    SortOption.TERLAMA -> searched.sortedBy { it.latestTimestamp }
-                    SortOption.ID_AZ -> searched.sortedBy { it.idBibit }
-                    SortOption.ID_ZA -> searched.sortedByDescending { it.idBibit }
+                val filtered = dateFiltered.filter {
+                    it.latestTanggalInput > 0 && // hanya yang sudah ada input
+                            it.idBibit.contains(currentQuery, ignoreCase = true)
                 }
+
+                val sorted = when (currentSort) {
+                    SortOption.TERBARU -> filtered.sortedByDescending { it.latestTimestamp }
+                    SortOption.TERLAMA -> filtered.sortedBy { it.latestTimestamp }
+                    SortOption.ID_AZ -> filtered.sortedBy { it.idBibit }
+                    SortOption.ID_ZA -> filtered.sortedByDescending { it.idBibit }
+                }
+
+                value = sorted
 
                 value = sorted
             }
@@ -248,6 +271,10 @@ class VgmViewModel(
             _isLoading.value = false
             onResult(result)
         }
+    }
+
+    suspend fun isBibitExist(idBibit: String): Boolean {
+        return vgmUseCase.isBibitExist(idBibit)
     }
 }
 

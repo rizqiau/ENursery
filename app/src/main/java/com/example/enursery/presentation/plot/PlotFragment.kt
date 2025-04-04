@@ -11,6 +11,7 @@ import androidx.fragment.app.viewModels
 import com.example.enursery.R
 import com.example.enursery.core.domain.model.PlotWithVgmCountModel
 import com.example.enursery.core.ui.ViewModelFactory
+import com.example.enursery.core.utils.DateFormatter
 import com.example.enursery.databinding.FragmentPlotBinding
 import com.example.enursery.presentation.utils.CameraBehaviorManager
 import com.example.enursery.presentation.utils.GpsOverlayManager
@@ -19,9 +20,6 @@ import com.example.enursery.presentation.utils.PlotNavigator
 import com.example.enursery.presentation.utils.UserLocationTracker
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.SupportMapFragment
-import java.time.LocalDate
-import java.time.format.DateTimeFormatter
-import java.util.Locale
 
 class PlotFragment : Fragment() {
 
@@ -119,8 +117,12 @@ class PlotFragment : Fragment() {
 
         binding.plotName.text = plot.namaPlot
         binding.tvLuasArea.text = plot.luasArea.toString()
-        binding.tvTanggalTanam.text = plot.tanggalTanam.formatToIndo()
-        binding.tvTanggalTransplanting.text = plot.tanggalTransplantasi.formatToIndo()
+        binding.tvTanggalTanam.text = DateFormatter.formatTanggalIndonesia(
+            DateFormatter.toLocalDate(plot.tanggalTanam)
+        )
+        binding.tvTanggalTransplanting.text = DateFormatter.formatTanggalIndonesia(
+            DateFormatter.toLocalDate(plot.tanggalTransplantasi)
+        )
         binding.tvVarietas.text = plot.varietas
         binding.tvJumlahBibit.text = plot.jumlahBibit.toString()
         binding.tvJumlahVgm.text = plot.jumlahVgm.toString()
@@ -142,10 +144,5 @@ class PlotFragment : Fragment() {
         super.onDestroyView()
         userLocationTracker.stopTracking()
         _binding = null
-    }
-
-    private fun LocalDate.formatToIndo(): String {
-        val formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy", Locale("id", "ID"))
-        return this.format(formatter)
     }
 }

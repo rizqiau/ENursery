@@ -3,6 +3,7 @@ package com.example.enursery.core.domain.usecase.plot
 import androidx.lifecycle.LiveData
 import com.example.enursery.core.data.source.Resource
 import com.example.enursery.core.domain.model.Plot
+import com.example.enursery.core.domain.model.PlotWithBarisModel
 import com.example.enursery.core.domain.model.PlotWithVgmCountModel
 
 interface PlotUseCase {
@@ -11,4 +12,5 @@ interface PlotUseCase {
     suspend fun insertSinglePlot(plot: Plot)
     suspend fun updatePlot(plot: Plot)
     suspend fun deletePlotById(idPlot: String)
+    fun getPlotWithBaris(idPlot: String): LiveData<PlotWithBarisModel>
 }

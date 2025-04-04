@@ -1,13 +1,14 @@
-package com.example.enursery.core.data.source.remote.response
+package com.example.enursery.core.domain.model
 
-data class PlotResponse(
+data class PlotWithBarisModel(
     val idPlot: String,
     val namaPlot: String,
     val luasArea: Double,
+    val varietas: String,
     val tanggalTanam: Long,
     val tanggalTransplantasi: Long,
-    val varietas: String,
     val latitude: Double,
     val longitude: Double,
-    val jumlahBibit: Int
+    val jumlahBibit: Int,
+    val barisList: List<Baris>
 )

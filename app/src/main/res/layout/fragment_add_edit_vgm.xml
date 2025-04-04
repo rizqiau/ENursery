@@ -3,7 +3,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="16dp"
-    android:background="@android:color/white">
+    android:background="@android:color/white"
+    android:fillViewport="true"
+    android:fitsSystemWindows="true"
+    android:paddingTop="?attr/actionBarSize"
+    android:clipToPadding="false">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -11,7 +15,8 @@
         android:orientation="vertical"
         android:gravity="center_horizontal"
         android:layout_gravity="center"
-        android:paddingBottom="24dp">
+        android:paddingTop="64dp"
+        android:paddingBottom="16dp">
 
         <!-- Loading -->
         <ProgressBar
@@ -22,29 +27,51 @@
             android:visibility="gone" />
 
         <!-- ID Bibit -->
-        <TextView
-            android:id="@+id/tvIdBibit"
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="A001"
-            android:textStyle="bold"
-            android:textSize="16sp"
-            android:paddingVertical="8dp"
-            android:textColor="@color/black" />
+            android:layout_marginTop="16dp"
+            android:hint="ID Bibit"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
-        <!-- Dropdown Plot -->
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/tvIdBibit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:enabled="false"
+                android:textColor="@color/black" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Nama Plot -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:hint="Plot"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/tvNamaPlot"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:enabled="false"
+                android:textColor="@color/black" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Baris -->
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
-            android:hint="Plot"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
+            android:hint="Baris"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
-            <com.google.android.material.textfield.MaterialAutoCompleteTextView
-                android:id="@+id/etPlot"
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/tvNamaBaris"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="none" />
+                android:enabled="false"
+                android:textColor="@color/black" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <!-- Dropdown Batch -->

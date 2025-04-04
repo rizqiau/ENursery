@@ -7,6 +7,15 @@
     android:padding="16dp">
 
     <TextView
+        android:id="@+id/tvLihatBaris"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/lihat"
+        android:padding="12dp"
+        android:textSize="16sp"
+        android:background="?android:attr/selectableItemBackground" />
+
+    <TextView
         android:id="@+id/tvEditPlot"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

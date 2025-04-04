@@ -91,8 +91,8 @@ class JsonHelper(private val context: Context) {
                     idPlot = obj.getString("idPlot"),
                     namaPlot = obj.getString("namaPlot"),
                     luasArea = obj.getDouble("luasArea"),
-                    tanggalTanam = obj.getString("tanggalTanam"),
-                    tanggalTransplantasi = obj.getString("tanggalTransplantasi"),
+                    tanggalTanam = obj.getLong("tanggalTanam"),
+                    tanggalTransplantasi = obj.getLong("tanggalTransplantasi"),
                     varietas = obj.getString("varietas"),
                     latitude = obj.getDouble("latitude"),
                     longitude = obj.getDouble("longitude"),
@@ -119,15 +119,16 @@ class JsonHelper(private val context: Context) {
             val vgm = VgmResponse(
                 idBibit = obj.getString("idBibit"),
                 idPlot = obj.getString("idPlot"),
+                idBaris = obj.getString("idBaris"),
                 idUser = obj.getString("idPekerja"),
                 idBatch = obj.getString("idBatch"),
                 status = obj.getString("status"),           // masih String di sini
                 latestTinggiTanaman = obj.getDouble("latestTinggiTanaman"),
                 latestDiameterBatang = obj.getDouble("latestDiameterBatang"),
                 latestJumlahDaun = obj.getInt("latestJumlahDaun"),
-                latestTanggalInput = obj.getString("latestTanggalInput"), // masih String juga
+                latestTanggalInput = obj.getLong("latestTanggalInput"), // masih String juga
                 latestFoto = obj.getString("latestFoto"),
-                latestTimestamp = obj.getString("latestTimestamp")
+                latestTimestamp = obj.getLong("latestTimestamp")
             )
 
             list.add(vgm)

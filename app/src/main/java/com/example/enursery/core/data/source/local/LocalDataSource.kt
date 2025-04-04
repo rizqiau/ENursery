@@ -5,6 +5,7 @@ import androidx.lifecycle.map
 import com.example.enursery.core.data.source.local.entity.BarisEntity
 import com.example.enursery.core.data.source.local.entity.BatchEntity
 import com.example.enursery.core.data.source.local.entity.PlotEntity
+import com.example.enursery.core.data.source.local.entity.PlotWithBaris
 import com.example.enursery.core.data.source.local.entity.PlotWithVgmCount
 import com.example.enursery.core.data.source.local.entity.RoleEntity
 import com.example.enursery.core.data.source.local.entity.UserEntity
@@ -88,8 +89,11 @@ class LocalDataSource private constructor(
     }
     suspend fun updatePlot(plot: PlotEntity) = plotDao.updatePlot(plot)
     suspend fun deletePlotById(idPlot: String) = plotDao.deletePlotById(idPlot)
+    fun getPlotWithBaris(idPlot: String): LiveData<PlotWithBaris> =
+        plotDao.getPlotWithBaris(idPlot)
 
-//    VGM
+
+    //    VGM
     fun getAllVgm(): LiveData<List<VgmEntity>> = vgmDao.getAllVgm()
 
     fun insertVgmList(list: List<VgmEntity>) = vgmDao.insertVgm(list)
@@ -108,6 +112,8 @@ class LocalDataSource private constructor(
             }
         }
     }
+
+    suspend fun isBibitExist(idBibit: String): Boolean = vgmDao.isBibitExist(idBibit)
 
     //    VGM HISTORY
     fun getHistoryByBibit(idBibit: String): LiveData<List<VgmHistoryEntity>> =

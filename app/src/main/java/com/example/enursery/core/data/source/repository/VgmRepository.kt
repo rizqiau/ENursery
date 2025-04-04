@@ -1,5 +1,6 @@
 package com.example.enursery.core.data.source.repository
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.map
 import com.example.enursery.core.data.source.NetworkBoundResource
@@ -43,6 +44,12 @@ class VgmRepository(
         }.asLiveData()
     }
 
+    override suspend fun insertVgmList(vgmList: List<Vgm>) {
+        Log.d("REPO", "insertVgmList called with size: ${vgmList.size}")
+        val entityList = VgmMapper.mapDomainToEntities(vgmList)
+        localDataSource.insertVgmList(entityList)
+    }
+
     override fun getAllVgmWithUser(): LiveData<List<VgmWithUserModel>> {
         return localDataSource.getAllVgmWithUser().map {
             VgmMapper.mapVgmWithUserToModel(it)
@@ -53,6 +60,10 @@ class VgmRepository(
         return localDataSource.getSortedVgm(sortOption).map {
             VgmMapper.mapVgmWithUserToModel(it)
         }
+    }
+
+    override suspend fun isBibitExist(idBibit: String): Boolean {
+        return localDataSource.isBibitExist(idBibit)
     }
 
     companion object {

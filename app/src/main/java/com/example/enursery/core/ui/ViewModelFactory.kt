@@ -39,7 +39,7 @@ class ViewModelFactory private constructor(
                 AuthViewModel(userUseCase, loginUseCase, sessionUseCase) as T
             }
             modelClass.isAssignableFrom(HomeViewModel::class.java) -> {
-                HomeViewModel(plotUseCase, barisUseCase) as T
+                HomeViewModel(plotUseCase, barisUseCase, vgmUseCase) as T
             }
             modelClass.isAssignableFrom(VgmViewModel::class.java) -> {
                 VgmViewModel(vgmUseCase, batchUseCase, plotUseCase,

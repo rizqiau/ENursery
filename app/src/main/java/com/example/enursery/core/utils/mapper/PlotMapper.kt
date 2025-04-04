@@ -1,16 +1,14 @@
 package com.example.enursery.core.utils.mapper
 
 import com.example.enursery.core.data.source.local.entity.PlotEntity
+import com.example.enursery.core.data.source.local.entity.PlotWithBaris
 import com.example.enursery.core.data.source.local.entity.PlotWithVgmCount
 import com.example.enursery.core.data.source.remote.response.PlotResponse
 import com.example.enursery.core.domain.model.Plot
+import com.example.enursery.core.domain.model.PlotWithBarisModel
 import com.example.enursery.core.domain.model.PlotWithVgmCountModel
-import java.time.LocalDate
-import java.time.format.DateTimeFormatter
-import java.util.Locale
 
 object PlotMapper {
-    private val formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy", Locale("id", "ID"))
 
     fun mapPlotResponseToEntities(input: List<PlotResponse>): List<PlotEntity> {
         return input.map {
@@ -18,8 +16,8 @@ object PlotMapper {
                 idPlot = it.idPlot,
                 namaPlot = it.namaPlot,
                 luasArea = it.luasArea,
-                tanggalTanam = LocalDate.parse(it.tanggalTanam, formatter),
-                tanggalTransplantasi = LocalDate.parse(it.tanggalTransplantasi, formatter),
+                tanggalTanam = it.tanggalTanam,
+                tanggalTransplantasi = it.tanggalTransplantasi,
                 varietas = it.varietas,
                 latitude = it.latitude,
                 longitude = it.longitude,
@@ -71,6 +69,21 @@ object PlotMapper {
             latitude = plot.latitude,
             longitude = plot.longitude,
             jumlahBibit = plot.jumlahBibit
+        )
+    }
+
+    fun mapPlotWithBarisToDomain(input: PlotWithBaris): PlotWithBarisModel {
+        return PlotWithBarisModel(
+            idPlot = input.plot.idPlot,
+            namaPlot = input.plot.namaPlot,
+            luasArea = input.plot.luasArea,
+            varietas = input.plot.varietas,
+            tanggalTanam = input.plot.tanggalTanam,
+            tanggalTransplantasi = input.plot.tanggalTransplantasi,
+            latitude = input.plot.latitude,
+            longitude = input.plot.longitude,
+            jumlahBibit = input.plot.jumlahBibit,
+            barisList = input.barisList.map { BarisMapper.mapEntityToDomain(it) }
         )
     }
 }

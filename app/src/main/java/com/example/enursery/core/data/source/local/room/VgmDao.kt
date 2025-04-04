@@ -23,4 +23,7 @@ interface VgmDao {
     @Transaction
     @Query("SELECT * FROM vgm")
     fun getAllVgmWithUser(): LiveData<List<VgmWithUser>>
+
+    @Query("SELECT EXISTS(SELECT 1 FROM vgm WHERE idBibit = :idBibit LIMIT 1)")
+    suspend fun isBibitExist(idBibit: String): Boolean
 }

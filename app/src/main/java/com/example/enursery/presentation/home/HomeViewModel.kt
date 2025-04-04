@@ -8,14 +8,20 @@ import androidx.lifecycle.viewModelScope
 import com.example.enursery.core.data.source.Resource
 import com.example.enursery.core.domain.model.Baris
 import com.example.enursery.core.domain.model.Plot
+import com.example.enursery.core.domain.model.PlotWithBarisModel
 import com.example.enursery.core.domain.model.PlotWithVgmCountModel
+import com.example.enursery.core.domain.model.Vgm
 import com.example.enursery.core.domain.usecase.baris.BarisUseCase
 import com.example.enursery.core.domain.usecase.plot.PlotUseCase
+import com.example.enursery.core.domain.usecase.vgm.VgmUseCase
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class HomeViewModel(
     private val plotUseCase: PlotUseCase,
-    private val barisUseCase: BarisUseCase // tambahkan dependency baru
+    private val barisUseCase: BarisUseCase,
+    private val vgmUseCase: VgmUseCase
 ) : ViewModel() {
     private val _updateResult = MutableLiveData<Result<Unit>>()
     val updateResult: LiveData<Result<Unit>> = _updateResult
@@ -26,11 +32,14 @@ class HomeViewModel(
     fun getAllPlots(): LiveData<Resource<List<Plot>>> = plotUseCase.getAllPlots()
     fun getPlotWithVgm(): LiveData<Resource<List<PlotWithVgmCountModel>>> = plotUseCase.getPlotsWithVgmCount()
 
-    fun insertSinglePlot(plot: Plot, barisList: List<Baris>) {
+    fun insertSinglePlot(plot: Plot, barisList: List<Baris>, vgmList: List<Vgm>) {
         viewModelScope.launch {
             try {
-                plotUseCase.insertSinglePlot(plot)
-                barisUseCase.insertBaris(barisList)
+                withContext(Dispatchers.IO) {
+                    plotUseCase.insertSinglePlot(plot)
+                    barisUseCase.insertBaris(barisList)
+                    vgmUseCase.insertVgmList(vgmList)
+                }
                 _insertResult.value = Result.success(Unit)
             } catch (e: Exception) {
                 _insertResult.value = Result.failure(e)
@@ -61,4 +70,10 @@ class HomeViewModel(
             }
         }
     }
+
+    fun getPlotWithBaris(idPlot: String): LiveData<PlotWithBarisModel> {
+        return plotUseCase.getPlotWithBaris(idPlot)
+    }
+
+    suspend fun insertVgmList(vgmList: List<Vgm>) = vgmUseCase.insertVgmList(vgmList)
 }

@@ -10,6 +10,7 @@ import com.example.enursery.core.data.source.remote.RemoteDataSource
 import com.example.enursery.core.data.source.remote.network.ApiResponse
 import com.example.enursery.core.data.source.remote.response.PlotResponse
 import com.example.enursery.core.domain.model.Plot
+import com.example.enursery.core.domain.model.PlotWithBarisModel
 import com.example.enursery.core.domain.model.PlotWithVgmCountModel
 import com.example.enursery.core.domain.repository.IPlotRepository
 import com.example.enursery.core.utils.AppExecutors
@@ -74,6 +75,12 @@ class PlotRepository(
 
     override suspend fun deletePlotById(idPlot: String) {
         localDataSource.deletePlotById(idPlot)
+    }
+
+    override fun getPlotWithBaris(idPlot: String): LiveData<PlotWithBarisModel> {
+        return localDataSource.getPlotWithBaris(idPlot).map {
+            PlotMapper.mapPlotWithBarisToDomain(it)
+        }
     }
 
     companion object {

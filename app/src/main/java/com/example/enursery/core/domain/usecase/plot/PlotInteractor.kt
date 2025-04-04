@@ -3,6 +3,7 @@ package com.example.enursery.core.domain.usecase.plot
 import androidx.lifecycle.LiveData
 import com.example.enursery.core.data.source.Resource
 import com.example.enursery.core.domain.model.Plot
+import com.example.enursery.core.domain.model.PlotWithBarisModel
 import com.example.enursery.core.domain.model.PlotWithVgmCountModel
 import com.example.enursery.core.domain.repository.IPlotRepository
 
@@ -25,5 +26,9 @@ class PlotInteractor(private val repository: IPlotRepository) : PlotUseCase {
 
     override suspend fun deletePlotById(idPlot: String) {
         repository.deletePlotById(idPlot)
+    }
+
+    override fun getPlotWithBaris(idPlot: String): LiveData<PlotWithBarisModel> {
+        return repository.getPlotWithBaris(idPlot)
     }
 }

@@ -8,6 +8,7 @@ import androidx.room.Query
 import androidx.room.Transaction
 import androidx.room.Update
 import com.example.enursery.core.data.source.local.entity.PlotEntity
+import com.example.enursery.core.data.source.local.entity.PlotWithBaris
 import com.example.enursery.core.data.source.local.entity.PlotWithVgmCount
 
 @Dao
@@ -36,4 +37,8 @@ interface PlotDao {
 
     @Query("DELETE FROM plot WHERE idPlot = :id")
     suspend fun deletePlotById(id: String)
+
+    @Transaction
+    @Query("SELECT * FROM plot WHERE idPlot = :idPlot")
+    fun getPlotWithBaris(idPlot: String): LiveData<PlotWithBaris>
 }

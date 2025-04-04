@@ -8,6 +8,7 @@ import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,11 +19,13 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import com.example.enursery.core.data.source.Resource
 import com.example.enursery.core.ui.ViewModelFactory
+import com.example.enursery.core.utils.IdParser
 import com.example.enursery.databinding.FragmentAddEditVgmBinding
 import com.example.enursery.presentation.batch.AddBatchBottomSheet
+import kotlinx.coroutines.launch
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -75,7 +78,20 @@ class AddEditVgmFragment : Fragment() {
             return
         }
 
-        binding.tvIdBibit.text = scannedIdBibit
+        lifecycleScope.launch {
+            val isValid = viewModel.isBibitExist(scannedIdBibit!!)
+            if (!isValid) {
+                Toast.makeText(requireContext(), "ID Bibit tidak valid atau belum terdaftar", Toast.LENGTH_LONG).show()
+                findNavController().popBackStack()
+                return@launch
+            }
+
+            // kalau valid → lanjutkan isi data
+            binding.tvIdBibit.setText(scannedIdBibit)
+            Log.d("DEBUG_IDBIBIT", "Scanned ID: $scannedIdBibit")
+            binding.tvNamaPlot.setText(IdParser.extractIdPlot(scannedIdBibit!!))
+            binding.tvNamaBaris.setText(IdParser.extractNamaBaris(scannedIdBibit!!))
+        }
 
         binding.btnUploadFoto.setOnClickListener {
             if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.CAMERA)
@@ -163,22 +179,22 @@ class AddEditVgmFragment : Fragment() {
         val statusEnum = if (selectedStatusIndex >= 0) VgmStatus.values()[selectedStatusIndex] else VgmStatus.AKTIF
         val status = statusEnum.name
 
-        val selectedPlot = viewModel.currentPlot.getOrNull(viewModel.currentPlot.indexOfFirst {
-            it.namaPlot == binding.etPlot.text.toString()
-        })
+        val idPlot = IdParser.extractIdPlot(idBibit)
+        val idBaris = IdParser.extractIdBaris(idBibit)
         val selectedBatch = viewModel.currentBatch.getOrNull(viewModel.currentBatch.indexOfFirst {
             it.namaBatch == binding.etBatch.text.toString()
         })
         val idUser = viewModel.getCurrentUserId()
 
-        if (selectedPlot == null || selectedBatch == null || idUser == null || idBibit.isBlank()) {
-            Toast.makeText(requireContext(), "Pastikan semua data telah terisi", Toast.LENGTH_SHORT).show()
+        if (idPlot == null || idBaris == null || selectedBatch == null || idUser == null) {
+            Toast.makeText(requireContext(), "Data tidak lengkap atau format ID Bibit salah", Toast.LENGTH_SHORT).show()
             return
         }
 
         viewModel.insertVgmHistory(
             idBibit = idBibit,
-            idPlot = selectedPlot.idPlot,
+            idPlot = idPlot,
+            idBaris = idBaris,
             idUser = idUser,
             idBatch = selectedBatch.idBatch,
             status = status,
@@ -209,25 +225,6 @@ class AddEditVgmFragment : Fragment() {
                 if (position == listWithAdd.lastIndex) {
                     showAddBatchBottomSheet()
                 }
-            }
-        }
-
-        viewModel.plotList.observe(viewLifecycleOwner) { resource ->
-            when (resource) {
-                is Resource.Success -> {
-                    val list = resource.data ?: emptyList()
-                    viewModel.currentPlot = list
-                    val adapter = ArrayAdapter(
-                        requireContext(),
-                        android.R.layout.simple_dropdown_item_1line,
-                        list.map { plot -> plot.namaPlot }
-                    )
-                    binding.etPlot.setAdapter(adapter)
-                }
-                is Resource.Error -> {
-                    Toast.makeText(requireContext(), "Gagal memuat plot", Toast.LENGTH_SHORT).show()
-                }
-                else -> Unit
             }
         }
     }
