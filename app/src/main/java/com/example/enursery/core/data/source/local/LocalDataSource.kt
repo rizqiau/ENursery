@@ -1,8 +1,8 @@
 package com.example.enursery.core.data.source.local
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.map
+import com.example.enursery.core.data.source.local.entity.BarisEntity
 import com.example.enursery.core.data.source.local.entity.BatchEntity
 import com.example.enursery.core.data.source.local.entity.PlotEntity
 import com.example.enursery.core.data.source.local.entity.PlotWithVgmCount
@@ -12,6 +12,7 @@ import com.example.enursery.core.data.source.local.entity.VgmEntity
 import com.example.enursery.core.data.source.local.entity.VgmHistoryEntity
 import com.example.enursery.core.data.source.local.entity.VgmWithUser
 import com.example.enursery.core.data.source.local.entity.WilayahKerjaEntity
+import com.example.enursery.core.data.source.local.room.BarisDao
 import com.example.enursery.core.data.source.local.room.BatchDao
 import com.example.enursery.core.data.source.local.room.PlotDao
 import com.example.enursery.core.data.source.local.room.RoleDao
@@ -28,7 +29,8 @@ class LocalDataSource private constructor(
     private val plotDao: PlotDao,
     private val vgmDao: VgmDao,
     private val batchDao: BatchDao,
-    private val vgmHistoryDao: VgmHistoryDao
+    private val vgmHistoryDao: VgmHistoryDao,
+    private val barisDao: BarisDao
 ) {
 
     companion object {
@@ -40,7 +42,8 @@ class LocalDataSource private constructor(
                         plotDao: PlotDao,
                         vgmDao: VgmDao,
                         batchDao: BatchDao,
-                        vgmHistoryDao: VgmHistoryDao
+                        vgmHistoryDao: VgmHistoryDao,
+                        barisDao: BarisDao
                         ): LocalDataSource =
             instance ?: synchronized(this) {
                 instance ?: LocalDataSource(
@@ -50,7 +53,8 @@ class LocalDataSource private constructor(
                     plotDao,
                     vgmDao,
                     batchDao,
-                    vgmHistoryDao
+                    vgmHistoryDao,
+                    barisDao
                 )
             }
     }
@@ -80,7 +84,6 @@ class LocalDataSource private constructor(
     }
     suspend fun insertPlots(plots: List<PlotEntity>) = plotDao.insertPlots(plots)
     suspend fun insertSinglePlot(plot: PlotEntity) {
-        Log.d("LocalDataSource", "Insert plot: ${plot.idPlot}, ${plot.namaPlot}")
         plotDao.insertSinglePlot(plot)
     }
     suspend fun updatePlot(plot: PlotEntity) = plotDao.updatePlot(plot)
@@ -126,4 +129,20 @@ class LocalDataSource private constructor(
     suspend fun insertSingleBatch(batch: BatchEntity) = batchDao.insertSingleBatch(batch)
 
     suspend fun updateBatch(batch: BatchEntity) = batchDao.updateBatch(batch)
+
+    // ----------------------------------------
+// BARIS
+// ----------------------------------------
+
+    fun getBarisByPlot(idPlot: String): LiveData<List<BarisEntity>> =
+        barisDao.getBarisByPlot(idPlot)
+
+    suspend fun insertBarisList(baris: List<BarisEntity>) =
+        barisDao.insertBarisList(baris)
+
+    suspend fun updateBaris(baris: BarisEntity) =
+        barisDao.updateBaris(baris)
+
+    suspend fun deleteBarisByPlot(idPlot: String) =
+        barisDao.deleteBarisByPlot(idPlot)
 }

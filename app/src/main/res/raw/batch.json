@@ -1,17 +1,4 @@
 {
-  "batch": [
-    {
-      "idBatch": "B001",
-      "namaBatch": "Batch 1",
-      "tanggalMulai": "01-03-2025",
-      "tanggalSelesai": "31-03-2025"
-    },
-    {
-      "idBatch": "B002",
-      "namaBatch": "Batch 2",
-      "tanggalMulai": "01-04-2025",
-      "tanggalSelesai": "30-04-2025"
-    }
-  ]
+  "batch": []
 }
 

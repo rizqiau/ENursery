@@ -138,18 +138,26 @@ class JsonHelper(private val context: Context) {
 
     fun loadBatchData(): List<BatchResponse> {
         val list = ArrayList<BatchResponse>()
-        val responseObject = JSONObject(parsingFileToString(R.raw.batch).toString())
-        val listArray = responseObject.getJSONArray("batch")
-        for (i in 0 until listArray.length()) {
-            val obj = listArray.getJSONObject(i)
-            list.add(
-                BatchResponse(
+        val rawString = parsingFileToString(R.raw.batch)?.toString() ?: return list
+
+        try {
+            val responseObject = JSONObject(rawString)
+            if (!responseObject.has("batch")) return list
+
+            val listArray = responseObject.getJSONArray("batch")
+            for (i in 0 until listArray.length()) {
+                val obj = listArray.getJSONObject(i)
+
+                val batch = BatchResponse(
                     idBatch = obj.getString("idBatch"),
                     namaBatch = obj.getString("namaBatch"),
-                    tanggalMulai = obj.getString("tanggalMulai"),
-                    tanggalSelesai = obj.getString("tanggalSelesai")
+                    tanggalMulai = obj.getLong("tanggalMulai"),
+                    tanggalSelesai = obj.getLong("tanggalSelesai")
                 )
-            )
+                list.add(batch)
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
         }
         return list
     }

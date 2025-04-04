@@ -1,4 +1,4 @@
-package com.example.enursery.core.domain.usecase
+package com.example.enursery.core.domain.usecase.plot
 
 import androidx.lifecycle.LiveData
 import com.example.enursery.core.data.source.Resource

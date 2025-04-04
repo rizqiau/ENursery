@@ -1,4 +1,4 @@
-package com.example.enursery.core.domain.usecase
+package com.example.enursery.core.domain.usecase.user
 
 import com.example.enursery.core.domain.repository.ISessionRepository
 

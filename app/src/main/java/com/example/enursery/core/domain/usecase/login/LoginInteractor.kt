@@ -1,4 +1,4 @@
-package com.example.enursery.core.domain.usecase
+package com.example.enursery.core.domain.usecase.login
 
 import com.example.enursery.core.domain.model.User
 import com.example.enursery.core.domain.repository.IUserRepository

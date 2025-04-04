@@ -16,7 +16,7 @@ import com.example.enursery.R
 import com.example.enursery.core.data.source.Resource
 import com.example.enursery.core.di.Injection
 import com.example.enursery.core.domain.model.PlotWithVgmCountModel
-import com.example.enursery.core.domain.usecase.SessionUseCase
+import com.example.enursery.core.domain.usecase.user.SessionUseCase
 import com.example.enursery.core.ui.PlotWithVgmAdapter
 import com.example.enursery.core.ui.ViewModelFactory
 import com.example.enursery.core.utils.canAddPlot

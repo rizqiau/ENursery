@@ -11,13 +11,18 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
+import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.enursery.R
 import com.example.enursery.core.data.source.Resource
+import com.example.enursery.core.domain.model.Baris
 import com.example.enursery.core.domain.model.Plot
+import com.example.enursery.core.ui.BarisAdapter
 import com.example.enursery.core.ui.ViewModelFactory
+import com.example.enursery.core.utils.IdGenerator
 import com.example.enursery.databinding.FragmentAddEditPlotBinding
 import com.example.enursery.presentation.home.HomeViewModel
 import com.example.enursery.presentation.utils.PlotNameFormatter
@@ -54,6 +59,9 @@ class AddEditPlotFragment : Fragment() {
     private var currentMap: GoogleMap? = null
     private var currentMarker: Marker? = null
 
+    private lateinit var barisAdapter: BarisAdapter
+    private var barisList: MutableList<Baris> = mutableListOf()
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
@@ -72,6 +80,27 @@ class AddEditPlotFragment : Fragment() {
         setupMap()
         setupMapPickerResult()
         setupVarietasDropdown()
+
+        binding.etJumlahBaris.doAfterTextChanged { text ->
+            val jumlah = text.toString().toIntOrNull() ?: return@doAfterTextChanged
+            val namaInput = binding.etNamaPlot.text.toString().trim()
+            if (namaInput.isBlank()) {
+                Toast.makeText(requireContext(), "Isi Nama Plot terlebih dahulu", Toast.LENGTH_SHORT).show()
+                return@doAfterTextChanged
+            }
+
+            val idPlot = PlotNameFormatter.formatId(namaInput)
+            barisList = generateBarisList(idPlot, jumlah).toMutableList()
+
+            barisAdapter = BarisAdapter(barisList)
+            binding.rvBaris.apply {
+                layoutManager = LinearLayoutManager(requireContext())
+                adapter = barisAdapter
+                visibility = View.VISIBLE
+            }
+
+            binding.tvTitleInputBaris.visibility = View.VISIBLE
+        }
 
         if (mode == "EDIT" && plotId != null) {
             observePlot()
@@ -117,14 +146,20 @@ class AddEditPlotFragment : Fragment() {
 
     private fun onInsertPlotClicked() {
         val plot = buildPlotFromForm() ?: return
-        viewModel.insertSinglePlot(plot)
+        val updatedBarisList = barisAdapter.getUpdatedBarisList().map {
+            it.copy(idPlot = plot.idPlot, idBaris = IdGenerator.generateBarisId(plot.idPlot, it.namaBaris))
+        }
+        viewModel.insertSinglePlot(plot, updatedBarisList)
         Toast.makeText(requireContext(), "Plot berhasil ditambahkan", Toast.LENGTH_SHORT).show()
         findNavController().navigateUp()
     }
 
     private fun onUpdatePlotClicked() {
         val plot = buildPlotFromForm(currentPlot?.idPlot) ?: return
-        viewModel.updatePlot(plot)
+        val updatedBarisList = barisAdapter.getUpdatedBarisList().map {
+            it.copy(idPlot = plot.idPlot, idBaris = IdGenerator.generateBarisId(plot.idPlot, it.namaBaris))
+        }
+        viewModel.updatePlot(plot, updatedBarisList)
         Toast.makeText(requireContext(), "Plot berhasil diperbarui", Toast.LENGTH_SHORT).show()
         findNavController().navigateUp()
     }
@@ -208,6 +243,19 @@ class AddEditPlotFragment : Fragment() {
             } else {
                 fetchGpsAndMoveMarker()
             }
+        }
+    }
+
+    private fun generateBarisList(idPlot: String, jumlah: Int): List<Baris> {
+        return (1..jumlah).map { index ->
+            val namaBaris = index.toString()
+            val idBaris = IdGenerator.generateBarisId(idPlot, namaBaris)
+            Baris(
+                idBaris = idBaris,
+                idPlot = idPlot,
+                namaBaris = namaBaris,
+                jumlahTargetVgm = 0
+            )
         }
     }
 

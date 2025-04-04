@@ -22,6 +22,7 @@ import androidx.navigation.fragment.findNavController
 import com.example.enursery.core.data.source.Resource
 import com.example.enursery.core.ui.ViewModelFactory
 import com.example.enursery.databinding.FragmentAddEditVgmBinding
+import com.example.enursery.presentation.batch.AddBatchBottomSheet
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -198,12 +199,17 @@ class AddEditVgmFragment : Fragment() {
     private fun observeDropdownData() {
         viewModel.batchList.observe(viewLifecycleOwner) {
             viewModel.currentBatch = it
-            val adapter = ArrayAdapter(
-                requireContext(),
-                android.R.layout.simple_dropdown_item_1line,
-                it.map { batch -> batch.namaBatch }
-            )
+
+            val listNamaBatch = it.map { batch -> batch.namaBatch }
+            val listWithAdd = listNamaBatch + "Tambah Batch"
+            val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_dropdown_item_1line, listWithAdd)
             binding.etBatch.setAdapter(adapter)
+
+            binding.etBatch.setOnItemClickListener { _, _, position, _ ->
+                if (position == listWithAdd.lastIndex) {
+                    showAddBatchBottomSheet()
+                }
+            }
         }
 
         viewModel.plotList.observe(viewLifecycleOwner) { resource ->
@@ -224,6 +230,32 @@ class AddEditVgmFragment : Fragment() {
                 else -> Unit
             }
         }
+    }
+
+    private fun showAddBatchBottomSheet() {
+        val allowedRoles = listOf("Supervisor", "Asisten Kebun")
+        val role = viewModel.getCurrentUserRole()
+        if (role !in allowedRoles) {
+            Toast.makeText(requireContext(), "Kamu tidak memiliki akses untuk menambahkan batch", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        val dialog = AddBatchBottomSheet()
+        dialog.onBatchAdded = { batch ->
+            viewModel.insertBatch(batch) { result ->
+                if (result.isSuccess) {
+                    // Setelah batch ditambahkan, update spinner dan set value-nya
+                    viewModel.batchList.observe(viewLifecycleOwner) { updatedList ->
+                        viewModel.currentBatch = updatedList
+                        binding.etBatch.setText(batch.namaBatch, false)
+                    }
+                    Toast.makeText(requireContext(), "Batch ditambahkan", Toast.LENGTH_SHORT).show()
+                } else {
+                    Toast.makeText(requireContext(), "Gagal menambahkan batch", Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
+        dialog.show(parentFragmentManager, "AddBatchBottomSheet")
     }
 
     private fun observeLoadingState() {

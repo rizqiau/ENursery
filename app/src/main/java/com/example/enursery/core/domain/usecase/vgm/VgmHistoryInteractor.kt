@@ -1,4 +1,4 @@
-package com.example.enursery.core.domain.usecase
+package com.example.enursery.core.domain.usecase.vgm
 
 import androidx.lifecycle.LiveData
 import com.example.enursery.core.domain.model.VgmHistory

@@ -6,6 +6,7 @@ import com.example.enursery.core.data.source.local.LocalDataSource
 import com.example.enursery.core.data.source.local.SharedPreferencesHelper
 import com.example.enursery.core.data.source.local.room.AppDatabase
 import com.example.enursery.core.data.source.remote.RemoteDataSource
+import com.example.enursery.core.data.source.repository.BarisRepository
 import com.example.enursery.core.data.source.repository.BatchRepository
 import com.example.enursery.core.data.source.repository.InsertVgmWithUpdateRepository
 import com.example.enursery.core.data.source.repository.PlotRepository
@@ -13,6 +14,7 @@ import com.example.enursery.core.data.source.repository.SessionRepository
 import com.example.enursery.core.data.source.repository.UserRepository
 import com.example.enursery.core.data.source.repository.VgmHistoryRepository
 import com.example.enursery.core.data.source.repository.VgmRepository
+import com.example.enursery.core.domain.repository.IBarisRepository
 import com.example.enursery.core.domain.repository.IBatchRepository
 import com.example.enursery.core.domain.repository.IInsertVgmWithUpdateRepository
 import com.example.enursery.core.domain.repository.IPlotRepository
@@ -20,22 +22,24 @@ import com.example.enursery.core.domain.repository.ISessionRepository
 import com.example.enursery.core.domain.repository.IUserRepository
 import com.example.enursery.core.domain.repository.IVgmHistoryRepository
 import com.example.enursery.core.domain.repository.IVgmRepository
-import com.example.enursery.core.domain.usecase.BatchInteractor
-import com.example.enursery.core.domain.usecase.BatchUseCase
-import com.example.enursery.core.domain.usecase.InsertVgmWithUpdateInteractor
-import com.example.enursery.core.domain.usecase.InsertVgmWithUpdateUseCase
-import com.example.enursery.core.domain.usecase.LoginInteractor
-import com.example.enursery.core.domain.usecase.LoginUseCase
-import com.example.enursery.core.domain.usecase.PlotInteractor
-import com.example.enursery.core.domain.usecase.PlotUseCase
-import com.example.enursery.core.domain.usecase.SessionInteractor
-import com.example.enursery.core.domain.usecase.SessionUseCase
-import com.example.enursery.core.domain.usecase.UserInteractor
-import com.example.enursery.core.domain.usecase.UserUseCase
-import com.example.enursery.core.domain.usecase.VgmHistoryInteractor
-import com.example.enursery.core.domain.usecase.VgmHistoryUseCase
-import com.example.enursery.core.domain.usecase.VgmInteractor
-import com.example.enursery.core.domain.usecase.VgmUseCase
+import com.example.enursery.core.domain.usecase.baris.BarisInteractor
+import com.example.enursery.core.domain.usecase.baris.BarisUseCase
+import com.example.enursery.core.domain.usecase.batch.BatchInteractor
+import com.example.enursery.core.domain.usecase.batch.BatchUseCase
+import com.example.enursery.core.domain.usecase.login.LoginInteractor
+import com.example.enursery.core.domain.usecase.login.LoginUseCase
+import com.example.enursery.core.domain.usecase.plot.PlotInteractor
+import com.example.enursery.core.domain.usecase.plot.PlotUseCase
+import com.example.enursery.core.domain.usecase.user.SessionInteractor
+import com.example.enursery.core.domain.usecase.user.SessionUseCase
+import com.example.enursery.core.domain.usecase.user.UserInteractor
+import com.example.enursery.core.domain.usecase.user.UserUseCase
+import com.example.enursery.core.domain.usecase.vgm.InsertVgmWithUpdateInteractor
+import com.example.enursery.core.domain.usecase.vgm.InsertVgmWithUpdateUseCase
+import com.example.enursery.core.domain.usecase.vgm.VgmHistoryInteractor
+import com.example.enursery.core.domain.usecase.vgm.VgmHistoryUseCase
+import com.example.enursery.core.domain.usecase.vgm.VgmInteractor
+import com.example.enursery.core.domain.usecase.vgm.VgmUseCase
 import com.example.enursery.core.utils.AppExecutors
 import com.example.enursery.core.utils.JsonHelper
 
@@ -66,7 +70,8 @@ object Injection {
             plotDao = database.plotDao(),
             vgmDao = database.vgmDao(),
             batchDao = database.batchDao(),
-            vgmHistoryDao = database.vgmHistoryDao()
+            vgmHistoryDao = database.vgmHistoryDao(),
+            barisDao = database.barisDao()
         )
     }
 
@@ -127,6 +132,10 @@ object Injection {
         )
     }
 
+    fun provideBarisRepository(context: Context): IBarisRepository {
+        return BarisRepository(provideLocalDataSource(context))
+    }
+
     // UseCases
     fun provideUserUseCase(context: Context): UserUseCase {
         return UserInteractor(provideUserRepository(context))
@@ -158,6 +167,10 @@ object Injection {
 
     fun provideInsertVgmWithUpdateUseCase(context: Context): InsertVgmWithUpdateUseCase {
         return InsertVgmWithUpdateInteractor(provideInsertVgmWithUpdateRepository(context))
+    }
+
+    fun provideBarisUseCase(context: Context): BarisUseCase {
+        return BarisInteractor(provideBarisRepository(context))
     }
 }
 

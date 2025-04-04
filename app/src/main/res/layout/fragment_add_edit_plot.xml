@@ -40,6 +40,40 @@
                 android:inputType="numberDecimal" />
         </com.google.android.material.textfield.TextInputLayout>
 
+        <!-- Jumlah Baris -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:hint="Jumlah Baris"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etJumlahBaris"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Input VGM Target per Baris -->
+        <TextView
+            android:id="@+id/tvTitleInputBaris"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Jumlah VGM per Baris"
+            android:textStyle="bold"
+            android:textSize="16sp"
+            android:layout_marginTop="16dp"
+            android:visibility="gone" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvBaris"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:nestedScrollingEnabled="false"
+            android:visibility="gone" />
+
         <!-- Tanggal Tanam -->
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"

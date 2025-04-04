@@ -1,4 +1,4 @@
-package com.example.enursery.core.domain.usecase
+package com.example.enursery.core.domain.usecase.user
 
 interface SessionUseCase {
     fun isLoggedIn(): Boolean

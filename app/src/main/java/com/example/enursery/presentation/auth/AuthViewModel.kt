@@ -7,9 +7,9 @@ import androidx.lifecycle.viewModelScope
 import com.example.enursery.core.data.source.local.entity.RoleEntity
 import com.example.enursery.core.data.source.local.entity.WilayahKerjaEntity
 import com.example.enursery.core.domain.model.User
-import com.example.enursery.core.domain.usecase.LoginUseCase
-import com.example.enursery.core.domain.usecase.SessionUseCase
-import com.example.enursery.core.domain.usecase.UserUseCase
+import com.example.enursery.core.domain.usecase.login.LoginUseCase
+import com.example.enursery.core.domain.usecase.user.SessionUseCase
+import com.example.enursery.core.domain.usecase.user.UserUseCase
 import kotlinx.coroutines.launch
 
 class AuthViewModel(

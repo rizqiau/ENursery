@@ -4,16 +4,16 @@ import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.enursery.core.di.Injection
-import com.example.enursery.core.domain.usecase.BatchUseCase
-import com.example.enursery.core.domain.usecase.InsertVgmWithUpdateUseCase
-import com.example.enursery.core.domain.usecase.LoginUseCase
-import com.example.enursery.core.domain.usecase.PlotUseCase
-import com.example.enursery.core.domain.usecase.SessionUseCase
-import com.example.enursery.core.domain.usecase.UserUseCase
-import com.example.enursery.core.domain.usecase.VgmHistoryUseCase
-import com.example.enursery.core.domain.usecase.VgmUseCase
+import com.example.enursery.core.domain.usecase.baris.BarisUseCase
+import com.example.enursery.core.domain.usecase.batch.BatchUseCase
+import com.example.enursery.core.domain.usecase.login.LoginUseCase
+import com.example.enursery.core.domain.usecase.plot.PlotUseCase
+import com.example.enursery.core.domain.usecase.user.SessionUseCase
+import com.example.enursery.core.domain.usecase.user.UserUseCase
+import com.example.enursery.core.domain.usecase.vgm.InsertVgmWithUpdateUseCase
+import com.example.enursery.core.domain.usecase.vgm.VgmHistoryUseCase
+import com.example.enursery.core.domain.usecase.vgm.VgmUseCase
 import com.example.enursery.presentation.auth.AuthViewModel
-import com.example.enursery.presentation.batch.BatchViewModel
 import com.example.enursery.presentation.home.HomeViewModel
 import com.example.enursery.presentation.plot.PlotViewModel
 import com.example.enursery.presentation.profile.ProfileViewModel
@@ -28,7 +28,8 @@ class ViewModelFactory private constructor(
     private val sessionUseCase: SessionUseCase,
     private val batchUseCase: BatchUseCase,
     private val vgmHistoryUseCase: VgmHistoryUseCase,
-    private val insertVgmWithUpdateUseCase: InsertVgmWithUpdateUseCase
+    private val insertVgmWithUpdateUseCase: InsertVgmWithUpdateUseCase,
+    private val barisUseCase: BarisUseCase,
 ) : ViewModelProvider.NewInstanceFactory() {
 
     @Suppress("UNCHECKED_CAST")
@@ -38,7 +39,7 @@ class ViewModelFactory private constructor(
                 AuthViewModel(userUseCase, loginUseCase, sessionUseCase) as T
             }
             modelClass.isAssignableFrom(HomeViewModel::class.java) -> {
-                HomeViewModel(plotUseCase) as T
+                HomeViewModel(plotUseCase, barisUseCase) as T
             }
             modelClass.isAssignableFrom(VgmViewModel::class.java) -> {
                 VgmViewModel(vgmUseCase, batchUseCase, plotUseCase,
@@ -52,10 +53,6 @@ class ViewModelFactory private constructor(
             }
             modelClass.isAssignableFrom(PlotViewModel::class.java) -> {
                 PlotViewModel(plotUseCase) as T
-            }
-
-            modelClass.isAssignableFrom(BatchViewModel::class.java) -> {
-                BatchViewModel(batchUseCase) as T
             }
             else -> throw IllegalArgumentException("Unknown ViewModel class: ${modelClass.name}")
         }
@@ -75,6 +72,7 @@ class ViewModelFactory private constructor(
                 val batchUseCase = Injection.provideBatchUseCase(context)
                 val vgmHistoryUseCase = Injection.provideVgmHistoryUseCase(context)
                 val insertVgmWithUpdateUseCase = Injection.provideInsertVgmWithUpdateUseCase(context)
+                val barisUseCase = Injection.provideBarisUseCase(context)
                 instance ?: ViewModelFactory(
                     userUseCase,
                     plotUseCase,
@@ -83,7 +81,8 @@ class ViewModelFactory private constructor(
                     sessionUseCase,
                     batchUseCase,
                     vgmHistoryUseCase,
-                    insertVgmWithUpdateUseCase).also { instance = it }
+                    insertVgmWithUpdateUseCase,
+                    barisUseCase).also { instance = it }
             }
     }
 }

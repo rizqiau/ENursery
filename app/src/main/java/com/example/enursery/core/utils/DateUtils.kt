@@ -8,15 +8,12 @@ import java.util.Locale
 
 object DateUtils {
 
-    @RequiresApi(Build.VERSION_CODES.O)
     val indoFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy", Locale("id", "ID"))
 
-    @RequiresApi(Build.VERSION_CODES.O)
     fun formatLocalDate(date: LocalDate?): String {
         return date?.format(indoFormatter) ?: "-"
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     fun parseLocalDate(dateString: String?): LocalDate? {
         return try {
             dateString?.let { LocalDate.parse(it, indoFormatter) }

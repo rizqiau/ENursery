@@ -14,12 +14,12 @@ import com.example.enursery.core.domain.model.Plot
 import com.example.enursery.core.domain.model.SortOption
 import com.example.enursery.core.domain.model.VgmHistory
 import com.example.enursery.core.domain.model.VgmWithUserModel
-import com.example.enursery.core.domain.usecase.BatchUseCase
-import com.example.enursery.core.domain.usecase.InsertVgmWithUpdateUseCase
-import com.example.enursery.core.domain.usecase.PlotUseCase
-import com.example.enursery.core.domain.usecase.SessionUseCase
-import com.example.enursery.core.domain.usecase.VgmHistoryUseCase
-import com.example.enursery.core.domain.usecase.VgmUseCase
+import com.example.enursery.core.domain.usecase.batch.BatchUseCase
+import com.example.enursery.core.domain.usecase.plot.PlotUseCase
+import com.example.enursery.core.domain.usecase.user.SessionUseCase
+import com.example.enursery.core.domain.usecase.vgm.InsertVgmWithUpdateUseCase
+import com.example.enursery.core.domain.usecase.vgm.VgmHistoryUseCase
+import com.example.enursery.core.domain.usecase.vgm.VgmUseCase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -62,6 +62,8 @@ class VgmViewModel(
     var currentPlot: List<Plot> = emptyList()
 
     fun getCurrentUserId(): String? = sessionUseCase.getUserId()
+
+    fun getCurrentUserRole(): String? = sessionUseCase.getUserRole()
 
     fun setSearchQuery(query: String) {
         _searchQuery.value = query
@@ -230,6 +232,22 @@ class VgmViewModel(
 
     fun setSortOption(option: SortOption) {
         _sortOption.value = option
+    }
+
+    fun insertBatch(batch: Batch, onResult: (Result<Unit>) -> Unit) {
+        viewModelScope.launch {
+            _isLoading.value = true
+            val result = try {
+                withContext(Dispatchers.IO) {
+                    batchUseCase.insertBatch(batch)
+                }
+                Result.success(Unit)
+            } catch (e: Exception) {
+                Result.failure(e)
+            }
+            _isLoading.value = false
+            onResult(result)
+        }
     }
 }
 

@@ -3,20 +3,16 @@ package com.example.enursery.core.utils.mapper
 import com.example.enursery.core.data.source.local.entity.BatchEntity
 import com.example.enursery.core.data.source.remote.response.BatchResponse
 import com.example.enursery.core.domain.model.Batch
-import java.time.LocalDate
-import java.time.format.DateTimeFormatter
-import java.util.Locale
 
 object BatchMapper {
-    private val formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy", Locale("id", "ID"))
 
     fun mapResponsesToEntities(input: List<BatchResponse>): List<BatchEntity> {
         return input.map {
             BatchEntity(
                 idBatch = it.idBatch,
                 namaBatch = it.namaBatch,
-                tanggalMulai = LocalDate.parse(it.tanggalMulai, formatter),
-                tanggalSelesai = LocalDate.parse(it.tanggalSelesai, formatter)
+                tanggalMulai = it.tanggalMulai,
+                tanggalSelesai = it.tanggalSelesai
             )
         }
     }
