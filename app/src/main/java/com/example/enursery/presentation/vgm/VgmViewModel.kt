@@ -49,13 +49,15 @@ class VgmViewModel(
     private val _selectedPlotId = MutableLiveData<String?>()
     val selectedPlotId: LiveData<String?> get() = _selectedPlotId
 
+    private val _selectedStatus = MutableLiveData<String?>()
+    val selectedStatus: LiveData<String?> = _selectedStatus
+
     private val _selectedDateFilter = MutableLiveData<Pair<DateFilterType, LocalDate?>?>()
     val selectedDateFilter: MutableLiveData<Pair<DateFilterType, LocalDate?>?> = _selectedDateFilter
 
     private val _selectedDateRange = MutableLiveData<Pair<LocalDate, LocalDate>?>()
     val selectedDateRange: LiveData<Pair<LocalDate, LocalDate>?> = _selectedDateRange
 
-    val vgmWithUserModel: LiveData<List<VgmWithUserModel>> = vgmUseCase.getAllVgmWithUser()
     val batchList: LiveData<List<Batch>> = batchUseCase.getAllBatch()
     val plotList: LiveData<Resource<List<Plot>>> = plotUseCase.getAllPlots()
     var currentBatch: List<Batch> = emptyList()
@@ -77,6 +79,11 @@ class VgmViewModel(
 
     fun setSelectedBatch(batchId: String?) {
         _selectedBatchId.value = batchId
+    }
+
+    fun setSelectedStatus(status: String?) {
+        Log.d("VgmViewModel", "Status set: $status") // optional
+        _selectedStatus.value = status
     }
 
     fun setDateFilter(type: DateFilterType, date: LocalDate?) {
@@ -154,109 +161,59 @@ class VgmViewModel(
             var currentPlotId: String? = null
             var currentDateFilter: Pair<DateFilterType, LocalDate?>? = null
             var currentDateRange: Pair<LocalDate, LocalDate>? = null
+            var currentStatus: String? = null
+
+            fun applyFilters(): List<VgmWithUserModel> {
+                return currentList
+                    .filterByBatch(currentBatchId)
+                    .filterByPlot(currentPlotId)
+                    .filterByDate(currentDateFilter, currentDateRange)
+                    .filterByStatus(currentStatus)
+                    .filterBySearchQuery(currentQuery)
+            }
 
             fun update() {
-                val localDateFilter = currentDateFilter
-                val localDateRange = currentDateRange
-
-                // ------------------------------
-                // Filter Batch
-                val batchFiltered = if (!currentBatchId.isNullOrEmpty()) {
-                    currentList.filter { it.idBatch == currentBatchId }
-                } else currentList
-
-                // ------------------------------
-                // Filter Plot
-                val plotFiltered = if (!currentPlotId.isNullOrEmpty()) {
-                    batchFiltered.filter { it.idPlot == currentPlotId }
-                } else batchFiltered
-
-                // ------------------------------
-                // Filter Tanggal
-                val dateFiltered = localDateFilter?.let { filter ->
-                    when (filter.first) {
-                        DateFilterType.HARI_INI -> {
-                            val today = LocalDate.now()
-                            plotFiltered.filter { it.latestTanggalInput == today }
-                        }
-
-                        DateFilterType.TUJUH_HARI_TERAKHIR -> {
-                            val limit = LocalDate.now().minusDays(6)
-                            plotFiltered.filter {
-                                it.latestTanggalInput != null && it.latestTanggalInput >= limit
-                            }
-                        }
-
-                        DateFilterType.PILIH_RENTANG_TANGGAL -> {
-                            localDateRange?.let { (start, end) ->
-                                plotFiltered.filter {
-                                    it.latestTanggalInput != null && it.latestTanggalInput in start..end
-                                }
-                            } ?: plotFiltered
-                        }
-
-                        DateFilterType.PILIH_BULAN -> {
-                            val selectedDate = filter.second
-                            plotFiltered.filter {
-                                selectedDate != null &&
-                                        it.latestTanggalInput?.month == selectedDate.month &&
-                                        it.latestTanggalInput?.year == selectedDate.year
-                            }
-                        }
-                    }
-                } ?: plotFiltered
-
-                // ------------------------------
-                // Filter Pencarian ID Bibit
-                val filtered = dateFiltered.filter {
-                    it.latestTanggalInput != null && // hanya yang sudah pernah diinput
-                            it.idBibit.contains(currentQuery, ignoreCase = true)
-                }
-
-                // ------------------------------
-                // Sorting
+                val filtered = applyFilters()
                 val sorted = when (currentSort) {
                     SortOption.TERBARU -> filtered.sortedByDescending { it.latestTanggalInput }
                     SortOption.TERLAMA -> filtered.sortedBy { it.latestTanggalInput }
                     SortOption.ID_AZ -> filtered.sortedBy { it.idBibit }
                     SortOption.ID_ZA -> filtered.sortedByDescending { it.idBibit }
                 }
-
                 value = sorted
             }
 
+            // Sources
             addSource(vgmUseCase.getAllVgmWithUser()) {
                 currentList = it ?: emptyList()
                 update()
             }
-
             addSource(_sortOption) {
                 currentSort = it
                 update()
             }
-
             addSource(_searchQuery) {
                 currentQuery = it.orEmpty()
                 update()
             }
-
             addSource(_selectedBatchId) {
                 currentBatchId = it
                 update()
             }
-
             addSource(_selectedPlotId) {
                 currentPlotId = it
                 update()
             }
-
             addSource(_selectedDateFilter) {
                 currentDateFilter = it
                 update()
             }
-
             addSource(_selectedDateRange) {
                 currentDateRange = it
+                update()
+            }
+            addSource(_selectedStatus) {
+                currentStatus = it
                 update()
             }
         }
@@ -285,4 +242,62 @@ class VgmViewModel(
         return vgmUseCase.isBibitExist(idBibit)
     }
 }
+private fun List<VgmWithUserModel>.filterByBatch(batchId: String?) =
+    if (!batchId.isNullOrEmpty()) filter { it.idBatch == batchId } else this
+
+private fun List<VgmWithUserModel>.filterByPlot(plotId: String?) =
+    if (!plotId.isNullOrEmpty()) filter { it.idPlot == plotId } else this
+
+private fun List<VgmWithUserModel>.filterByDate(
+    dateFilter: Pair<DateFilterType, LocalDate?>?,
+    dateRange: Pair<LocalDate, LocalDate>?
+): List<VgmWithUserModel> {
+    return dateFilter?.let { filter ->
+        when (filter.first) {
+            DateFilterType.HARI_INI -> {
+                val today = LocalDate.now()
+                filter { it.latestTanggalInput == today }
+            }
+
+            DateFilterType.TUJUH_HARI_TERAKHIR -> {
+                val limit = LocalDate.now().minusDays(6)
+                filter { it.latestTanggalInput != null && it.latestTanggalInput >= limit }
+            }
+
+            DateFilterType.PILIH_RENTANG_TANGGAL -> {
+                dateRange?.let { (start, end) ->
+                    filter { it.latestTanggalInput != null && it.latestTanggalInput in start..end }
+                } ?: this
+            }
+
+            DateFilterType.PILIH_BULAN -> {
+                val selected = filter.second
+                filter {
+                    selected != null &&
+                            it.latestTanggalInput?.month == selected.month &&
+                            it.latestTanggalInput?.year == selected.year
+                }
+            }
+        }
+    } ?: this
+}
+
+private fun List<VgmWithUserModel>.filterByStatus(status: String?): List<VgmWithUserModel> {
+    val result = if (!status.isNullOrEmpty()) {
+        val filtered = filter { it.status == status }
+        Log.d("VgmFilter", "Filtered by status=$status, result size=${filtered.size}")
+        filtered
+    } else {
+        Log.d("VgmFilter", "No status filter applied, total size=${size}")
+        this
+    }
+    return result
+}
+
+
+private fun List<VgmWithUserModel>.filterBySearchQuery(query: String) =
+    filter {
+        it.latestTanggalInput != null &&
+                it.idBibit.contains(query, ignoreCase = true)
+    }
 

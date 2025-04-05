@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="16dp"
-    android:background="@android:color/white"
+    android:background="?android:colorBackground"
     android:fillViewport="true"
     android:fitsSystemWindows="true"
     android:paddingTop="?attr/actionBarSize"
@@ -39,7 +39,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:enabled="false"
-                android:textColor="@color/black" />
+                android:textColor="@color/textColorPrimary" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <!-- Nama Plot -->
@@ -55,7 +55,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:enabled="false"
-                android:textColor="@color/black" />
+                android:textColor="@color/textColorPrimary" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <!-- Baris -->
@@ -71,7 +71,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:enabled="false"
-                android:textColor="@color/black" />
+                android:textColor="@color/textColorPrimary" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <!-- Dropdown Batch -->
@@ -86,7 +86,8 @@
                 android:id="@+id/etBatch"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="none" />
+                android:inputType="none"
+                android:textColor="@color/textColorPrimary"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <!-- Dropdown Status -->
@@ -101,7 +102,8 @@
                 android:id="@+id/etStatus"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="none" />
+                android:inputType="none"
+                android:textColor="@color/textColorPrimary"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <!-- Tinggi Tanaman -->
@@ -116,7 +118,8 @@
                 android:id="@+id/etTinggi"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="numberDecimal" />
+                android:inputType="numberDecimal"
+                android:textColor="@color/textColorPrimary"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <!-- Diameter Batang -->
@@ -131,7 +134,8 @@
                 android:id="@+id/etDiameter"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="numberDecimal" />
+                android:inputType="numberDecimal"
+                android:textColor="@color/textColorPrimary"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <!-- Jumlah Daun -->
@@ -146,7 +150,8 @@
                 android:id="@+id/etJumlahDaun"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="number" />
+                android:inputType="number"
+                android:textColor="@color/textColorPrimary"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <!-- Lebar Petiole -->
@@ -161,7 +166,8 @@
                 android:id="@+id/etLebarPetiole"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="number" />
+                android:inputType="number"
+                android:textColor="@color/textColorPrimary"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <!-- Upload Foto -->

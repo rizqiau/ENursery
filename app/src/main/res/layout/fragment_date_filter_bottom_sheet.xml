@@ -4,7 +4,7 @@
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:padding="16dp"
-    android:background="@android:color/white">
+    android:background="?attr/colorSurface">
 
     <TextView
         android:layout_width="wrap_content"
@@ -12,7 +12,8 @@
         android:text="Rentang Waktu"
         android:textSize="18sp"
         android:textStyle="bold"
-        android:paddingBottom="16dp" />
+        android:paddingBottom="16dp"
+        android:textColor="@color/textColorPrimary"/>
 
     <RadioGroup
         android:id="@+id/radioGroup"
@@ -23,25 +24,29 @@
             android:id="@+id/optionHariIni"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Hari ini" />
+            android:text="Hari ini"
+            android:textColor="@color/textColorPrimary"/>
 
         <RadioButton
             android:id="@+id/option7Hari"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="7 Hari Terakhir" />
+            android:text="7 Hari Terakhir"
+            android:textColor="@color/textColorPrimary"/>
 
         <RadioButton
             android:id="@+id/optionPilihBulan"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Pilih Bulan" />
+            android:text="Pilih Bulan"
+            android:textColor="@color/textColorPrimary"/>
 
         <RadioButton
             android:id="@+id/optionPilihTanggal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Pilih Tanggal" />
+            android:text="Pilih Tanggal"
+            android:textColor="@color/textColorPrimary"/>
     </RadioGroup>
 
     <!-- RANGE TANGGAL - Hidden by default -->
@@ -65,7 +70,7 @@
                 android:layout_height="wrap_content"
                 android:text="Tanggal Mulai"
                 android:textSize="12sp"
-                android:textColor="@android:color/darker_gray" />
+                android:textColor="@color/textColorPrimary" />
 
             <TextView
                 android:id="@+id/tvTanggalMulai"
@@ -75,7 +80,8 @@
                 android:padding="8dp"
                 android:background="@drawable/bg_datebox"
                 android:textSize="14sp"
-                android:layout_marginTop="4dp" />
+                android:layout_marginTop="4dp"
+                android:textColor="@color/textColorPrimary"/>
         </LinearLayout>
 
         <Space
@@ -93,7 +99,7 @@
                 android:layout_height="wrap_content"
                 android:text="Tanggal Akhir"
                 android:textSize="12sp"
-                android:textColor="@android:color/darker_gray" />
+                android:textColor="@color/textColorPrimary" />
 
             <TextView
                 android:id="@+id/tvTanggalAkhir"
@@ -103,8 +109,44 @@
                 android:padding="8dp"
                 android:background="@drawable/bg_datebox"
                 android:textSize="14sp"
-                android:layout_marginTop="4dp" />
+                android:layout_marginTop="4dp"
+                android:textColor="@color/textColorPrimary"/>
         </LinearLayout>
+    </LinearLayout>
+
+    <Space
+        android:layout_width="16dp"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Jenis Status"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        android:layout_marginTop="12dp"
+        android:textColor="@color/textColorPrimary"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:hint="Status"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
+
+            <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                android:id="@+id/etStatus"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="none"
+                android:textColor="@color/textColorPrimary"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
     </LinearLayout>
 
     <!-- BUTTON -->
@@ -121,7 +163,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Reset"
-            android:backgroundTint="@color/bg_light"
+            android:backgroundTint="@color/bg_color"
             android:textColor="@color/main" />
 
         <Space

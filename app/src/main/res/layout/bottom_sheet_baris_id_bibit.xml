@@ -12,11 +12,13 @@
         android:text="Daftar Baris dan ID Bibit"
         android:textSize="18sp"
         android:textStyle="bold"
+        android:textColor="@color/textColorPrimary"
         android:paddingBottom="8dp"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvBarisIdBibit"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:textColor="@color/textColorPrimary"
         android:nestedScrollingEnabled="false"/>
 </LinearLayout>

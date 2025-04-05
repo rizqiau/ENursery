@@ -3,7 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:padding="16dp"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="?attr/colorSurface">
 
     <TextView
         android:id="@+id/tvPlotTitle"
@@ -12,14 +13,14 @@
         android:text="Nama Plot"
         android:textStyle="bold"
         android:textSize="18sp"
-        android:textColor="@color/black" />
+        android:textColor="@color/textColorPrimary" />
 
     <TextView
         android:id="@+id/tvPlotInfo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Luas: 3.2 ha\nVGM: 20 bibit"
-        android:textColor="@color/black"
+        android:textColor="@color/textColorPrimary"
         android:layout_marginTop="8dp" />
 
     <Button
@@ -27,5 +28,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Navigasi ke Lokasi"
+        android:backgroundTint="?attr/colorPrimary"
+        android:textColor="@color/textColorPrimary"
         android:layout_marginTop="12dp"/>
 </LinearLayout>

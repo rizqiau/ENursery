@@ -1,0 +1,25 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:background="@drawable/bg_marker"
+    android:padding="8dp"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:backgroundTint="@color/main">
+
+    <TextView
+        android:id="@+id/tvMarkerDate"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:text="Tanggal"
+        android:textStyle="bold"
+        android:textColor="@color/textColorPrimary"
+        android:textSize="14sp"/>
+
+    <TextView
+        android:id="@+id/tvMarkerValue"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:text="Jumlah"
+        android:textColor="@color/textColorPrimary"
+        android:textSize="12sp"/>
+</LinearLayout>

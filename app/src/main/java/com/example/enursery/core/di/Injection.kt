@@ -9,6 +9,7 @@ import com.example.enursery.core.data.source.remote.RemoteDataSource
 import com.example.enursery.core.data.source.repository.BarisRepository
 import com.example.enursery.core.data.source.repository.BatchRepository
 import com.example.enursery.core.data.source.repository.InsertVgmWithUpdateRepository
+import com.example.enursery.core.data.source.repository.PlotProgressRepository
 import com.example.enursery.core.data.source.repository.PlotRepository
 import com.example.enursery.core.data.source.repository.SessionRepository
 import com.example.enursery.core.data.source.repository.UserRepository
@@ -17,6 +18,7 @@ import com.example.enursery.core.data.source.repository.VgmRepository
 import com.example.enursery.core.domain.repository.IBarisRepository
 import com.example.enursery.core.domain.repository.IBatchRepository
 import com.example.enursery.core.domain.repository.IInsertVgmWithUpdateRepository
+import com.example.enursery.core.domain.repository.IPlotProgressRepository
 import com.example.enursery.core.domain.repository.IPlotRepository
 import com.example.enursery.core.domain.repository.ISessionRepository
 import com.example.enursery.core.domain.repository.IUserRepository
@@ -29,6 +31,8 @@ import com.example.enursery.core.domain.usecase.batch.BatchUseCase
 import com.example.enursery.core.domain.usecase.login.LoginInteractor
 import com.example.enursery.core.domain.usecase.login.LoginUseCase
 import com.example.enursery.core.domain.usecase.plot.PlotInteractor
+import com.example.enursery.core.domain.usecase.plot.PlotProgressInteractor
+import com.example.enursery.core.domain.usecase.plot.PlotProgressUseCase
 import com.example.enursery.core.domain.usecase.plot.PlotUseCase
 import com.example.enursery.core.domain.usecase.user.SessionInteractor
 import com.example.enursery.core.domain.usecase.user.SessionUseCase
@@ -136,6 +140,18 @@ object Injection {
         return BarisRepository(provideLocalDataSource(context))
     }
 
+    fun providePlotProgressRepository(context: Context): IPlotProgressRepository {
+        return PlotProgressRepository(
+            vgmDao = AppDatabase.getInstance(context).vgmDao(),
+            userSession = provideSessionUseCase(context),
+            plotRepository = PlotRepository.getInstance(
+                provideRemoteDataSource(context),
+                provideLocalDataSource(context),
+                provideAppExecutors()
+            )
+        )
+    }
+
     // UseCases
     fun provideUserUseCase(context: Context): UserUseCase {
         return UserInteractor(provideUserRepository(context))
@@ -172,5 +188,10 @@ object Injection {
     fun provideBarisUseCase(context: Context): BarisUseCase {
         return BarisInteractor(provideBarisRepository(context))
     }
+
+    fun providePlotProgressUseCase(context: Context): PlotProgressUseCase {
+        return PlotProgressInteractor(providePlotProgressRepository(context))
+    }
+
 }
 

@@ -15,6 +15,6 @@
         android:text="Simpan Lokasi"
         android:layout_gravity="bottom|center"
         android:layout_margin="100dp"
-        android:backgroundTint="@android:color/holo_green_dark"
-        android:textColor="@android:color/white" />
+        android:backgroundTint="?attr/colorPrimary"
+        android:textColor="@color/textColorPrimary" />
 </FrameLayout>

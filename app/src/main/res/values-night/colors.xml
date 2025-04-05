@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="main">#0E5CBE</color>
+    <color name="bg_color">#121212</color>
+    <color name="my_bottom_nav_bg">#1E1E1E</color>
+    <color name="my_bottom_nav_icon">#E0E0E0</color>
+    <color name="my_bottom_nav_text">#E0E0E0</color>
+    <color name="selected_color">#64B5F6</color>
+    <color name="unselected_color">#757575</color>
+    <color name="textColorPrimary">#FFFFFFFF</color>
+
+</resources>

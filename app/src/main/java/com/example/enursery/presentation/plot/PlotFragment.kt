@@ -107,23 +107,42 @@ class PlotFragment : Fragment() {
         viewModel.plotList.observe(viewLifecycleOwner) { result ->
             result.data?.let {
                 plotList = it
-                displayCurrentPlot()
-            }
+                if (plotList.isNotEmpty()) {
+                    binding.tvEmptyPlot.visibility = View.GONE
+                    displayCurrentPlot()
+                } else {
+                    showEmptyState()
+                }
+            } ?: showEmptyState()
         }
     }
 
     private fun displayCurrentPlot() {
+        if (plotList.isEmpty()) {
+            showEmptyState()
+            return
+        }
+
         val plot = plotList[currentIndex]
 
         binding.plotName.text = plot.namaPlot
         binding.tvLuasArea.text = plot.luasArea.toString()
-        binding.tvTanggalTanam.text = DateFormatter.formatTanggalIndonesia(plot.tanggalTanam)            // ✅ langsung
-        binding.tvTanggalTransplanting.text = DateFormatter.formatTanggalIndonesia(plot.tanggalTransplantasi) // ✅ langsung
+        binding.tvTanggalTanam.text = DateFormatter.formatTanggalIndonesia(plot.tanggalTanam)
+        binding.tvTanggalTransplanting.text = DateFormatter.formatTanggalIndonesia(plot.tanggalTransplantasi)
         binding.tvVarietas.text = plot.varietas
         binding.tvJumlahBibit.text = plot.jumlahBibit.toString()
         binding.tvJumlahVgm.text = plot.jumlahVgm.toString()
+        binding.tvJudulData.visibility = View.VISIBLE
+        binding.plotName.visibility = View.VISIBLE
+
 
         plotMapManager.setPlotMarker(plot)
+    }
+
+    private fun showEmptyState() {
+        binding.tvEmptyPlot.visibility = View.VISIBLE
+        binding.tvJudulData.visibility = View.GONE
+        binding.plotName.visibility = View.GONE
     }
 
     private fun showMapStyleDialog() {

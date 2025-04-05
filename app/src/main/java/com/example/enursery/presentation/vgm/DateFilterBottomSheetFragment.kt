@@ -1,15 +1,16 @@
 package com.example.enursery.presentation.vgm
 
-import android.app.DatePickerDialog
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
 import androidx.fragment.app.setFragmentResult
 import com.example.enursery.R
 import com.example.enursery.core.domain.model.DateFilterType
-import com.example.enursery.databinding.FragmentDateFilterBottomSheetBinding
 import com.example.enursery.core.utils.MonthYearPickerDialog
+import com.example.enursery.databinding.FragmentDateFilterBottomSheetBinding
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.datepicker.MaterialDatePicker
 import java.time.Instant
@@ -25,6 +26,7 @@ class DateFilterBottomSheetFragment : BottomSheetDialogFragment() {
     private var selectedSingleDate: LocalDate? = null
     private var selectedStartDate: LocalDate = LocalDate.now()
     private var selectedEndDate: LocalDate = LocalDate.now()
+    private var selectedStatus: String? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -35,6 +37,15 @@ class DateFilterBottomSheetFragment : BottomSheetDialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        val statusOptions = listOf("Semua Status") + VgmStatus.entries.map { it.label }
+        val statusAdapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_dropdown_item, statusOptions)
+        binding.etStatus.setAdapter(statusAdapter)
+
+        binding.etStatus.setOnItemClickListener { _, _, position, _ ->
+            selectedStatus = if (position == 0) null else statusOptions[position]
+            Log.d("BottomSheetStatus", "Status selected: $selectedStatus")
+        }
 
         binding.optionHariIni.setOnClickListener {
             selectedFilterType = DateFilterType.HARI_INI
@@ -82,7 +93,10 @@ class DateFilterBottomSheetFragment : BottomSheetDialogFragment() {
                 DateFilterType.TUJUH_HARI_TERAKHIR -> {
                     sendResult(selectedFilterType!!, selectedSingleDate)
                 }
-                else -> dismiss()
+                null -> {
+                    // ⬅️ User hanya pilih status, tanpa pilih tanggal
+                    sendResult(null, null)
+                }
             }
         }
 
@@ -91,13 +105,14 @@ class DateFilterBottomSheetFragment : BottomSheetDialogFragment() {
             selectedSingleDate = null
             selectedStartDate = LocalDate.now()
             selectedEndDate = LocalDate.now()
+            selectedStatus = null // ⬅
 
             binding.radioGroup.clearCheck()
             binding.containerRangeTanggal.visibility = View.GONE
             binding.tvTanggalMulai.text = ""
             binding.tvTanggalAkhir.text = ""
+            binding.etStatus.setText("") // ⬅ clear isian
 
-            // Kirim result kosong biar VgmFragment tahu
             sendResult(null, null)
         }
     }
@@ -106,19 +121,6 @@ class DateFilterBottomSheetFragment : BottomSheetDialogFragment() {
         val formatter = DateTimeFormatter.ofPattern("dd MMM yyyy")
         binding.tvTanggalMulai.text = selectedStartDate.format(formatter)
         binding.tvTanggalAkhir.text = selectedEndDate.format(formatter)
-    }
-
-    private fun showDatePicker(initialDate: LocalDate, onDateSelected: (LocalDate) -> Unit) {
-        val dialog = DatePickerDialog(
-            requireContext(),
-            { _, year, month, dayOfMonth ->
-                onDateSelected(LocalDate.of(year, month + 1, dayOfMonth))
-            },
-            initialDate.year,
-            initialDate.monthValue - 1,
-            initialDate.dayOfMonth
-        )
-        dialog.show()
     }
 
     private fun showDateRangePicker() {
@@ -155,6 +157,8 @@ class DateFilterBottomSheetFragment : BottomSheetDialogFragment() {
         val result = Bundle().apply {
             putSerializable("filterType", filterType)
             value?.let { putString("date", it.toString()) }
+            selectedStatus?.let { putString("status", it) } // ← ⬅ Tambahkan status
+            Log.d("BottomSheetStatus", "Sending status: $selectedStatus")
         }
         setFragmentResult("date_filter_result", result)
         dismiss()
@@ -165,8 +169,16 @@ class DateFilterBottomSheetFragment : BottomSheetDialogFragment() {
             putSerializable("filterType", DateFilterType.PILIH_RENTANG_TANGGAL)
             putString("startDate", start.toString())
             putString("endDate", end.toString())
+            selectedStatus?.let { putString("status", it) } // ← ⬅ Tambahkan status
         }
         setFragmentResult("date_filter_result", result)
         dismiss()
+    }
+
+    enum class VgmStatus(val label: String) {
+        AKTIF("AKTIF"),
+        MATI("MATI");
+
+        override fun toString(): String = label
     }
 }

@@ -22,7 +22,7 @@
         app:fabCradleMargin="10dp"
         app:fabCradleVerticalOffset="0dp"
         app:fabCradleRoundedCornerRadius="20dp"
-        app:backgroundTint="@color/my_bottom_nav_bg"
+        app:cardBackgroundColor="?attr/colorSurface"
         android:layout_gravity="bottom">
 
         <com.google.android.material.bottomnavigation.BottomNavigationView
@@ -47,6 +47,6 @@
         android:src="@drawable/ic_scan"
         app:layout_anchor="@id/bottomAppBar"
         app:layout_anchorGravity="center"
-        android:backgroundTint="@color/main"/>
+        app:cardBackgroundColor="?attr/colorPrimary"/>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

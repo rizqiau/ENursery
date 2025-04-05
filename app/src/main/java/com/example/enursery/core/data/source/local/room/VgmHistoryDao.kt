@@ -28,12 +28,12 @@ interface VgmHistoryDao {
     fun getLatestVgmFromHistory(): LiveData<List<VgmHistoryEntity>>
 
     @Query("""
-    SELECT tanggalInput AS tanggal, COUNT(*) AS jumlahInput
+    SELECT tanggalInput AS tanggal, COUNT(DISTINCT idBibit) AS jumlahInput
     FROM vgm_history
     WHERE idUser = :userId
     GROUP BY tanggalInput
     ORDER BY tanggalInput ASC
-""")
+    """)
     fun getDailyInputByUser(userId: String): LiveData<List<VgmDailyStatEntity>>
 
 }

@@ -8,5 +8,4 @@ interface VgmHistoryUseCase {
     suspend fun insertVgmHistory(history: VgmHistory): Result<Unit>
     fun getHistoryByBibit(idBibit: String): LiveData<List<VgmHistory>>
     fun getDailyInputByUser(userId: String): LiveData<List<VgmDailyStat>>
-
 }

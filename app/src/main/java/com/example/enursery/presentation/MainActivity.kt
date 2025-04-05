@@ -5,7 +5,6 @@ import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
@@ -50,8 +49,6 @@ class MainActivity : AppCompatActivity() {
             setDisplayUseLogoEnabled(true)
             setDisplayShowTitleEnabled(false)
         }
-
-        window.statusBarColor = ContextCompat.getColor(this, R.color.main)
 
         Log.d("MainActivity", "onCreate dijalankan")
         initMainActivity() // Pindahkan inisialisasi navigasi ke metode ini
@@ -105,6 +102,7 @@ class MainActivity : AppCompatActivity() {
         navController.addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {
                 R.id.mapPickerFragment,
+                R.id.detailVgmHistoryFragment,
                 R.id.addEditPlotFragment,
                 R.id.addEditVgmFragment-> {
                     binding.bottomNavigationView.visibility = View.GONE

@@ -44,6 +44,7 @@ class VgmFragment : Fragment(R.layout.fragment_vgm) {
     private lateinit var spinnerBatch: Spinner
     private lateinit var spinnerPlot: Spinner
     private lateinit var spinnerDate: TextView
+    private lateinit var tvEmptyOverlay: TextView
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -65,6 +66,7 @@ class VgmFragment : Fragment(R.layout.fragment_vgm) {
         spinnerBatch = view.findViewById(R.id.spinnerBatch)
         spinnerPlot = view.findViewById(R.id.spinnerPlot)
         spinnerDate = view.findViewById(R.id.spinnerDate)
+        tvEmptyOverlay = view.findViewById(R.id.tvEmptyVgmOverlay)
     }
 
     private fun setupRecyclerView() {
@@ -240,6 +242,11 @@ class VgmFragment : Fragment(R.layout.fragment_vgm) {
             val date = bundle.getString("date")?.let { LocalDate.parse(it) }
             val start = bundle.getString("startDate")?.let { LocalDate.parse(it) }
             val end = bundle.getString("endDate")?.let { LocalDate.parse(it) }
+            val status = bundle.getString("status")
+
+            // ✅ Tambahkan ini agar status ke-update
+            viewModel.setSelectedStatus(status)
+            Log.d("VgmFragment", "Status dari bottom sheet: $status")
 
             if (filterType == null) {
                 viewModel.resetDateFilter()
@@ -251,6 +258,7 @@ class VgmFragment : Fragment(R.layout.fragment_vgm) {
                             viewModel.setDateRangeFilter(start, end)
                         }
                     }
+
                     else -> {
                         viewModel.setDateFilter(filterType, date)
                         updateDateFilterLabel(Pair(filterType, date))
@@ -282,7 +290,12 @@ class VgmFragment : Fragment(R.layout.fragment_vgm) {
     private fun observeFilteredData() {
         viewModel.filteredSortedVgm.observe(viewLifecycleOwner) { list ->
             Log.d("VgmFragment", "Filtered VGM size: ${list.size}")
+            list.forEach {
+                Log.d("VgmFragment", "${it.idBibit} → status: ${it.status}")
+            }
             vgmAdapter.submitList(list)
+
+            tvEmptyOverlay.visibility = if (list.isNullOrEmpty()) View.VISIBLE else View.GONE
         }
     }
 }

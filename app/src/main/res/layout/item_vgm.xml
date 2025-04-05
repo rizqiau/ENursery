@@ -5,7 +5,8 @@
     android:layout_height="wrap_content"
     android:layout_margin="8dp"
     app:cardCornerRadius="12dp"
-    app:cardElevation="4dp">
+    app:cardElevation="4dp"
+    app:cardBackgroundColor="?attr/colorSurface">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -19,8 +20,8 @@
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:scaleType="centerCrop"
-            app:shapeAppearanceOverlay="@style/RoundedSquare"
-            android:layout_marginEnd="8dp"/>
+            android:layout_marginEnd="8dp"
+            app:shapeAppearanceOverlay="@style/RoundedSquare" />
 
         <LinearLayout
             android:layout_width="0dp"
@@ -28,6 +29,7 @@
             android:orientation="vertical"
             android:layout_weight="1">
 
+            <!-- Header -->
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
@@ -41,7 +43,7 @@
                     android:text="A0001"
                     android:textSize="18sp"
                     android:textStyle="bold"
-                    android:textColor="@color/black" />
+                    android:textColor="@color/textColorPrimary"/>
 
                 <ImageView
                     android:id="@+id/ivStatusIcon"
@@ -50,16 +52,16 @@
                     android:layout_marginStart="4dp"
                     android:src="@drawable/ic_status_active"
                     android:contentDescription="@string/Status" />
-
             </LinearLayout>
 
-            <!-- Informasi utama -->
+            <!-- Konten -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:layout_marginTop="4dp">
 
+                <!-- Label -->
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -67,32 +69,36 @@
                     android:orientation="vertical">
 
                     <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
                         android:text="Tinggi Tanaman"
-                        android:textColor="@color/black"
-                        android:textStyle="bold"/>
-                    <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:textStyle="bold"
+                        android:textColor="@color/textColorPrimary"/>
+
+                    <TextView
                         android:text="Diameter Batang"
-                        android:textColor="@color/black"
-                        android:textStyle="bold"/>
-                    <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:textStyle="bold"
+                        android:textColor="@color/textColorPrimary"/>
+
+                    <TextView
                         android:text="Jumlah Daun"
-                        android:textColor="@color/black"
-                        android:textStyle="bold"/>
-                    <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:textStyle="bold"
+                        android:textColor="@color/textColorPrimary"/>
+
+                    <TextView
                         android:id="@+id/tvNamaUser"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:text="Adel"
-                        android:textColor="@color/black"
-                        android:textStyle="bold"/>
+                        android:textStyle="bold"
+                        android:textColor="@color/textColorPrimary" />
                 </LinearLayout>
 
+                <!-- Value -->
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -101,30 +107,33 @@
                     android:gravity="end">
 
                     <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
                         android:id="@+id/tvTinggiTanaman"
-                        android:text="1.0 CM"
-                        android:textColor="@color/black" />
-                    <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:text="1.0 CM"
+                        android:textColor="@color/textColorPrimary"/>
+
+                    <TextView
                         android:id="@+id/tvDiameterBatang"
-                        android:text="1.0 CM"
-                        android:textColor="@color/black" />
-                    <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:text="1.0 CM"
+                        android:textColor="@color/textColorPrimary"/>
+
+                    <TextView
                         android:id="@+id/tvJumlahDaun"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:text="2 Helai"
-                        android:textColor="@color/black" />
+                        android:textColor="@color/textColorPrimary"/>
+
                     <TextView
                         android:id="@+id/tvTimestamp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="01 Apr 2025"
                         android:textSize="12sp"
-                        android:textColor="@color/black"/>
+                        android:textColor="@color/textColorPrimary"/>
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>

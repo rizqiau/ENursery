@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".presentation.plot.PlotFragment">
+    tools:context=".presentation.plot.PlotFragment"
+    android:background="?android:colorBackground">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -92,87 +93,153 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:cardCornerRadius="16dp"
-                    app:cardElevation="4dp">
+                    app:cardElevation="4dp"
+                    android:background="?attr/colorSurface">
 
-                    <LinearLayout
+                    <FrameLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical"
                         android:padding="16dp">
 
-                        <!-- Plot Name & Navigation -->
+                        <!-- Kontainer utama konten plot -->
                         <LinearLayout
-                            android:id="@+id/plotContainer"
+                            android:id="@+id/plotContent"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="horizontal"
-                            android:gravity="center">
+                            android:orientation="vertical">
 
-                            <ImageButton
-                                android:id="@+id/ibBack"
-                                android:layout_width="48dp"
-                                android:layout_height="48dp"
-                                android:src="@drawable/ic_back"
-                                android:contentDescription="Previous"
-                                android:background="?selectableItemBackgroundBorderless"/>
+                            <!-- Plot Name & Navigation -->
+                            <LinearLayout
+                                android:id="@+id/plotContainer"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:gravity="center">
 
-                            <TextView
-                                android:id="@+id/plotName"
+                                <ImageButton
+                                    android:id="@+id/ibBack"
+                                    android:layout_width="48dp"
+                                    android:layout_height="48dp"
+                                    android:src="@drawable/ic_back"
+                                    android:contentDescription="Previous"
+                                    android:background="?selectableItemBackgroundBorderless"
+                                    app:tint="@color/textColorPrimary" />
+
+                                <TextView
+                                    android:id="@+id/plotName"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="PLOT A"
+                                    android:textSize="20sp"
+                                    android:textStyle="bold"
+                                    android:textColor="@color/textColorPrimary"
+                                    android:layout_marginHorizontal="16dp" />
+
+                                <ImageButton
+                                    android:id="@+id/ibNext"
+                                    android:layout_width="48dp"
+                                    android:layout_height="48dp"
+                                    android:src="@drawable/ic_next"
+                                    android:contentDescription="Next"
+                                    android:background="?selectableItemBackgroundBorderless"
+                                    app:tint="@color/textColorPrimary" />
+                            </LinearLayout>
+
+                            <!-- Data Details -->
+                            <LinearLayout
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="PLOT A"
-                                android:textSize="20sp"
-                                android:textStyle="bold"
-                                android:textColor="@color/black"
-                                android:layout_marginHorizontal="16dp" />
+                                android:orientation="horizontal"
+                                android:layout_gravity="center"
+                                android:layout_marginTop="12dp">
 
-                            <ImageButton
-                                android:id="@+id/ibNext"
-                                android:layout_width="48dp"
-                                android:layout_height="48dp"
-                                android:src="@drawable/ic_next"
-                                android:contentDescription="Next"
-                                android:background="?selectableItemBackgroundBorderless"/>
+                                <!-- Labels -->
+                                <LinearLayout
+                                    android:id="@+id/tvJudulData"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="vertical"
+                                    android:layout_marginEnd="12dp">
+
+                                    <TextView
+                                        android:text="@string/luar_area"
+                                        android:layout_height="wrap_content"
+                                        android:layout_width="wrap_content"
+                                        android:textColor="@color/textColorPrimary"/>
+                                    <TextView
+                                        android:text="@string/tanggal_tanam"
+                                        android:layout_height="wrap_content"
+                                        android:layout_width="wrap_content"
+                                        android:textColor="@color/textColorPrimary"/>
+                                    <TextView
+                                        android:text="@string/tanggal_transplanting"
+                                        android:layout_height="wrap_content"
+                                        android:layout_width="wrap_content"
+                                        android:textColor="@color/textColorPrimary"/>
+                                    <TextView
+                                        android:text="@string/varietas"
+                                        android:layout_height="wrap_content"
+                                        android:layout_width="wrap_content"
+                                        android:textColor="@color/textColorPrimary"/>
+                                    <TextView
+                                        android:text="@string/jumlah_bibit"
+                                        android:layout_height="wrap_content"
+                                        android:layout_width="wrap_content"
+                                        android:textColor="@color/textColorPrimary"/>
+                                    <TextView
+                                        android:text="@string/jumlah_vgm"
+                                        android:layout_height="wrap_content"
+                                        android:layout_width="wrap_content"
+                                        android:textColor="@color/textColorPrimary"/>
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="vertical">
+
+                                    <TextView
+                                        android:id="@+id/tvLuasArea"
+                                        android:layout_height="wrap_content"
+                                        android:layout_width="wrap_content"/>
+                                    <TextView
+                                        android:id="@+id/tvTanggalTanam"
+                                        android:layout_height="wrap_content"
+                                        android:layout_width="wrap_content"/>
+                                    <TextView
+                                        android:id="@+id/tvTanggalTransplanting"
+                                        android:layout_height="wrap_content"
+                                        android:layout_width="wrap_content"/>
+                                    <TextView
+                                        android:id="@+id/tvVarietas"
+                                        android:layout_height="wrap_content"
+                                        android:layout_width="wrap_content"/>
+                                    <TextView
+                                        android:id="@+id/tvJumlahBibit"
+                                        android:layout_height="wrap_content"
+                                        android:layout_width="wrap_content"/>
+                                    <TextView
+                                        android:id="@+id/tvJumlahVgm"
+                                        android:layout_height="wrap_content"
+                                        android:layout_width="wrap_content"/>
+                                </LinearLayout>
+                            </LinearLayout>
                         </LinearLayout>
 
-                        <!-- Data Details -->
-                        <LinearLayout
-                            android:layout_width="wrap_content"
+                        <!-- Overlay jika tidak ada data -->
+                        <TextView
+                            android:id="@+id/tvEmptyPlot"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="horizontal"
+                            android:gravity="center"
+                            android:text="Belum ada plot yang tersedia"
+                            android:textColor="@color/textColorPrimary"
+                            android:textSize="16sp"
+                            android:visibility="gone"
                             android:layout_gravity="center"
-                            android:layout_marginTop="12dp">
-
-                            <!-- Labels -->
-                            <LinearLayout
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:orientation="vertical"
-                                android:layout_marginEnd="12dp">
-
-                                <TextView android:text="@string/luar_area" style="@style/PlotInfoLabel"/>
-                                <TextView android:text="@string/tanggal_tanam" style="@style/PlotInfoLabel"/>
-                                <TextView android:text="@string/tanggal_transplanting" style="@style/PlotInfoLabel"/>
-                                <TextView android:text="@string/varietas" style="@style/PlotInfoLabel"/>
-                                <TextView android:text="@string/jumlah_bibit" style="@style/PlotInfoLabel"/>
-                                <TextView android:text="@string/jumlah_vgm" style="@style/PlotInfoLabel"/>
-                            </LinearLayout>
-
-                            <!-- Values -->
-                            <LinearLayout
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:orientation="vertical">
-
-                                <TextView android:id="@+id/tvLuasArea" style="@style/PlotInfoValue"/>
-                                <TextView android:id="@+id/tvTanggalTanam" style="@style/PlotInfoValue"/>
-                                <TextView android:id="@+id/tvTanggalTransplanting" style="@style/PlotInfoValue"/>
-                                <TextView android:id="@+id/tvVarietas" style="@style/PlotInfoValue"/>
-                                <TextView android:id="@+id/tvJumlahBibit" style="@style/PlotInfoValue"/>
-                                <TextView android:id="@+id/tvJumlahVgm" style="@style/PlotInfoValue"/>
-                            </LinearLayout>
-                        </LinearLayout>
-                    </LinearLayout>
+                            android:padding="16dp"
+                            android:background="@android:color/transparent"/>
+                    </FrameLayout>
                 </androidx.cardview.widget.CardView>
             </LinearLayout>
         </ScrollView>

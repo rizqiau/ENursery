@@ -21,8 +21,8 @@ import com.example.enursery.core.domain.model.PlotWithVgmCountModel
 import com.example.enursery.core.domain.usecase.user.SessionUseCase
 import com.example.enursery.core.ui.PlotWithVgmAdapter
 import com.example.enursery.core.ui.ViewModelFactory
-import com.example.enursery.core.utils.canAddPlot
 import com.example.enursery.core.utils.CsvExporter
+import com.example.enursery.core.utils.canAddPlot
 import com.example.enursery.databinding.BottomSheetPlotActionBinding
 import com.example.enursery.databinding.FragmentHomeBinding
 import com.google.android.material.bottomsheet.BottomSheetDialog
@@ -86,17 +86,21 @@ class HomeFragment : Fragment() {
         viewModel.getAllPlots().observe(viewLifecycleOwner) {
             // Optional logging
         }
+
         viewModel.getPlotWithVgm().observe(viewLifecycleOwner) { result ->
             when (result) {
                 is Resource.Loading -> {
                     // TODO: Tambahkan shimmer/loading
                 }
                 is Resource.Success -> {
-                    result.data?.let {
-                        plotAdapter.submitList(it) {
-                            binding.rvPlot.scheduleLayoutAnimation()
-                        }
+                    val data = result.data.orEmpty()
+                    plotAdapter.submitList(data) {
+                        binding.rvPlot.scheduleLayoutAnimation()
                     }
+
+                    // ✅ Tampilkan atau sembunyikan tvEmptyChartOverlay
+                    binding.tvEmptyChartOverlay.visibility =
+                        if (data.isEmpty()) View.VISIBLE else View.GONE
                 }
                 is Resource.Error -> {
                     Toast.makeText(

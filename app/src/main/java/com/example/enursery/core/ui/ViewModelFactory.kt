@@ -7,6 +7,7 @@ import com.example.enursery.core.di.Injection
 import com.example.enursery.core.domain.usecase.baris.BarisUseCase
 import com.example.enursery.core.domain.usecase.batch.BatchUseCase
 import com.example.enursery.core.domain.usecase.login.LoginUseCase
+import com.example.enursery.core.domain.usecase.plot.PlotProgressUseCase
 import com.example.enursery.core.domain.usecase.plot.PlotUseCase
 import com.example.enursery.core.domain.usecase.user.SessionUseCase
 import com.example.enursery.core.domain.usecase.user.UserUseCase
@@ -31,6 +32,7 @@ class ViewModelFactory private constructor(
     private val vgmHistoryUseCase: VgmHistoryUseCase,
     private val insertVgmWithUpdateUseCase: InsertVgmWithUpdateUseCase,
     private val barisUseCase: BarisUseCase,
+    private val plotProgressUseCase: PlotProgressUseCase
 ) : ViewModelProvider.NewInstanceFactory() {
 
     @Suppress("UNCHECKED_CAST")
@@ -50,7 +52,7 @@ class ViewModelFactory private constructor(
                 StartupViewModel(sessionUseCase) as T
             }
             modelClass.isAssignableFrom(ProfileViewModel::class.java) -> {
-                ProfileViewModel(sessionUseCase, userUseCase, vgmHistoryUseCase) as T
+                ProfileViewModel(sessionUseCase, userUseCase, vgmHistoryUseCase, plotProgressUseCase) as T
             }
             modelClass.isAssignableFrom(PlotViewModel::class.java) -> {
                 PlotViewModel(plotUseCase) as T
@@ -77,6 +79,7 @@ class ViewModelFactory private constructor(
                 val vgmHistoryUseCase = Injection.provideVgmHistoryUseCase(context)
                 val insertVgmWithUpdateUseCase = Injection.provideInsertVgmWithUpdateUseCase(context)
                 val barisUseCase = Injection.provideBarisUseCase(context)
+                val plotProgressUseCase = Injection.providePlotProgressUseCase(context)
                 instance ?: ViewModelFactory(
                     userUseCase,
                     plotUseCase,
@@ -86,7 +89,8 @@ class ViewModelFactory private constructor(
                     batchUseCase,
                     vgmHistoryUseCase,
                     insertVgmWithUpdateUseCase,
-                    barisUseCase).also { instance = it }
+                    barisUseCase,
+                    plotProgressUseCase).also { instance = it }
             }
     }
 }

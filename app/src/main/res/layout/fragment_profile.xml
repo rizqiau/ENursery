@@ -55,7 +55,6 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="Adel"
-                                android:textColor="@color/black"
                                 android:textStyle="bold"
                                 android:textSize="18sp" />
 
@@ -70,15 +69,13 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginEnd="6dp"
-                                    android:text="P0001"
-                                    android:textColor="@color/black" />
+                                    android:text="P0001" />
 
                                 <TextView
                                     android:id="@+id/tvRole"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="Asisten Kebun"
-                                    android:textColor="@color/black"/>
+                                    android:text="Asisten Kebun"/>
 
                             </LinearLayout>
                             <com.google.android.material.chip.Chip
@@ -88,8 +85,7 @@
                                 android:layout_height="wrap_content"
                                 android:text="Brahma Binabakti"
                                 android:textStyle="bold"
-                                android:textAppearance="@style/TextAppearance.AppCompat"
-                                android:textColor="@color/black"/>
+                                android:textAppearance="@style/TextAppearance.AppCompat"/>
                         </LinearLayout>
                     </LinearLayout>
                 </LinearLayout>
@@ -100,53 +96,53 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="#DDDDDD"
+            android:background="@android:color/transparent"
             android:layout_marginTop="16dp"
             android:layout_marginBottom="8dp" />
 
-        <LinearLayout
-            android:id="@+id/progressContainer"
-            android:layout_width="match_parent"
+        <TextView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:background="@drawable/bg_rounded_card"
-            android:padding="16dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginHorizontal="16dp">
+            android:text="📊 Progress Plot"
+            android:textStyle="bold"
+            android:textSize="16sp"
+            android:layout_marginStart="16dp"
+            android:layout_marginBottom="10dp" />
 
-            <TextView
-                android:id="@+id/tvProgressTitle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Progress Monitoring"
-                android:textStyle="bold"
-                android:textSize="16sp"
-                android:textColor="@color/black" />
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-            <TextView
-                android:id="@+id/tvProgressSummary"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="120 dari 150 bibit telah diinput"
-                android:textColor="@color/black"
-                android:layout_marginTop="8dp" />
-
-            <ProgressBar
-                android:id="@+id/progressBarVgm"
-                style="?android:attr/progressBarStyleHorizontal"
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvPlotProgress"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:progress="80"
-                android:max="100"
-                android:progressTint="@color/main"
-                android:layout_marginTop="8dp"/>
-        </LinearLayout>
+                android:layout_marginHorizontal="16dp"
+                android:overScrollMode="never"
+                android:clipToPadding="false"
+                android:paddingStart="4dp"
+                android:paddingEnd="4dp" />
+
+            <TextView
+                android:id="@+id/tvEmptyPlot"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="Belum ada plot yang tersedia"
+                android:textColor="@color/textColorPrimary"
+                android:textSize="16sp"
+                android:visibility="gone"
+                android:layout_gravity="center"
+                android:padding="16dp"
+                android:background="@android:color/transparent"/>
+
+        </FrameLayout>
 
         <!-- Divider -->
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="#DDDDDD"
+            android:background="@android:color/transparent"
             android:layout_marginTop="16dp"
             android:layout_marginBottom="8dp" />
 
@@ -160,11 +156,30 @@
             android:layout_marginStart="16dp"
             android:layout_marginBottom="8dp" />
 
-        <com.github.mikephil.charting.charts.BarChart
-            android:id="@+id/barChart"
+
+        <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="250dp"
-            android:layout_marginBottom="24dp" />
+            android:layout_marginBottom="24dp">
+
+            <com.github.mikephil.charting.charts.BarChart
+                android:id="@+id/barChart"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+            <TextView
+                android:id="@+id/tvEmptyChartOverlay"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="Belum ada input VGM"
+                android:textSize="16sp"
+                android:textColor="@color/textColorPrimary"
+                android:background="@android:color/transparent"
+                android:visibility="gone"
+                android:padding="12dp"
+                android:textAlignment="center" />
+        </FrameLayout>
 
         <!-- Tombol Logout -->
         <com.google.android.material.button.MaterialButton
@@ -176,7 +191,6 @@
             android:text="LOGOUT"
             app:cornerRadius="12dp"
             android:textAllCaps="true"
-            android:textColor="@android:color/white"
             app:backgroundTint="@color/main"
             app:icon="@drawable/ic_logout"
             app:iconPadding="8dp"

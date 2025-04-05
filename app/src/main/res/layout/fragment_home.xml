@@ -17,13 +17,31 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
+    <TextView
+        android:id="@+id/tvEmptyChartOverlay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:background="@android:color/transparent"
+        android:padding="12dp"
+        android:text="Belum ada plot yang tersedia"
+        android:textAlignment="center"
+        android:textColor="@color/textColorPrimary"
+        android:textSize="16sp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/btnAddPlot"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:contentDescription="Tambah Plot"
         android:src="@drawable/ic_add"
-        app:tint="@android:color/white"
+        app:itemIconTint="@color/nav_item_color"
+        app:backgroundTint="?attr/colorPrimary"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

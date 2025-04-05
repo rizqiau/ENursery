@@ -2,7 +2,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/white"
+    android:background="?android:colorBackground"
     android:padding="16dp"
     android:fillViewport="true">
 
@@ -22,7 +22,8 @@
                 android:id="@+id/etNamaPlot"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="textCapWords" />
+                android:inputType="textCapWords"
+                android:textColor="@color/textColorPrimary"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <!-- Luas Area -->
@@ -37,7 +38,8 @@
                 android:id="@+id/etLuasArea"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="numberDecimal" />
+                android:inputType="numberDecimal"
+                android:textColor="@color/textColorPrimary"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <!-- Jumlah Baris -->
@@ -52,7 +54,8 @@
                 android:id="@+id/etJumlahBaris"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="number" />
+                android:inputType="number"
+                android:textColor="@color/textColorPrimary"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <!-- Input VGM Target per Baris -->
@@ -89,7 +92,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:focusable="false"
-                android:clickable="true" />
+                android:clickable="true"
+                android:textColor="@color/textColorPrimary"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <!-- Tanggal Transplantasi -->
@@ -107,7 +111,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:focusable="false"
-                android:clickable="true" />
+                android:clickable="true"
+                android:textColor="@color/textColorPrimary"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <!-- Varietas -->
@@ -122,7 +127,8 @@
                 android:id="@+id/etVarietas"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="none" />
+                android:inputType="none"
+                android:textColor="@color/textColorPrimary"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <!-- Jumlah Bibit -->
@@ -137,7 +143,8 @@
                 android:id="@+id/etJumlahBibit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="number" />
+                android:inputType="number"
+                android:textColor="@color/textColorPrimary"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <!-- Peta Lokasi -->

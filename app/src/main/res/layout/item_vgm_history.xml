@@ -5,22 +5,8 @@
     android:layout_height="wrap_content"
     android:orientation="horizontal"
     android:paddingVertical="16dp"
-    android:paddingStart="16dp"
+    android:paddingStart="32dp"
     android:paddingEnd="16dp">
-
-    <!-- Timeline marker -->
-    <com.github.vipulasri.timelineview.TimelineView
-        android:id="@+id/timelineView"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        app:marker="@drawable/timeline_marker"
-        app:markerSize="14dp"
-        app:markerInCenter="false"
-        app:startLineColor="@color/gray"
-        app:endLineColor="@color/gray"
-        app:lineWidth="2dp"
-        app:lineStyle="normal"
-        android:layout_marginTop="4dp" />
 
     <!-- Content -->
     <LinearLayout
@@ -37,21 +23,22 @@
             android:gravity="center_vertical">
 
             <TextView
-                android:id="@+id/tvTitle"
+                android:id="@+id/tvNamaUser"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="Diinput oleh: Agus"
-                android:textColor="@color/black"
+                android:textColor="@color/textColorPrimary"
                 android:textStyle="bold"
                 android:textSize="15sp" />
 
-            <ImageView
-                android:id="@+id/ivStatusIcon"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
+            <TextView
+                android:id="@+id/tvStatus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
-                android:src="@drawable/ic_status_active"
+                android:text="@string/Status"
+                android:textColor="@color/textColorPrimary"
                 android:contentDescription="@string/Status" />
 
         </LinearLayout>
@@ -71,12 +58,14 @@
                     android:id="@+id/tvTinggiTanaman"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textColor="@color/textColorPrimary"
                     android:text="@string/tinggi"/>
 
                 <TextView
                     android:id="@+id/tvDiameterBatang"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textColor="@color/textColorPrimary"
                     android:text="@string/diameter"/>
 
             </LinearLayout>
@@ -91,12 +80,14 @@
                     android:id="@+id/tvJumlahDaun"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textColor="@color/textColorPrimary"
                     android:text="@string/jumlah_daun"/>
 
                 <TextView
                     android:id="@+id/tvLebarPetiole"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textColor="@color/textColorPrimary"
                     android:text="@string/lebar"/>
             </LinearLayout>
         </LinearLayout>
@@ -119,6 +110,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="4 Apr 2025 17:03 WIB"
+                android:textColor="@color/textColorPrimary"
                 android:gravity="end"/>
 
         </LinearLayout>
