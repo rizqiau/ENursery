@@ -1,8 +1,11 @@
 package com.example.enursery.core.utils.mapper
 
+import com.example.enursery.core.data.source.local.entity.VgmDailyStatEntity
 import com.example.enursery.core.data.source.local.entity.VgmEntity
 import com.example.enursery.core.data.source.local.entity.VgmHistoryEntity
+import com.example.enursery.core.domain.model.VgmDailyStat
 import com.example.enursery.core.domain.model.VgmHistory
+import java.time.LocalDate
 
 object VgmHistoryMapper {
 
@@ -16,13 +19,16 @@ object VgmHistoryMapper {
             idPlot = entity.idPlot,
             idBaris = entity.idBaris,
             idUser = entity.idUser,
+            namaUser = entity.namaUser,
             idBatch = entity.idBatch,
             status = entity.status,
             tinggi = entity.tinggi,
             diameter = entity.diameter,
             jumlahDaun = entity.jumlahDaun,
-            tanggalInput = entity.tanggalInput,
-            foto = entity.foto
+            lebarPetiole = entity.lebarPetiole,
+            tanggalInput = LocalDate.ofEpochDay(entity.tanggalInput),
+            foto = entity.foto,
+            createdAt = entity.createdAt
         )
     }
 
@@ -39,13 +45,16 @@ object VgmHistoryMapper {
             idPlot = domain.idPlot,
             idBaris = domain.idBaris,
             idUser = domain.idUser,
+            namaUser = domain.namaUser,
             idBatch = domain.idBatch,
             status = domain.status,
             tinggi = domain.tinggi,
             diameter = domain.diameter,
             jumlahDaun = domain.jumlahDaun,
-            tanggalInput = domain.tanggalInput,
-            foto = domain.foto
+            lebarPetiole = domain.lebarPetiole,
+            tanggalInput = domain.tanggalInput.toEpochDay(),
+            foto = domain.foto,
+            createdAt = domain.createdAt
         )
     }
 
@@ -53,8 +62,8 @@ object VgmHistoryMapper {
         domains.map { mapDomainToEntity(it) }
 
     // ------------------------------
-// Domain → Snapshot VGMEntity
-// ------------------------------
+    // Domain → Snapshot VGMEntity
+    // ------------------------------
     fun mapHistoryToVgmEntity(history: VgmHistory): VgmEntity {
         return VgmEntity(
             idBibit = history.idBibit,
@@ -66,10 +75,22 @@ object VgmHistoryMapper {
             latestTinggiTanaman = history.tinggi,
             latestDiameterBatang = history.diameter,
             latestJumlahDaun = history.jumlahDaun,
-            latestTanggalInput = history.tanggalInput,
-            latestTimestamp = System.currentTimeMillis(), // waktu update snapshot
+            latestLebarPetiole = history.lebarPetiole,
+            latestTanggalInput = history.tanggalInput.toEpochDay(),
+            createdAt = history.createdAt,
             latestFoto = history.foto
         )
     }
-}
 
+    // ------------------------------
+    // Entity → Domain (Statistik Harian)
+    // ------------------------------
+    fun mapDailyStatEntitiesToDomain(entities: List<VgmDailyStatEntity>): List<VgmDailyStat> {
+        return entities.map {
+            VgmDailyStat(
+                tanggal = it.tanggal,
+                jumlahInput = it.jumlahInput
+            )
+        }
+    }
+}

@@ -5,6 +5,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import com.example.enursery.core.data.source.local.entity.VgmDailyStatEntity
 import com.example.enursery.core.data.source.local.entity.VgmHistoryEntity
 
 @Dao
@@ -25,4 +26,14 @@ interface VgmHistoryDao {
     )
     """)
     fun getLatestVgmFromHistory(): LiveData<List<VgmHistoryEntity>>
+
+    @Query("""
+    SELECT tanggalInput AS tanggal, COUNT(*) AS jumlahInput
+    FROM vgm_history
+    WHERE idUser = :userId
+    GROUP BY tanggalInput
+    ORDER BY tanggalInput ASC
+""")
+    fun getDailyInputByUser(userId: String): LiveData<List<VgmDailyStatEntity>>
+
 }

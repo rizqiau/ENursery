@@ -3,6 +3,7 @@ package com.example.enursery.core.utils.mapper
 import com.example.enursery.core.data.source.local.entity.BatchEntity
 import com.example.enursery.core.data.source.remote.response.BatchResponse
 import com.example.enursery.core.domain.model.Batch
+import java.time.LocalDate
 
 object BatchMapper {
 
@@ -21,8 +22,8 @@ object BatchMapper {
         return BatchEntity(
             idBatch = batch.idBatch,
             namaBatch = batch.namaBatch,
-            tanggalMulai = batch.tanggalMulai,
-            tanggalSelesai = batch.tanggalSelesai
+            tanggalMulai = batch.tanggalMulai.toEpochDay(),
+            tanggalSelesai = batch.tanggalSelesai.toEpochDay()
         )
     }
 
@@ -31,8 +32,8 @@ object BatchMapper {
             Batch(
                 idBatch = it.idBatch,
                 namaBatch = it.namaBatch,
-                tanggalMulai = it.tanggalMulai,
-                tanggalSelesai = it.tanggalSelesai
+                tanggalMulai = LocalDate.ofEpochDay(it.tanggalMulai),
+                tanggalSelesai =  LocalDate.ofEpochDay(it.tanggalSelesai)
             )
         }
     }

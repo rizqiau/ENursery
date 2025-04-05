@@ -7,6 +7,7 @@ import com.example.enursery.core.data.source.remote.response.PlotResponse
 import com.example.enursery.core.domain.model.Plot
 import com.example.enursery.core.domain.model.PlotWithBarisModel
 import com.example.enursery.core.domain.model.PlotWithVgmCountModel
+import java.time.LocalDate
 
 object PlotMapper {
 
@@ -32,8 +33,8 @@ object PlotMapper {
                 idPlot = it.idPlot,
                 namaPlot = it.namaPlot,
                 luasArea = it.luasArea,
-                tanggalTanam = it.tanggalTanam,
-                tanggalTransplantasi = it.tanggalTransplantasi,
+                tanggalTanam = LocalDate.ofEpochDay(it.tanggalTanam),
+                tanggalTransplantasi = LocalDate.ofEpochDay(it.tanggalTransplantasi),
                 varietas = it.varietas,
                 latitude = it.latitude,
                 longitude = it.longitude,
@@ -47,8 +48,8 @@ object PlotMapper {
                 idPlot = it.plot.idPlot,
                 namaPlot = it.plot.namaPlot,
                 luasArea = it.plot.luasArea,
-                tanggalTanam = it.plot.tanggalTanam,
-                tanggalTransplantasi = it.plot.tanggalTransplantasi,
+                tanggalTanam = LocalDate.ofEpochDay(it.plot.tanggalTanam),
+                tanggalTransplantasi = LocalDate.ofEpochDay(it.plot.tanggalTransplantasi),
                 varietas = it.plot.varietas,
                 latitude = it.plot.latitude,
                 longitude = it.plot.longitude,
@@ -63,8 +64,8 @@ object PlotMapper {
             idPlot = plot.idPlot,
             namaPlot = plot.namaPlot,
             luasArea = plot.luasArea,
-            tanggalTanam = plot.tanggalTanam,
-            tanggalTransplantasi = plot.tanggalTransplantasi,
+            tanggalTanam = plot.tanggalTanam.toEpochDay(),
+            tanggalTransplantasi = plot.tanggalTransplantasi.toEpochDay(),
             varietas = plot.varietas,
             latitude = plot.latitude,
             longitude = plot.longitude,
@@ -78,8 +79,8 @@ object PlotMapper {
             namaPlot = input.plot.namaPlot,
             luasArea = input.plot.luasArea,
             varietas = input.plot.varietas,
-            tanggalTanam = input.plot.tanggalTanam,
-            tanggalTransplantasi = input.plot.tanggalTransplantasi,
+            tanggalTanam = LocalDate.ofEpochDay(input.plot.tanggalTanam),
+            tanggalTransplantasi = LocalDate.ofEpochDay(input.plot.tanggalTransplantasi),
             latitude = input.plot.latitude,
             longitude = input.plot.longitude,
             jumlahBibit = input.plot.jumlahBibit,

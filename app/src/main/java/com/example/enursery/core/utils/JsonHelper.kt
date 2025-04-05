@@ -10,6 +10,7 @@ import com.example.enursery.core.data.source.remote.response.UserResponse
 import com.example.enursery.core.data.source.remote.response.VgmResponse
 import org.json.JSONObject
 import java.io.IOException
+import java.time.format.DateTimeFormatter
 
 class JsonHelper(private val context: Context) {
 
@@ -113,6 +114,8 @@ class JsonHelper(private val context: Context) {
         val responseObject = JSONObject(parsingFileToString(R.raw.vgm).toString())
         val listArray = responseObject.getJSONArray("vgm")
 
+        val formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy") // atau sesuaikan dengan format JSON kamu
+
         for (i in 0 until listArray.length()) {
             val obj = listArray.getJSONObject(i)
 
@@ -122,13 +125,14 @@ class JsonHelper(private val context: Context) {
                 idBaris = obj.getString("idBaris"),
                 idUser = obj.getString("idPekerja"),
                 idBatch = obj.getString("idBatch"),
-                status = obj.getString("status"),           // masih String di sini
+                status = obj.getString("status"),
                 latestTinggiTanaman = obj.getDouble("latestTinggiTanaman"),
                 latestDiameterBatang = obj.getDouble("latestDiameterBatang"),
                 latestJumlahDaun = obj.getInt("latestJumlahDaun"),
-                latestTanggalInput = obj.getLong("latestTanggalInput"), // masih String juga
+                latestLebarPetiole = obj.getDouble("latestLebarPetiole"),
+                latestTanggalInput = obj.getLong("latestTanggalInput"),
                 latestFoto = obj.getString("latestFoto"),
-                latestTimestamp = obj.getLong("latestTimestamp")
+                createdAt = System.currentTimeMillis()
             )
 
             list.add(vgm)

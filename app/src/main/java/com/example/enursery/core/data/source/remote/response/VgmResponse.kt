@@ -10,7 +10,8 @@ data class VgmResponse (
     val latestTinggiTanaman: Double,
     val latestDiameterBatang: Double,
     val latestJumlahDaun: Int,
+    val latestLebarPetiole: Double,
     val latestTanggalInput: Long,
+    val createdAt: Long,
     val latestFoto: String,
-    val latestTimestamp: Long
 )

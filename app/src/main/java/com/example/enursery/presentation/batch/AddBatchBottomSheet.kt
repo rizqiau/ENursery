@@ -91,8 +91,8 @@ class AddBatchBottomSheet : BottomSheetDialogFragment() {
         val batch = Batch(
             idBatch = idBatch,
             namaBatch = namaBatch,
-            tanggalMulai = DateFormatter.toEpochDay(tanggalMulai!!),
-            tanggalSelesai = DateFormatter.toEpochDay(tanggalSelesai!!)
+            tanggalMulai = tanggalMulai!!,
+            tanggalSelesai = tanggalSelesai!!
         )
 
         onBatchAdded?.invoke(batch)

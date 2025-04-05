@@ -172,6 +172,7 @@ class AddEditVgmFragment : Fragment() {
         val tinggi = binding.etTinggi.text.toString().toDoubleOrNull() ?: 0.0
         val diameter = binding.etDiameter.text.toString().toDoubleOrNull() ?: 0.0
         val jumlahDaun = binding.etJumlahDaun.text.toString().toIntOrNull() ?: 0
+        val lebar = binding.etLebarPetiole.text.toString().toDoubleOrNull() ?: 0.0
         val foto = selectedFotoUri?.toString() ?: ""
         val idBibit = scannedIdBibit ?: return
 
@@ -185,8 +186,9 @@ class AddEditVgmFragment : Fragment() {
             it.namaBatch == binding.etBatch.text.toString()
         })
         val idUser = viewModel.getCurrentUserId()
+        val namaUser = viewModel.getCurrentUserName()
 
-        if (idPlot == null || idBaris == null || selectedBatch == null || idUser == null) {
+        if (idPlot == null || idBaris == null || selectedBatch == null || idUser == null || namaUser == null) {
             Toast.makeText(requireContext(), "Data tidak lengkap atau format ID Bibit salah", Toast.LENGTH_SHORT).show()
             return
         }
@@ -196,11 +198,13 @@ class AddEditVgmFragment : Fragment() {
             idPlot = idPlot,
             idBaris = idBaris,
             idUser = idUser,
+            namaUser = namaUser,
             idBatch = selectedBatch.idBatch,
             status = status,
             tinggi = tinggi,
             diameter = diameter,
             jumlahDaun = jumlahDaun,
+            lebar = lebar,
             fotoPath = foto
         ) { result ->
             if (result.isSuccess) {

@@ -11,7 +11,6 @@ import com.example.enursery.core.domain.model.PlotWithBarisModel
 import java.io.BufferedWriter
 import java.io.OutputStreamWriter
 import java.nio.charset.StandardCharsets
-import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.util.Locale
 
@@ -59,8 +58,8 @@ object CsvExporter {
                                     plot.luasArea,
                                     plot.latitude,
                                     plot.longitude,
-                                    LocalDate.ofEpochDay(plot.tanggalTanam).format(formatter),
-                                    LocalDate.ofEpochDay(plot.tanggalTransplantasi).format(formatter),
+                                    plot.tanggalTanam.format(formatter),
+                                    plot.tanggalTransplantasi.format(formatter),
                                     baris.namaBaris,
                                     id
                                 ).joinToString(";")

@@ -16,16 +16,17 @@ object VgmGenerator {
                     Vgm(
                         idBibit = idBibit,
                         idPlot = idPlot,
-                        idUser = "", // masih kosong
                         idBaris = idBaris,
-                        idBatch = "",
+                        idUser = null,
+                        idBatch = null,
                         status = "AKTIF",
-                        latestFoto = "",
-                        latestTinggiTanaman = 0.0,
-                        latestDiameterBatang = 0.0,
-                        latestJumlahDaun = 0,
-                        latestTanggalInput = -1,
-                        latestTimestamp = System.currentTimeMillis()
+                        latestTinggiTanaman = null,
+                        latestDiameterBatang = null,
+                        latestJumlahDaun = null,
+                        latestLebarPetiole = null,
+                        latestTanggalInput = null,
+                        latestFoto = null,
+                        createdAt = null
                     )
                 )
             }
@@ -34,3 +35,4 @@ object VgmGenerator {
         return result
     }
 }
+

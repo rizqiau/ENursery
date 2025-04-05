@@ -1,4 +1,4 @@
-package com.example.enursery.presentation.utils
+package com.example.enursery.core.utils
 
 object VarietasList {
     val data = listOf(

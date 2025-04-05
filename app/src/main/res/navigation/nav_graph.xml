@@ -54,7 +54,18 @@
         android:id="@+id/vgmFragment"
         android:name="com.example.enursery.presentation.vgm.VgmFragment"
         android:label="VGM"
-        tools:layout="@layout/fragment_vgm" />
+        tools:layout="@layout/fragment_vgm">
+
+        <action
+            android:id="@+id/action_vgmFragment_to_detailVgmHistoryFragment"
+            app:destination="@+id/detailVgmHistoryFragment"/>
+    </fragment>
+
+    <fragment
+        android:id="@+id/detailVgmHistoryFragment"
+        android:name="com.example.enursery.presentation.vgm.DetailVgmHistoryFragment"
+        android:label="fragment_detail_vgm_history"
+        tools:layout="@layout/fragment_detail_vgm_history" />
 
     <fragment
         android:id="@+id/plotFragment"

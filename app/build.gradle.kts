@@ -95,4 +95,7 @@ dependencies {
 
     implementation(libs.androidx.core.splashscreen)
     implementation (libs.androidx.exifinterface)
+    implementation(libs.timelineview)
+    implementation (libs.mpandroidchart)
+
 }

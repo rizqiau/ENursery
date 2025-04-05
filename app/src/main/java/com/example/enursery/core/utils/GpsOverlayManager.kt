@@ -1,4 +1,4 @@
-package com.example.enursery.presentation.utils
+package com.example.enursery.core.utils
 
 import android.location.Location
 import android.view.View

@@ -3,6 +3,7 @@ package com.example.enursery.core.data.source.repository
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.map
 import com.example.enursery.core.data.source.local.LocalDataSource
+import com.example.enursery.core.domain.model.VgmDailyStat
 import com.example.enursery.core.domain.model.VgmHistory
 import com.example.enursery.core.domain.repository.IVgmHistoryRepository
 import com.example.enursery.core.utils.mapper.VgmHistoryMapper
@@ -24,6 +25,12 @@ class VgmHistoryRepository(
             Result.success(Unit)
         } catch (e: Exception) {
             Result.failure(e)
+        }
+    }
+
+    override fun getDailyInputByUser(userId: String): LiveData<List<VgmDailyStat>> {
+        return localDataSource.getDailyInputByUser(userId).map { entities ->
+            VgmHistoryMapper.mapDailyStatEntitiesToDomain(entities)
         }
     }
 

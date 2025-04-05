@@ -18,6 +18,7 @@ import com.example.enursery.presentation.home.HomeViewModel
 import com.example.enursery.presentation.plot.PlotViewModel
 import com.example.enursery.presentation.profile.ProfileViewModel
 import com.example.enursery.presentation.startup.StartupViewModel
+import com.example.enursery.presentation.vgm.VgmHistoryViewModel
 import com.example.enursery.presentation.vgm.VgmViewModel
 
 class ViewModelFactory private constructor(
@@ -49,10 +50,13 @@ class ViewModelFactory private constructor(
                 StartupViewModel(sessionUseCase) as T
             }
             modelClass.isAssignableFrom(ProfileViewModel::class.java) -> {
-                ProfileViewModel(sessionUseCase, userUseCase) as T
+                ProfileViewModel(sessionUseCase, userUseCase, vgmHistoryUseCase) as T
             }
             modelClass.isAssignableFrom(PlotViewModel::class.java) -> {
                 PlotViewModel(plotUseCase) as T
+            }
+            modelClass.isAssignableFrom(VgmHistoryViewModel::class.java) -> {
+                VgmHistoryViewModel(vgmHistoryUseCase) as T
             }
             else -> throw IllegalArgumentException("Unknown ViewModel class: ${modelClass.name}")
         }

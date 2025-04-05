@@ -1,4 +1,4 @@
-package com.example.enursery.core.ui
+package com.example.enursery.core.utils
 
 import android.content.Context
 import android.text.Editable
@@ -73,4 +73,9 @@ fun View.hide() {
 
 fun View.invisible() {
     this.visibility = View.INVISIBLE
+}
+
+
+fun String.canAddPlot(): Boolean {
+    return this in RoleConstants.ROLE_CAN_ADD_PLOT
 }

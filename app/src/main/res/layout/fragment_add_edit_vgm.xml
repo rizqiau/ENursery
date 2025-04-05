@@ -15,7 +15,7 @@
         android:orientation="vertical"
         android:gravity="center_horizontal"
         android:layout_gravity="center"
-        android:paddingTop="64dp"
+        android:layout_marginTop="96dp"
         android:paddingBottom="16dp">
 
         <!-- Loading -->
@@ -144,6 +144,21 @@
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/etJumlahDaun"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Lebar Petiole -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:hint="Lebar Petiole"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etLebarPetiole"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="number" />

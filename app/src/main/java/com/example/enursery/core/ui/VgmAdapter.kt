@@ -16,7 +16,10 @@ import java.util.Date
 import java.util.Locale
 import java.util.TimeZone
 
-class VgmAdapter : ListAdapter<VgmWithUserModel, VgmAdapter.ViewHolder>(DIFF_CALLBACK) {
+class VgmAdapter(
+    private val onItemClick: (VgmWithUserModel) -> Unit
+) : ListAdapter<VgmWithUserModel, VgmAdapter.ViewHolder>(DIFF_CALLBACK) {
+
 
     val timeZoneId = TimeZone.getDefault().id
     val zoneLabel = when (timeZoneId) {
@@ -36,7 +39,8 @@ class VgmAdapter : ListAdapter<VgmWithUserModel, VgmAdapter.ViewHolder>(DIFF_CAL
             binding.tvDiameterBatang.text = "${vgmWithUserModel.latestDiameterBatang} CM"
             binding.tvJumlahDaun.text = "${vgmWithUserModel.latestJumlahDaun} CM"
             binding.tvNamaUser.text = vgmWithUserModel.namaUser
-            binding.tvTimestamp.text = formatTanggalDenganZona(vgmWithUserModel.latestTimestamp, zoneLabel)
+            binding.tvTimestamp.text =
+                vgmWithUserModel.createdAt?.let { formatTanggalDenganZona(it, zoneLabel) }
 
 
             // Set image bibit
@@ -52,6 +56,9 @@ class VgmAdapter : ListAdapter<VgmWithUserModel, VgmAdapter.ViewHolder>(DIFF_CAL
                 else -> R.drawable.ic_status_unknown
             }
             binding.ivStatusIcon.setImageResource(statusIcon)
+            binding.root.setOnClickListener {
+                onItemClick(vgmWithUserModel)
+            }
         }
     }
 

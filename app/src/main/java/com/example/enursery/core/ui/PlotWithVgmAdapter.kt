@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.enursery.core.domain.model.PlotWithVgmCountModel
+import com.example.enursery.core.utils.toFormatted
 import com.example.enursery.databinding.ItemPlotBinding
 
 class PlotWithVgmAdapter : ListAdapter<PlotWithVgmCountModel, PlotWithVgmAdapter.ViewHolder>(

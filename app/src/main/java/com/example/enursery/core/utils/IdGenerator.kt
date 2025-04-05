@@ -16,13 +16,15 @@ object IdGenerator {
     }
 
     fun generateBarisId(idPlot: String, namaBaris: String): String {
-        return "${idPlot}-$namaBaris"
+        val kodePlot = PlotNameFormatter.extractKodePlot(idPlot)
+        return "$kodePlot-$namaBaris"
     }
 
     fun generateIdBibitPerBaris(idPlot: String, namaBaris: String, jumlahTargetVgm: Int): List<String> {
+        val barisId = generateBarisId(idPlot, namaBaris)
         return (1..jumlahTargetVgm).map { nomor ->
             val nomorFormatted = nomor.toString().padStart(2, '0')
-            "$idPlot-$namaBaris-$nomorFormatted"
+            "$barisId-$nomorFormatted"
         }
     }
 }

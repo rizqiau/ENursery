@@ -13,6 +13,7 @@ material = "1.12.0"
 activity = "1.10.1"
 constraintlayout = "2.2.1"
 materialVersion = "1.3.0-alpha03"
+mpandroidchart = "v3.1.0"
 navigationFragmentKtx = "2.8.9"
 navigationUiKtx = "2.8.9"
 lifecycleLivedataKtx = "2.8.7"
@@ -30,6 +31,7 @@ loggingInterceptor = "4.12.0"
 kotlinxCoroutines = "1.8.1"
 recyclerview = "1.3.2"
 identityJvm = "202411.1"
+timelineview = "1.2.2"
 
 
 [libraries]
@@ -50,6 +52,7 @@ androidx-navigation-ui-ktx = { group = "androidx.navigation", name = "navigation
 androidx-lifecycle-livedata-ktx = { group = "androidx.lifecycle", name = "lifecycle-livedata-ktx", version.ref = "lifecycleLivedataKtx" }
 androidx-lifecycle-viewmodel-ktx = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-ktx", version.ref = "lifecycleViewmodelKtx" }
 material-v130alpha03 = { module = "com.google.android.material:material", version.ref = "materialVersion" }
+mpandroidchart = { module = "com.github.PhilJay:MPAndroidChart", version.ref = "mpandroidchart" }
 play-services-location = { module = "com.google.android.gms:play-services-location", version.ref = "playServicesLocation" }
 play-services-maps = { group = "com.google.android.gms", name = "play-services-maps", version.ref = "playServicesMaps" }
 androidx-annotation = { group = "androidx.annotation", name = "annotation", version.ref = "annotation" }
@@ -70,6 +73,7 @@ kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-c
 kotlinx-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "kotlinxCoroutines" }
 recyclerview = { module = "androidx.recyclerview:recyclerview", version.ref = "recyclerview" }
 identity-jvm = { group = "com.android.identity", name = "identity-jvm", version.ref = "identityJvm" }
+timelineview = { module = "com.github.vipulasri:timelineview", version.ref = "timelineview" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

@@ -1,9 +1,9 @@
 {
   "wilayah": [
-    { "id": "Brahma Binabakti-Mill", "name": "Brahma Binabakti-Mill" },
-    { "id": "Gawi Bahandep Sawit Mekar-Mill", "name": "Gawi Bahandep Sawit Mekar-Mill" },
-    { "id": "First Lamandau Timber International-Mill", "name": "First Lamandau Timber International-Mill" },
-    { "id": "Sukses Karya Mandiri-Mill", "name": "Sukses Karya Mandiri-Mill" },
-    { "id": "Natura Pacific Nusantara-Mill", "name": "Natura Pacific Nusantara-Mill" }
+    { "id": "Brahma Binabakti", "name": "Brahma Binabakti" },
+    { "id": "Gawi Bahandep Sawit Mekar", "name": "Gawi Bahandep Sawit Mekar" },
+    { "id": "First Lamandau Timber International", "name": "First Lamandau Timber International" },
+    { "id": "Sukses Karya Mandiri", "name": "Sukses Karya Mandiri" },
+    { "id": "Natura Pacific Nusantara", "name": "Natura Pacific Nusantara" }
   ]
 }

@@ -1,12 +1,12 @@
 package com.example.enursery.core.utils.mapper
 
-import android.util.Log
 import com.example.enursery.core.data.source.local.entity.VgmEntity
 import com.example.enursery.core.data.source.local.entity.VgmHistoryEntity
 import com.example.enursery.core.data.source.local.entity.VgmWithUser
 import com.example.enursery.core.data.source.remote.response.VgmResponse
 import com.example.enursery.core.domain.model.Vgm
 import com.example.enursery.core.domain.model.VgmWithUserModel
+import java.time.LocalDate
 
 object VgmMapper {
 
@@ -25,9 +25,10 @@ object VgmMapper {
                 latestTinggiTanaman = it.latestTinggiTanaman,
                 latestDiameterBatang = it.latestDiameterBatang,
                 latestJumlahDaun = it.latestJumlahDaun,
-                latestTanggalInput = it.latestTanggalInput, // fallback jika parsing gagal
+                latestLebarPetiole = it.latestLebarPetiole,
+                latestTanggalInput = it.latestTanggalInput, // LocalDate assumed already
                 latestFoto = it.latestFoto,
-                latestTimestamp = it.latestTimestamp
+                createdAt = it.createdAt // pastikan Response punya ini juga
             )
         }
     }
@@ -46,9 +47,10 @@ object VgmMapper {
             latestTinggiTanaman = entity.latestTinggiTanaman,
             latestDiameterBatang = entity.latestDiameterBatang,
             latestJumlahDaun = entity.latestJumlahDaun,
-            latestTanggalInput = entity.latestTanggalInput,
+            latestLebarPetiole = entity.latestLebarPetiole,
+            latestTanggalInput = entity.latestTanggalInput?.let { LocalDate.ofEpochDay(it) },
             latestFoto = entity.latestFoto,
-            latestTimestamp = entity.latestTimestamp
+            createdAt = entity.createdAt
         )
     }
 
@@ -69,21 +71,20 @@ object VgmMapper {
             latestTinggiTanaman = domain.latestTinggiTanaman,
             latestDiameterBatang = domain.latestDiameterBatang,
             latestJumlahDaun = domain.latestJumlahDaun,
-            latestTanggalInput = domain.latestTanggalInput,
+            latestLebarPetiole = domain.latestLebarPetiole,
+            latestTanggalInput = domain.latestTanggalInput?.toEpochDay(),
             latestFoto = domain.latestFoto,
-            latestTimestamp = domain.latestTimestamp
+            createdAt = domain.createdAt
         )
     }
 
-    fun mapDomainToEntities(domains: List<Vgm>): List<VgmEntity> {
-        return domains.map { mapDomainToEntity(it) }
-    }
+    fun mapDomainToEntities(domains: List<Vgm>): List<VgmEntity> =
+        domains.map { mapDomainToEntity(it) }
 
     // ------------------------------
     // @Relation Vgm + User → Domain model
     // ------------------------------
     fun mapVgmWithUserToModel(input: List<VgmWithUser>): List<VgmWithUserModel> {
-        Log.d("VgmMapper", "Mapping VgmWithUser → jumlah data: ${input.size}")
         return input.map {
             VgmWithUserModel(
                 idBibit = it.vgm.idBibit,
@@ -94,10 +95,11 @@ object VgmMapper {
                 latestTinggiTanaman = it.vgm.latestTinggiTanaman,
                 latestDiameterBatang = it.vgm.latestDiameterBatang,
                 latestJumlahDaun = it.vgm.latestJumlahDaun,
-                latestTanggalInput = it.vgm.latestTanggalInput,
+                latestLebarPetiole = it.vgm.latestLebarPetiole,
+                latestTanggalInput = it.vgm.latestTanggalInput?.let { epoch -> LocalDate.ofEpochDay(epoch) }, // ✅ safe
                 latestFoto = it.vgm.latestFoto,
                 namaUser = it.user?.namaUser ?: "_",
-                latestTimestamp = it.vgm.latestTimestamp
+                createdAt = it.vgm.createdAt
             )
         }
     }
@@ -105,19 +107,21 @@ object VgmMapper {
     // ------------------------------
     // Convert 1 VgmHistoryEntity → VgmEntity (snapshot update)
     // ------------------------------
-    fun mapHistoryToVgmEntity(history: VgmHistoryEntity): VgmEntity {return VgmEntity(
+    fun mapHistoryToVgmEntity(history: VgmHistoryEntity): VgmEntity {
+        return VgmEntity(
             idBibit = history.idBibit,
             idPlot = history.idPlot,
             idBaris = history.idBaris,
             idUser = history.idUser,
             idBatch = history.idBatch,
-            status = history.status, // default, bisa dikembangkan sesuai status real
+            status = history.status,
             latestTinggiTanaman = history.tinggi,
             latestDiameterBatang = history.diameter,
             latestJumlahDaun = history.jumlahDaun,
+            latestLebarPetiole = history.lebarPetiole,
             latestTanggalInput = history.tanggalInput,
             latestFoto = history.foto,
-            latestTimestamp = System.currentTimeMillis()
+            createdAt = history.createdAt
         )
     }
 
@@ -129,4 +133,3 @@ object VgmMapper {
         return histories.map { mapHistoryToDomain(it) }
     }
 }
-

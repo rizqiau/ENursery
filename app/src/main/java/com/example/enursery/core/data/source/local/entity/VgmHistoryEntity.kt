@@ -23,12 +23,15 @@ data class VgmHistoryEntity(
     val idPlot: String,
     val idBaris: String,
     val idUser: String,
+    val namaUser: String,
     val idBatch: String,
     val status: String,
     val tinggi: Double,
     val diameter: Double,
     val jumlahDaun: Int,
+    val lebarPetiole: Double,
     val tanggalInput: Long,
+    val createdAt: Long,
     val foto: String
 )
 

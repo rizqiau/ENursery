@@ -9,6 +9,7 @@ import com.example.enursery.core.data.source.local.entity.PlotWithBaris
 import com.example.enursery.core.data.source.local.entity.PlotWithVgmCount
 import com.example.enursery.core.data.source.local.entity.RoleEntity
 import com.example.enursery.core.data.source.local.entity.UserEntity
+import com.example.enursery.core.data.source.local.entity.VgmDailyStatEntity
 import com.example.enursery.core.data.source.local.entity.VgmEntity
 import com.example.enursery.core.data.source.local.entity.VgmHistoryEntity
 import com.example.enursery.core.data.source.local.entity.VgmWithUser
@@ -105,8 +106,8 @@ class LocalDataSource private constructor(
     fun getSortedVgm(sortOption: SortOption): LiveData<List<VgmWithUser>> {
         return getAllVgmWithUser().map { list ->
             when (sortOption) {
-                SortOption.TERBARU -> list.sortedByDescending { it.vgm.latestTimestamp }
-                SortOption.TERLAMA -> list.sortedBy { it.vgm.latestTimestamp }
+                SortOption.TERBARU -> list.sortedByDescending { it.vgm.latestTanggalInput }
+                SortOption.TERLAMA -> list.sortedBy { it.vgm.latestTanggalInput }
                 SortOption.ID_AZ -> list.sortedBy { it.vgm.idBibit }
                 SortOption.ID_ZA -> list.sortedByDescending { it.vgm.idBibit }
             }
@@ -125,6 +126,10 @@ class LocalDataSource private constructor(
     // ⚠️ Ini hanya untuk seeder/fetch awal → jangan dipakai di VgmRepository
     fun getLatestVgmFromHistory(): LiveData<List<VgmHistoryEntity>> =
         vgmHistoryDao.getLatestVgmFromHistory()
+
+    fun getDailyInputByUser(userId: String): LiveData<List<VgmDailyStatEntity>> {
+        return vgmHistoryDao.getDailyInputByUser(userId)
+    }
 
     // ----------------------------------------
     // BATCH

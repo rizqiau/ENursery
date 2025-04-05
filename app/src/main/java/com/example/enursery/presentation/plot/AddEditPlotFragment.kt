@@ -24,11 +24,11 @@ import com.example.enursery.core.ui.BarisAdapter
 import com.example.enursery.core.ui.ViewModelFactory
 import com.example.enursery.core.utils.DateFormatter
 import com.example.enursery.core.utils.IdGenerator
+import com.example.enursery.core.utils.PlotNameFormatter
+import com.example.enursery.core.utils.VarietasList
 import com.example.enursery.core.utils.VgmGenerator
 import com.example.enursery.databinding.FragmentAddEditPlotBinding
 import com.example.enursery.presentation.home.HomeViewModel
-import com.example.enursery.presentation.utils.PlotNameFormatter
-import com.example.enursery.presentation.utils.VarietasList
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -135,9 +135,9 @@ class AddEditPlotFragment : Fragment() {
     private fun bindPlotToForm(plot: Plot) = binding.apply {
         etNamaPlot.setText(plot.namaPlot)
         etLuasArea.setText(plot.luasArea.toString())
-        etTanggalTanam.setText(DateFormatter.formatToInput(DateFormatter.toLocalDate(plot.tanggalTanam)))
-        etTanggalTransplantasi.setText(DateFormatter.formatToInput(DateFormatter.toLocalDate(plot.tanggalTransplantasi)))
-        binding.etVarietas.setText(plot.varietas, false)
+        etTanggalTanam.setText(DateFormatter.formatToInput(plot.tanggalTanam))         // ✅ langsung LocalDate
+        etTanggalTransplantasi.setText(DateFormatter.formatToInput(plot.tanggalTransplantasi)) // ✅ langsung LocalDate
+        etVarietas.setText(plot.varietas, false)
         etLatitude.setText(plot.latitude.toString())
         etLongitude.setText(plot.longitude.toString())
         etJumlahBibit.setText(plot.jumlahBibit.toString())
@@ -195,17 +195,15 @@ class AddEditPlotFragment : Fragment() {
         val lat = binding.etLatitude.text.toString().toDoubleOrNull()
         val lng = binding.etLongitude.text.toString().toDoubleOrNull()
 
-        val tanggalTanamParsed = DateFormatter.parseInputTanggal(tanam)
-        val tanggalTransParsed = DateFormatter.parseInputTanggal(trans)
+        val tanggalTanam = DateFormatter.parseTanggalIndonesia(tanam)
+        val tanggalTrans = DateFormatter.parseTanggalIndonesia(trans)
 
         if (listOf(namaInput, tanam, trans, varietas).any { it.isBlank() } ||
-            listOf(luas, bibit, lat, lng, tanggalTanamParsed, tanggalTransParsed).any { it == null }) {
+            listOf(luas, bibit, lat, lng, tanggalTanam, tanggalTrans).any { it == null }) {
             Toast.makeText(requireContext(), "Lengkapi semua data", Toast.LENGTH_SHORT).show()
             return null
         }
 
-        val tanggalTanam = DateFormatter.toEpochDay(tanggalTanamParsed!!)
-        val tanggalTrans = DateFormatter.toEpochDay(tanggalTransParsed!!)
         val finalNama = PlotNameFormatter.formatName(namaInput)
         val id = idOverride ?: PlotNameFormatter.formatId(namaInput)
 
@@ -213,8 +211,8 @@ class AddEditPlotFragment : Fragment() {
             idPlot = id,
             namaPlot = finalNama,
             luasArea = luas!!,
-            tanggalTanam = tanggalTanam,
-            tanggalTransplantasi = tanggalTrans,
+            tanggalTanam = tanggalTanam!!,              // ✅ langsung LocalDate
+            tanggalTransplantasi = tanggalTrans!!,      // ✅ langsung LocalDate
             varietas = varietas,
             latitude = lat!!,
             longitude = lng!!,
@@ -237,7 +235,7 @@ class AddEditPlotFragment : Fragment() {
             requireContext(),
             { _, year, month, day ->
                 val date = LocalDate.of(year, month + 1, day)
-                onDateSelected(DateFormatter.formatToInput(date))
+                onDateSelected(DateFormatter.formatTanggalIndonesia(date)) // ⬅️ pakai format Indonesia
             },
             calendar.get(Calendar.YEAR),
             calendar.get(Calendar.MONTH),

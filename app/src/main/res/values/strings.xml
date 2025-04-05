@@ -53,4 +53,9 @@
     <string name="varietas">Varietas</string>
     <string name="Status">Status</string>
     <string name="lihat">Lihat Baris</string>
+    <string name="lihat_foto">Lihat Foto</string>
+    <string name="tinggi">Tinggi</string>
+    <string name="diameter">Diameter</string>
+    <string name="lebar">Lebar</string>
+    <string name="unduh_data">Unduh Data</string>
 </resources>

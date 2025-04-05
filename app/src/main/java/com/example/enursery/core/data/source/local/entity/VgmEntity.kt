@@ -20,14 +20,15 @@ import androidx.room.PrimaryKey
 data class VgmEntity (
     @PrimaryKey val idBibit: String,
     val idPlot: String,
-    val idUser: String,
+    val idUser: String?,
     val idBaris: String,
-    val idBatch: String,
+    val idBatch: String?,
     val status: String,
-    val latestTinggiTanaman: Double,
-    val latestDiameterBatang: Double,
-    val latestJumlahDaun: Int,
-    val latestTanggalInput: Long,
-    val latestFoto: String,
-    val latestTimestamp: Long
+    val latestTinggiTanaman: Double?,
+    val latestDiameterBatang: Double?,
+    val latestJumlahDaun: Int?,
+    val latestLebarPetiole: Double?,
+    val latestTanggalInput: Long?,
+    val createdAt: Long?,
+    val latestFoto: String?,
 )

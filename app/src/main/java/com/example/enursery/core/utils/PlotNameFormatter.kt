@@ -1,4 +1,4 @@
-package com.example.enursery.presentation.utils
+package com.example.enursery.core.utils
 
 object PlotNameFormatter {
 
@@ -9,5 +9,9 @@ object PlotNameFormatter {
 
     fun formatId(input: String): String {
         return formatName(input).replace(" ", "-")
+    }
+
+    fun extractKodePlot(idPlot: String): String {
+        return idPlot.removePrefix("PLOT-").uppercase()
     }
 }
